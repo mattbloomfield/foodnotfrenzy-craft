@@ -1,0 +1,81 @@
+{% extends "_layout/base.twig" %}
+
+{% block title %}Recipe Categories | My Recipe Collection{% endblock %}
+
+{% block content %}
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-6 pb-2 border-b-2 border-deep-rose">Recipe Categories</h1>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% set categories = craft.entries.section('categories').all() %}
+
+            {% for category in categories %}
+                {% set recipeCount = craft.entries()
+                    .section('recipes')
+                    .relatedTo(category)
+                    .count() %}
+
+                <a href="{{ category.url }}" class="group">
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-200 h-full border-2 border-transparent hover:border-soft-pink">
+                        {% if category.image is defined and category.image.one() is not null%}
+                            <div class="aspect-w-16 aspect-h-9 overflow-hidden">
+                                <img src="{{ category.image.one().url }}" alt="{{ category.title }}" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300">
+                            </div>
+                        {% else %}
+                            <div class="aspect-w-16 aspect-h-9 bg-soft-pink bg-opacity-20 flex items-center justify-center">
+                                <span class="text-warm-brown font-serif text-lg">{{ category.title }}</span>
+                            </div>
+                        {% endif %}
+
+                        <div class="p-5">
+                            <div class="flex justify-between items-center">
+                                <h2 class="text-xl font-bold font-serif text-warm-brown group-hover:text-deep-rose transition duration-200">{{ category.title }}</h2>
+                                <span class="inline-block px-3 py-1 bg-soft-pink bg-opacity-20 text-warm-brown rounded-full text-sm">{{ recipeCount }} recipe{% if recipeCount != 1 %}s{% endif %}</span>
+                            </div>
+
+                            {% if category.description is defined and category.description is not null%}
+                                <p class="mt-3 text-gray-700">{{ category.description|truncate(120) }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <!-- Featured Random Recipe -->
+        {% set randomRecipe = craft.entries()
+            .section('recipes')
+            .orderBy('RAND()')
+            .one() %}
+
+        {% if randomRecipe %}
+            <div class="mt-16 bg-white rounded-lg shadow-md overflow-hidden border-2 border-soft-pink">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold font-serif text-warm-brown mb-6">Recipe Inspiration</h2>
+
+                    <div class="md:flex">
+                        {% if randomRecipe.image.one() %}
+                            <div class="md:w-1/3 flex-shrink-0">
+                                <div class="rounded-lg overflow-hidden border-4 border-white shadow-sm">
+                                    <img src="{{ randomRecipe.image.one().url }}" alt="{{ randomRecipe.title }}" class="w-full h-auto object-cover">
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="{% if randomRecipe.image.one() %}md:w-2/3 md:pl-6 mt-6 md:mt-0{% endif %}">
+                            <h3 class="text-xl font-bold font-serif text-warm-brown">{{ randomRecipe.title }}</h3>
+
+                            {% if randomRecipe.description %}
+                                <p class="mt-3 text-gray-700">{{ randomRecipe.description }}</p>
+                            {% endif %}
+
+                            <a href="{{ randomRecipe.url }}" class="mt-4 inline-block px-5 py-2 bg-deep-rose text-white rounded-lg hover:bg-opacity-90 transition duration-200">View Recipe</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

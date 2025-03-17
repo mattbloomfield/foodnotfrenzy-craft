@@ -1,0 +1,37 @@
+color: blue
+fieldLayouts:
+  90165c1b-d4cf-4f68-bf5e-99cb82600b1f:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-03-17T03:54:09+00:00'
+            elementCondition: null
+            fieldUid: 740f5d4b-c988-444f-851c-d89f48e185f7 # Instructions
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 26d7da1f-ecab-4803-bd44-343a0eaf5da0
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 2095f852-8800-45f0-a61f-5a04edfb54fb
+        userCondition: null
+handle: instructionsBlock
+hasTitleField: false
+icon: list
+name: 'Instructions Block'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

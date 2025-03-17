@@ -1,0 +1,229 @@
+columnSuffix: null
+handle: ingredientsList
+instructions: 'Add your ingredients'
+name: 'Ingredients List'
+searchable: false
+settings:
+  addRowLabel: 'Add an ingredient'
+  columns:
+    __assoc__:
+      -
+        - col1
+        -
+          __assoc__:
+            -
+              - heading
+              - Quantity
+            -
+              - handle
+              - quantity
+            -
+              - width
+              - ''
+            -
+              - type
+              - singleline
+      -
+        - col2
+        -
+          __assoc__:
+            -
+              - heading
+              - Unit
+            -
+              - handle
+              - unit
+            -
+              - width
+              - ''
+            -
+              - type
+              - select
+            -
+              - options
+              -
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - teaspoon
+                    -
+                      - value
+                      - tsp
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - tablespoon
+                    -
+                      - value
+                      - tbsp
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - 'fl. oz'
+                    -
+                      - value
+                      - flOz
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - cup
+                    -
+                      - value
+                      - c
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - pint
+                    -
+                      - value
+                      - pt
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - quart
+                    -
+                      - value
+                      - qt
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - gallon
+                    -
+                      - value
+                      - gal
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - dash
+                    -
+                      - value
+                      - ds
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - pinch
+                    -
+                      - value
+                      - pn
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - smidgeon
+                    -
+                      - value
+                      - smdg
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - drop
+                    -
+                      - value
+                      - dr
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - none
+                    -
+                      - value
+                      - none
+                    -
+                      - default
+                      - false
+      -
+        - col3
+        -
+          __assoc__:
+            -
+              - heading
+              - 'Ingredient Name'
+            -
+              - handle
+              - ingredientName
+            -
+              - width
+              - ''
+            -
+              - type
+              - singleline
+      -
+        - col4
+        -
+          __assoc__:
+            -
+              - heading
+              - Optional
+            -
+              - handle
+              - optional
+            -
+              - width
+              - ''
+            -
+              - type
+              - checkbox
+  defaults:
+    -
+      __assoc__:
+        -
+          - col1
+          - ''
+        -
+          - col2
+          - tsp
+        -
+          - col3
+          - ''
+        -
+          - col4
+          - ''
+  maxRows: null
+  minRows: null
+  staticRows: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Table

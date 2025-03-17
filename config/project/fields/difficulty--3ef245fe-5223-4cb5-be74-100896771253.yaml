@@ -1,0 +1,55 @@
+columnSuffix: null
+handle: difficulty
+instructions: null
+name: Difficulty
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Child
+        -
+          - value
+          - child
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Beginner
+        -
+          - value
+          - beginner
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Average
+        -
+          - value
+          - average
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Difficult
+        -
+          - value
+          - difficult
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

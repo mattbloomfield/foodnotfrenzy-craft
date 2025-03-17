@@ -1,0 +1,37 @@
+color: green
+fieldLayouts:
+  90a0676e-5d8b-4813-9255-c02e03613abe:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-03-17T03:51:58+00:00'
+            elementCondition: null
+            fieldUid: d8ea3146-9c3b-484e-bdbf-bd7fab1e6d42 # Ingredients List
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8f632f02-810b-4c80-8521-fd9f11830cf9
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: f83da530-d4f1-4dd2-9b7e-391f4ad88029
+        userCondition: null
+handle: ingredientsBlock
+hasTitleField: false
+icon: carrot
+name: 'Ingredients Block'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

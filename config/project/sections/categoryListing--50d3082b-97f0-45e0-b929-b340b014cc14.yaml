@@ -1,0 +1,28 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 2c854352-be15-4589-a7bc-8f9afb8fe084 # Landing Page
+handle: categoryListing
+maxAuthors: 1
+name: 'Category Listing'
+previewTargets:
+  -
+    __assoc__:
+      -
+        - label
+        - 'Primary entry page'
+      -
+        - urlFormat
+        - '{url}'
+      -
+        - refresh
+        - '1'
+propagationMethod: all
+siteSettings:
+  b2ead43b-fee4-4670-92fb-5937a95908d9: # Food Not Frenzy
+    enabledByDefault: true
+    hasUrls: true
+    template: _singles/categories.twig
+    uriFormat: categories
+type: single

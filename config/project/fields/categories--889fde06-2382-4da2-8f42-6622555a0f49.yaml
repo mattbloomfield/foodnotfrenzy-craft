@@ -1,0 +1,22 @@
+columnSuffix: null
+handle: categories
+instructions: null
+name: Categories
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  selectionLabel: 'Add a category'
+  showCardsInGrid: false
+  showSiteMenu: true
+  sources:
+    - 'section:f974a3de-1eb2-4b1b-9a38-731ff297975c' # Categories
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Entries

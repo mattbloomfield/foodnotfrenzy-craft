@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Recipe Collection{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro&display=swap">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['"Playfair Display"', 'serif'],
+                        'sans': ['"Source Sans Pro"', 'sans-serif'],
+                    },
+                    colors: {
+                        'warm-beige': '#f5f0e1',
+                        'soft-pink': '#ffd5c2',
+                        'warm-brown': '#8e6e53',
+                        'deep-rose': '#c86b6b',
+                        'sage': '#a9c0a6',
+                    }
+                }
+            }
+        }
+    </script>
+    {% block headExtras %}{% endblock %}
+</head>
+<body class="bg-warm-beige text-gray-800 flex flex-col min-h-screen font-sans">
+<header class="bg-white shadow-sm border-b-2 border-soft-pink">
+    <div class="container mx-auto px-4 py-5">
+        <nav class="flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-warm-brown font-serif">My Recipe Collection</a>
+            <ul class="flex space-x-8">
+                <li><a href="/categories" class="text-warm-brown hover:text-deep-rose transition duration-200">Categories</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="flex-grow container mx-auto px-4 py-8">
+    {% if currentUser %}
+        <div class="fixed bottom-6 right-6 z-50">
+            {% if craft.app.request.segments|length > 0 and entry is defined %}
+                <a href="{{ cpUrl('entries/' ~ entry.section.handle ~ '/' ~ entry.id) }}" class="flex items-center bg-deep-rose hover:bg-warm-brown text-white font-medium rounded-full py-2 px-4 shadow-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                    </svg>
+                    Edit
+                </a>
+            {% elseif craft.app.request.segments|length > 0 and category is defined %}
+                <a href="{{ cpUrl('categories/' ~ category.group.handle ~ '/' ~ category.id) }}" class="flex items-center bg-deep-rose hover:bg-warm-brown text-white font-medium rounded-full py-2 px-4 shadow-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                    </svg>
+                    Edit
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="bg-white border-t-2 border-soft-pink py-6">
+    <div class="container mx-auto px-4 text-center text-warm-brown">
+        <p>&copy; {{ now|date('Y') }} My Recipe Collection. All rights reserved.</p>
+    </div>
+</footer>
+
+{% block scripts %}
+    <script src="/assets/js/main.js"></script>
+{% endblock %}
+</body>
+</html>

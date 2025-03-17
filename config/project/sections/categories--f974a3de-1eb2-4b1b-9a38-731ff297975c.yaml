@@ -1,0 +1,31 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 9f1a37e6-5a3b-422c-9023-05dc6881f215 # Category
+handle: categories
+maxAuthors: 1
+name: Categories
+previewTargets:
+  -
+    __assoc__:
+      -
+        - label
+        - 'Primary entry page'
+      -
+        - urlFormat
+        - '{url}'
+      -
+        - refresh
+        - '1'
+propagationMethod: all
+siteSettings:
+  b2ead43b-fee4-4670-92fb-5937a95908d9: # Food Not Frenzy
+    enabledByDefault: true
+    hasUrls: true
+    template: _structures/category.twig
+    uriFormat: 'categories/{slug}'
+structure:
+  maxLevels: null
+  uid: 72c4737c-9af5-4448-b2d5-83d8d9cb0149
+type: structure

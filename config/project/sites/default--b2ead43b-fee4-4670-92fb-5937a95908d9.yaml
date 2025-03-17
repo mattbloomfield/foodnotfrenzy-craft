@@ -1,0 +1,8 @@
+baseUrl: $PRIMARY_SITE_URL
+handle: default
+hasUrls: true
+language: en-US
+name: 'Food Not Frenzy'
+primary: true
+siteGroup: 6ee21a4c-5f40-41dc-9ce7-7ecf02b65a61 # Food Not Frenzy
+sortOrder: 1

@@ -1,0 +1,35 @@
+columnSuffix: null
+handle: ingredientsAndInstructions
+instructions: 'Use this to add sets of ingredients and instructions.'
+name: IngredientsAndInstructions
+searchable: false
+settings:
+  createButtonLabel: null
+  defaultIndexViewMode: cards
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - a4d34421-d53c-4cc7-beb0-734bfd880ba6 # Ingredients Block
+    -
+      __assoc__:
+        -
+          - uid
+          - 00fcd939-7a66-4a0d-846e-c94744f9afbd # Instructions Block
+    -
+      __assoc__:
+        -
+          - uid
+          - 5acbae4c-d457-4bae-bd1e-64eafe66aba1 # Heading
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: 50
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

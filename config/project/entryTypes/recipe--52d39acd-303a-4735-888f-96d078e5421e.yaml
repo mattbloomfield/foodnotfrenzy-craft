@@ -1,0 +1,195 @@
+color: amber
+fieldLayouts:
+  c3304cba-9234-4589-ac35-9cf07b9bdd60:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2025-03-17T03:37:30+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            includeInCards: false
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            providesThumbs: false
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 5261b332-e56d-4220-b96b-7124af6a9b47
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-17T03:43:44+00:00'
+            elementCondition: null
+            fieldUid: 5f6b6eba-f03c-49ac-8e1d-9e315d0e19e0 # Description
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ba70db61-3854-4591-b351-f07bae9c5697
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-17T03:43:44+00:00'
+            elementCondition: null
+            fieldUid: 791a0176-d2ea-4094-8330-33b1f63588cd # Image
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e6760456-53af-4173-8026-3846285f3628
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-17T03:43:44+00:00'
+            elementCondition: null
+            fieldUid: cb74c351-0aab-4e50-a18c-0a5cfc5ca873 # IngredientsAndInstructions
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 110f9637-5652-4689-93f1-06678890088b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-17T04:48:30+00:00'
+            elementCondition: null
+            fieldUid: 889fde06-2382-4da2-8f42-6622555a0f49 # Categories
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6299b877-ca41-44ca-879c-441e13588ce6
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-17T05:22:55+00:00'
+            elementCondition: null
+            fieldUid: d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e # Prep Time
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: edbe2e51-b9a4-4e24-86ba-2124e6ae0b7a
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-17T05:22:55+00:00'
+            elementCondition: null
+            fieldUid: d4add76d-5e84-4ad3-a1ce-63e485462600 # Cook Time
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d1965104-3ab6-4fba-bf92-ba7e12b2501f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-17T05:22:55+00:00'
+            elementCondition: null
+            fieldUid: 76c307ef-e80f-4554-aea2-97e5bc786f15 # Total Time
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f960e8be-95af-4e8b-8406-f3d828889e59
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-17T05:22:55+00:00'
+            elementCondition: null
+            fieldUid: 0ef9f8ae-d2ec-443c-a3db-c411267a52fb # Servings
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0e4c434d-518a-43c4-add4-384e5c2d243c
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-17T05:22:55+00:00'
+            elementCondition: null
+            fieldUid: 3ef245fe-5223-4cb5-be74-100896771253 # Difficulty
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9140ee6c-af8c-450e-ba6e-ea1f080544ea
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 46ac3eac-952c-4019-8311-98803a9e69af
+        userCondition: null
+handle: recipe
+hasTitleField: true
+icon: pot-food
+name: Recipe
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
