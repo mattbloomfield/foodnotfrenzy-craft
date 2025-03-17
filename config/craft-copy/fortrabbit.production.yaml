@@ -1,0 +1,9 @@
+app: foodnotfrenzy
+ssh_url: foodnotfrenzy@deploy.us1.frbit.com
+git_remote: foodnotfrenzy/master
+before:
+    code/up: {  }
+after:
+    code/down:
+        - 'php craft migrate/all'
+        - 'php craft project-config/apply'

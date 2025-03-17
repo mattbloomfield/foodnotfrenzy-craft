@@ -1,4 +1,4 @@
-dateModified: 1742188975
+dateModified: 1742226872
 elementSources:
   craft\elements\Entry:
     -
@@ -89,10 +89,18 @@ meta:
     d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e: 'Prep Time' # Prep Time
     f974a3de-1eb2-4b1b-9a38-731ff297975c: Categories # Categories
 plugins:
+  copy:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   expanded-singles:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
+  fortrabbit-object-storage:
+    edition: standard
+    enabled: true
+    schemaVersion: '2.0'
 system:
   edition: solo
   live: true

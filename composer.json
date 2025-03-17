@@ -3,6 +3,8 @@
   "prefer-stable": true,
   "require": {
     "craftcms/cms": "^5.0.0",
+    "fortrabbit/craft-copy": "^3.0",
+    "fortrabbit/craft-object-storage": "4.0.0",
     "verbb/expanded-singles": "3.0.2",
     "vlucas/phpdotenv": "^5.4.0"
   },
@@ -13,13 +15,11 @@
   "config": {
     "allow-plugins": {
       "craftcms/plugin-installer": true,
+      "fortrabbit/craft-auto-migrate": true,
       "yiisoft/yii2-composer": true
     },
     "sort-packages": true,
-    "optimize-autoloader": true,
-    "platform": {
-      "php": "8.2"
-    }
+    "optimize-autoloader": true
   },
   "scripts": {
     "post-root-package-install": [
