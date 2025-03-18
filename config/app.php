@@ -20,8 +20,9 @@
  * https://craftcms.com/docs/4.x/config/app.html
  */
 
+use MattBloomfield\RecipeHelper\RecipeHelper;
 use craft\helpers\App;
 
 return [
-    'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS',
+    'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS', 'modules' => ['recipe-helper' => RecipeHelper::class], 'bootstrap' => ['recipe-helper'],
 ];

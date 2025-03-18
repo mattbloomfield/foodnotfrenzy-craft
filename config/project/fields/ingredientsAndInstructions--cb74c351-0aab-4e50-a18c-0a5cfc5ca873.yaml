@@ -1,10 +1,10 @@
 columnSuffix: null
 handle: ingredientsAndInstructions
 instructions: 'Use this to add sets of ingredients and instructions.'
-name: IngredientsAndInstructions
+name: 'Ingredients and Instructions'
 searchable: false
 settings:
-  createButtonLabel: null
+  createButtonLabel: 'New block'
   defaultIndexViewMode: cards
   entryTypes:
     -
@@ -25,11 +25,11 @@ settings:
   includeTableView: false
   maxEntries: null
   minEntries: null
-  pageSize: 50
+  pageSize: null
   propagationKeyFormat: null
   propagationMethod: all
   showCardsInGrid: false
-  viewMode: cards
+  viewMode: blocks
 translationKeyFormat: null
 translationMethod: site
 type: craft\fields\Matrix

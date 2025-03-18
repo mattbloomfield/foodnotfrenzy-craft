@@ -6,6 +6,76 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            dateAdded: '2025-03-17T04:48:30+00:00'
+            elementCondition: null
+            fieldUid: 889fde06-2382-4da2-8f42-6622555a0f49 # Categories
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6299b877-ca41-44ca-879c-441e13588ce6
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2025-03-18T04:07:02+00:00'
+            elementCondition: null
+            fieldUid: 9fa28bcd-aca4-4b54-888d-84eddc43804f # Related Recipes
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: bce24e50-c005-4aa0-9e26-95816deabe5f
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2025-03-17T22:16:40+00:00'
+            elementCondition: null
+            fieldUid: 37829aaa-d568-406c-929f-70d8fef00120 # Source
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 81dbad06-4a80-4a7c-93a8-5987b6414698
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2025-03-17T22:16:40+00:00'
+            elementCondition: null
+            fieldUid: ac800ffd-0a62-4673-9b3b-07b0ddf5ea0e # Rating
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f011ad46-c828-416e-9f6a-19ee123bf919
+            userCondition: null
+            warning: null
+            width: 50
+        name: Setup
+        uid: 4c462fb6-734a-4742-ae6b-2170b639ca50
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
             autocapitalize: true
             autocomplete: false
             autocorrect: true
@@ -66,11 +136,11 @@ fieldLayouts:
             uid: e6760456-53af-4173-8026-3846285f3628
             userCondition: null
             warning: null
-            width: 100
+            width: 50
           -
             dateAdded: '2025-03-17T03:43:44+00:00'
             elementCondition: null
-            fieldUid: cb74c351-0aab-4e50-a18c-0a5cfc5ca873 # IngredientsAndInstructions
+            fieldUid: cb74c351-0aab-4e50-a18c-0a5cfc5ca873 # Ingredients and Instructions
             handle: null
             includeInCards: false
             instructions: null
@@ -84,21 +154,12 @@ fieldLayouts:
             warning: null
             width: 100
           -
-            dateAdded: '2025-03-17T04:48:30+00:00'
+            dateAdded: '2025-03-18T04:07:02+00:00'
             elementCondition: null
-            fieldUid: 889fde06-2382-4da2-8f42-6622555a0f49 # Categories
-            handle: null
-            includeInCards: false
-            instructions: null
-            label: null
-            providesThumbs: false
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 6299b877-ca41-44ca-879c-441e13588ce6
+            heading: 'Meta Info'
+            type: craft\fieldlayoutelements\Heading
+            uid: db0190db-a708-4fed-85a9-d68f3314311e
             userCondition: null
-            warning: null
-            width: 100
           -
             dateAdded: '2025-03-17T05:22:55+00:00'
             elementCondition: null
@@ -114,7 +175,7 @@ fieldLayouts:
             uid: edbe2e51-b9a4-4e24-86ba-2124e6ae0b7a
             userCondition: null
             warning: null
-            width: 100
+            width: 25
           -
             dateAdded: '2025-03-17T05:22:55+00:00'
             elementCondition: null
@@ -130,23 +191,7 @@ fieldLayouts:
             uid: d1965104-3ab6-4fba-bf92-ba7e12b2501f
             userCondition: null
             warning: null
-            width: 100
-          -
-            dateAdded: '2025-03-17T05:22:55+00:00'
-            elementCondition: null
-            fieldUid: 76c307ef-e80f-4554-aea2-97e5bc786f15 # Total Time
-            handle: null
-            includeInCards: false
-            instructions: null
-            label: null
-            providesThumbs: false
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: f960e8be-95af-4e8b-8406-f3d828889e59
-            userCondition: null
-            warning: null
-            width: 100
+            width: 25
           -
             dateAdded: '2025-03-17T05:22:55+00:00'
             elementCondition: null
@@ -162,7 +207,7 @@ fieldLayouts:
             uid: 0e4c434d-518a-43c4-add4-384e5c2d243c
             userCondition: null
             warning: null
-            width: 100
+            width: 25
           -
             dateAdded: '2025-03-17T05:22:55+00:00'
             elementCondition: null
@@ -178,7 +223,7 @@ fieldLayouts:
             uid: 9140ee6c-af8c-450e-ba6e-ea1f080544ea
             userCondition: null
             warning: null
-            width: 100
+            width: 25
         name: Content
         uid: 46ac3eac-952c-4019-8311-98803a9e69af
         userCondition: null

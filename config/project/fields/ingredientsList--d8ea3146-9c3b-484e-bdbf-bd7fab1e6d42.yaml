@@ -46,10 +46,21 @@ settings:
                   __assoc__:
                     -
                       - label
-                      - teaspoon
+                      - none
                     -
                       - value
-                      - tsp
+                      - none
+                    -
+                      - default
+                      - true
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - box
+                    -
+                      - value
+                      - box
                     -
                       - default
                       - false
@@ -57,10 +68,10 @@ settings:
                   __assoc__:
                     -
                       - label
-                      - tablespoon
+                      - can
                     -
                       - value
-                      - tbsp
+                      - can
                     -
                       - default
                       - false
@@ -68,10 +79,10 @@ settings:
                   __assoc__:
                     -
                       - label
-                      - 'fl. oz'
+                      - clove
                     -
                       - value
-                      - flOz
+                      - clove
                     -
                       - default
                       - false
@@ -90,65 +101,10 @@ settings:
                   __assoc__:
                     -
                       - label
-                      - pint
-                    -
-                      - value
-                      - pt
-                    -
-                      - default
-                      - false
-                -
-                  __assoc__:
-                    -
-                      - label
-                      - quart
-                    -
-                      - value
-                      - qt
-                    -
-                      - default
-                      - false
-                -
-                  __assoc__:
-                    -
-                      - label
-                      - gallon
-                    -
-                      - value
-                      - gal
-                    -
-                      - default
-                      - false
-                -
-                  __assoc__:
-                    -
-                      - label
                       - dash
                     -
                       - value
                       - ds
-                    -
-                      - default
-                      - false
-                -
-                  __assoc__:
-                    -
-                      - label
-                      - pinch
-                    -
-                      - value
-                      - pn
-                    -
-                      - default
-                      - false
-                -
-                  __assoc__:
-                    -
-                      - label
-                      - smidgeon
-                    -
-                      - value
-                      - smdg
                     -
                       - default
                       - false
@@ -167,10 +123,186 @@ settings:
                   __assoc__:
                     -
                       - label
-                      - none
+                      - 'fl. oz'
                     -
                       - value
-                      - none
+                      - flOz
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - gallon
+                    -
+                      - value
+                      - gal
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - inch
+                    -
+                      - value
+                      - inch
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - large
+                    -
+                      - value
+                      - large
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - medium
+                    -
+                      - value
+                      - medium
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - oz
+                    -
+                      - value
+                      - oz
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - package
+                    -
+                      - value
+                      - package
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - pinch
+                    -
+                      - value
+                      - pn
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - pint
+                    -
+                      - value
+                      - pt
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - pound
+                    -
+                      - value
+                      - pound
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - quart
+                    -
+                      - value
+                      - qt
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - slice
+                    -
+                      - value
+                      - slice
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - smidgeon
+                    -
+                      - value
+                      - smdg
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - stalk
+                    -
+                      - value
+                      - stalk
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - stick
+                    -
+                      - value
+                      - stick
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - teaspoon
+                    -
+                      - value
+                      - tsp
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
+                      - tablespoon
+                    -
+                      - value
+                      - tbsp
                     -
                       - default
                       - false
@@ -184,6 +316,22 @@ settings:
             -
               - handle
               - ingredientName
+            -
+              - width
+              - ''
+            -
+              - type
+              - singleline
+      -
+        - col5
+        -
+          __assoc__:
+            -
+              - heading
+              - Notes
+            -
+              - handle
+              - notes
             -
               - width
               - ''
@@ -217,6 +365,9 @@ settings:
           - tsp
         -
           - col3
+          - ''
+        -
+          - col5
           - ''
         -
           - col4

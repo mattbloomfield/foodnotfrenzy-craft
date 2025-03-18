@@ -21,7 +21,7 @@
                 </div>
             {% endif %}
 
-            {% if entry.prepTime is not null or entry.cookTime is not null or entry.totalTime is not null or entry.servings is not null or entry.difficulty.value is not null %}
+            {% if entry.prepTime is not null or entry.cookTime is not null or entry.servings is not null or entry.difficulty.value is not null %}
                 <div class="recipe-meta flex flex-wrap gap-6 bg-white p-4 rounded-lg shadow-sm border border-soft-pink mb-6">
                     {% if entry.prepTime is defined and entry.prepTime %}
                         <div class="flex items-center">
@@ -47,14 +47,14 @@
                         </div>
                     {% endif %}
 
-                    {% if entry.totalTime is defined and entry.totalTime %}
+                    {% if entry.prepTime is defined and entry.totalTime is not null or entry.cookTime is defined and entry.cookTime is not null %}
                         <div class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-deep-rose mr-2" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-14a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V4z" clip-rule="evenodd" />
                             </svg>
                             <div>
                                 <span class="block text-sm text-gray-500">Total Time</span>
-                                <span class="font-medium">{{ entry.totalTime }}</span>
+                                <span class="font-medium">{{ entry.cookTime|default(0) + entry.prepTime|default(0) }}</span>
                             </div>
                         </div>
                     {% endif %}
@@ -102,21 +102,27 @@
                         <h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Ingredients</h3>
                         <ul class="bg-soft-pink bg-opacity-20 rounded-lg p-6 space-y-2 border border-soft-pink">
                             {% for row in block.ingredientsList %}
-                                <li class="flex items-baseline {% if row.optional %}text-gray-600{% endif %}">
-                                    <span class="font-medium w-16">{{ row.quantity|default }}</span>
+                                {% apply spaceless %}
+                                <li class=" items-baseline {% if row.optional %}text-gray-600{% endif %}">
+                                    <span class="font-medium">{{ row.quantity|default|nicefractions }}&nbsp;</span>
 
                                     {% if row.unit != 'none' %}
-                                        <span class="w-24">{{ row.unit }}</span>
+                                        <span class="">{{ row.unit }}&nbsp;</span>
                                     {% else %}
-                                        <span class="w-24"></span>
+                                        <span class=""></span>
                                     {% endif %}
 
-                                    <span class="flex-grow">{{ row.ingredientName }}</span>
+                                    <span class="">{{ row.ingredientName }}</span>
+
+                                    {% if row.notes is not empty %}
+                                        <span class="flex-grow">, {{ row.notes }}</span>
+                                    {% endif %}
 
                                     {% if row.optional %}
                                         <span class="italic text-sm ml-2">(optional)</span>
                                     {% endif %}
                                 </li>
+                                {% endapply %}
                             {% endfor %}
                         </ul>
                     </section>

@@ -1,0 +1,44 @@
+columnSuffix: null
+handle: rating
+instructions: null
+name: Rating
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - '5 Stars'
+        -
+          - value
+          - 5Stars
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - '4 Stars'
+        -
+          - value
+          - 4Stars
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - '3 Stars'
+        -
+          - value
+          - 3Stars
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\RadioButtons

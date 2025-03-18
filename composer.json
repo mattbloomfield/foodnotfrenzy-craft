@@ -5,11 +5,12 @@
     "craftcms/cms": "^5.0.0",
     "fortrabbit/craft-copy": "^3.0",
     "fortrabbit/craft-object-storage": "4.0.0",
+    "topshelfcraft/environment-label": "5.0.0",
     "verbb/expanded-singles": "3.0.2",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {
-    "craftcms/generator": "^2.0.0",
+    "craftcms/generator": "^2.1",
     "yiisoft/yii2-shell": "^2.0.3"
   },
   "config": {
@@ -32,5 +33,10 @@
       "url": "https://composer.craftcms.com",
       "canonical": false
     }
-  ]
+  ],
+  "autoload": {
+    "psr-4": {
+      "MattBloomfield\\RecipeHelper\\": "modules/recipe-helper/"
+    }
+  }
 }

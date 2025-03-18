@@ -20,7 +20,7 @@ settings:
   restrictedDefaultUploadSubpath: null
   restrictedLocationSource: 'volume:4a693010-b1d3-4360-83f6-286e15b1e003' # Images
   restrictedLocationSubpath: null
-  selectionLabel: null
+  selectionLabel: 'Choose an image'
   showCardsInGrid: false
   showSiteMenu: true
   showUnpermittedFiles: false

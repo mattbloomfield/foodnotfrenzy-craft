@@ -22,7 +22,7 @@ settings:
               - ''
             -
               - type
-              - multiline
+              - singleline
   defaults:
     -
       __assoc__:
