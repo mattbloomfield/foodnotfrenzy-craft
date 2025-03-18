@@ -24,7 +24,7 @@ siteSettings:
     enabledByDefault: true
     hasUrls: true
     template: _structures/category.twig
-    uriFormat: 'categories/{slug}'
+    uriFormat: 'categories/{% if parent is not null %}{parent.slug}/{% endif %}{slug}'
 structure:
   maxLevels: null
   uid: 72c4737c-9af5-4448-b2d5-83d8d9cb0149

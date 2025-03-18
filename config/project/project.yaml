@@ -1,4 +1,4 @@
-dateModified: 1742306923
+dateModified: 1742309703
 elementSources:
   craft\elements\Entry:
     -
@@ -47,7 +47,17 @@ elementSources:
         - link
       type: native
     -
+      defaultSort:
+        - structure
+        - asc
+      defaultViewMode: ''
+      disabled: false
       key: 'section:f974a3de-1eb2-4b1b-9a38-731ff297975c' # Categories
+      tableAttributes:
+        - 'field:791a0176-d2ea-4094-8330-33b1f63588cd' # Image
+        - slug
+        - status
+        - link
       type: native
     -
       heading: ''

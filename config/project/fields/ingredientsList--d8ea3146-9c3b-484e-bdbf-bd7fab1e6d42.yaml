@@ -93,7 +93,7 @@ settings:
                       - cup
                     -
                       - value
-                      - c
+                      - C
                     -
                       - default
                       - false
@@ -126,7 +126,7 @@ settings:
                       - 'fl. oz'
                     -
                       - value
-                      - flOz
+                      - 'fl oz'
                     -
                       - default
                       - false
@@ -225,7 +225,7 @@ settings:
                       - pound
                     -
                       - value
-                      - pound
+                      - lbs
                     -
                       - default
                       - false
@@ -302,7 +302,7 @@ settings:
                       - tablespoon
                     -
                       - value
-                      - tbsp
+                      - Tbsp
                     -
                       - default
                       - false
