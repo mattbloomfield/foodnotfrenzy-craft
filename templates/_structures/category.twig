@@ -24,54 +24,42 @@
         </header>
 
         <!-- Recipe Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% set recipes = craft.entries()
-                .section('recipes')
-                .relatedTo(entry)
-                .orderBy('title ASC')
-                .all() %}
+        {% set recipes = craft.entries()
+            .section('recipes')
+            .relatedTo(entry)
+            .orderBy('title ASC')
+            .all() %}
 
-            {% if recipes|length %}
-                {% for recipe in recipes %}
-                    <a href="{{ recipe.url }}" class="group">
-                        <article class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-200 h-full">
-                            {% if recipe.image.one() %}
-                                <div class="aspect-w-16 aspect-h-9 border-b-2 border-soft-pink overflow-hidden">
-                                    <img src="{{ recipe.image.one().url }}" alt="{{ recipe.title }}" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300">
-                                </div>
-                            {% else %}
-                                <div class="aspect-w-16 aspect-h-9 bg-soft-pink bg-opacity-20 border-b-2 border-soft-pink flex items-center justify-center">
-                                    <span class="text-warm-brown font-serif">No image</span>
-                                </div>
-                            {% endif %}
-
-                            <div class="p-4">
-                                <h2 class="text-xl font-bold font-serif text-warm-brown group-hover:text-deep-rose transition duration-200">{{ recipe.title }}</h2>
-
-                                {% if recipe.description %}
-                                    <p class="mt-2 text-gray-700 line-clamp-2">{{ recipe.description }}</p>
-                                {% endif %}
-
-                                {% if recipe.categories.all()|length > 1 %}
-                                    <div class="mt-3 flex flex-wrap gap-2">
-                                        {% for cat in recipe.categories.all() %}
-                                            {% if cat.id != entry.id %}
-                                                <span class="inline-block px-2 py-1 text-xs bg-soft-pink bg-opacity-20 text-warm-brown rounded-full border border-soft-pink">{{ cat.title }}</span>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </article>
-                    </a>
+        {% if recipes|length %}
+            {% set gridItems = [] %}
+            {% for recipe in recipes %}
+                {% set categories = [] %}
+                {% for category in recipe.categories.all() %}
+                    {% set categories = categories|merge([{
+                        title: category.title,
+                        href: category.url,
+                    }]) %}
                 {% endfor %}
-            {% else %}
-                <div class="col-span-full text-center py-16">
-                    <p class="text-xl text-warm-brown">No recipes found in this entry.</p>
-                    <a href="/" class="mt-4 inline-block px-6 py-3 bg-deep-rose text-white rounded-lg hover:bg-opacity-90 transition duration-200">Browse all recipes</a>
-                </div>
-            {% endif %}
-        </div>
+                {% set gridItems = gridItems|merge([{
+                    type: '@card/recipe',
+                    data: {
+                        title: recipe.title,
+                        href: recipe.url,
+                        image: recipe.image.one() ? recipe.image.one().url : null,
+                        description: recipe.description,
+                        categories: categories,
+                    },
+                }]) %}
+            {% endfor %}
+            {% include "@listing/grid" with {
+                items: gridItems,
+            } %}
+        {% else %}
+            <div class="col-span-full text-center py-16">
+                <p class="text-xl text-warm-brown">No recipes found in this entry.</p>
+                <a href="/" class="mt-4 inline-block px-6 py-3 bg-deep-rose text-white rounded-lg hover:bg-opacity-90 transition duration-200">Browse all recipes</a>
+            </div>
+        {% endif %}
 
         <!-- Pagination (if needed) -->
         {% if paginate is defined and paginate.totalPages > 1 %}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f75c5faf898ac6ab7488a9e65bb6922",
+    "content-hash": "7ef8aa7ff9d619985b92955f7f73fb53",
     "packages": [
         {
             "name": "albertofem/rsync-lib",
@@ -2571,6 +2571,50 @@
             "time": "2024-12-08T08:18:47+00:00"
         },
         {
+            "name": "madebyraygun/craft-component-library",
+            "version": "1.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/madebyraygun/craft-component-library/zipball/714c4f06c4d69c1f6a07f320abaf60b80c735632",
+                "reference": "714c4f06c4d69c1f6a07f320abaf60b80c735632",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^4.10.0||^5.0.0",
+                "nystudio107/craft-plugin-vite": "^4.0||^5.0",
+                "php": ">=8.2"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "handle": "component-library",
+                "name": "Component Library",
+                "developer": "Raygun",
+                "developerUrl": "https://github.com/madebyraygun",
+                "documentationUrl": "https://github.com/madebyraygun/craft-component-library/blob/dev/README.md"
+            },
+            "autoload": {
+                "psr-4": {
+                    "madebyraygun\\componentlibrary\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "madebyraygun",
+                    "homepage": "https://github.com/madebyraygun"
+                }
+            ],
+            "description": "Component Library to preview and develop integrated components with CraftCMS",
+            "support": {
+                "docs": "https://github.com/madebyraygun/craft-component-library/blob/dev/README.md",
+                "issues": "https://github.com/madebyraygun/craft-component-library/issues",
+                "source": "https://github.com/madebyraygun/craft-component-library"
+            },
+            "time": "2024-09-16T22:54:09+00:00"
+        },
+        {
             "name": "masterminds/html5",
             "version": "2.9.0",
             "dist": {
@@ -2830,6 +2874,45 @@
                 "jsonpath"
             ],
             "time": "2024-09-04T18:46:31+00:00"
+        },
+        {
+            "name": "nystudio107/craft-plugin-vite",
+            "version": "5.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nystudio107/craft-plugin-vite/zipball/023ea9013f03ac8b15c9b800c66943ce4d02cf48",
+                "reference": "023ea9013f03ac8b15c9b800c66943ce4d02cf48",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "nystudio107\\pluginvite\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "nystudio107",
+                    "homepage": "https://nystudio107.com"
+                }
+            ],
+            "description": "Plugin Vite is the conduit between Craft CMS plugins and Vite, with manifest.json & HMR support",
+            "keywords": [
+                "craftcms",
+                "plugin",
+                "vite"
+            ],
+            "support": {
+                "docs": "https://github.com/nystudio107/craft-plugin-vite/blob/v5/README.md",
+                "issues": "https://github.com/nystudio107/craft-plugin-vite/issues"
+            },
+            "time": "2024-08-14T02:02:01+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -7593,10 +7676,10 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": {},
-    "platform-dev": {},
+    "platform": [],
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }

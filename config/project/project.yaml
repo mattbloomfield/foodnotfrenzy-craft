@@ -1,4 +1,4 @@
-dateModified: 1742309703
+dateModified: 1742314299
 elementSources:
   craft\elements\Entry:
     -
@@ -117,6 +117,10 @@ meta:
     ea405781-a163-45a6-b02d-389df79ed6bd: Sources # Sources
     f974a3de-1eb2-4b1b-9a38-731ff297975c: Categories # Categories
 plugins:
+  component-library:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   copy:
     edition: standard
     enabled: true

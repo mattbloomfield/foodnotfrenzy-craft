@@ -5,6 +5,7 @@
     "craftcms/cms": "^5.0.0",
     "fortrabbit/craft-copy": "^3.0",
     "fortrabbit/craft-object-storage": "4.0.0",
+    "madebyraygun/craft-component-library": "1.0.0",
     "topshelfcraft/environment-label": "5.0.0",
     "verbb/expanded-singles": "3.0.2",
     "vlucas/phpdotenv": "^5.4.0"

@@ -1,0 +1,21 @@
+{
+  "name": "Recipe Card",
+  "hidden": false,
+  "context": {
+    "href": "#",
+    "image": "https://placehold.it/300x200",
+    "title": "Lorem Ipsum Dolor Sit Amet",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.",
+    "categories": [{
+        "title": "Category 1",
+        "href": "#"
+        }, {
+        "title": "Category 2",
+        "href": "#"
+        }, {
+        "title": "Category 3",
+        "href": "#"
+    }]
+  },
+  "variants": []
+}
