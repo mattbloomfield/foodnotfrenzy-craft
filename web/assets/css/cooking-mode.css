@@ -1,4 +1,4 @@
-/* Cooking Mode Styles */
+/* Simplified Cooking Mode Styles - Timer Only */
 .cooking-mode-btn {
     display: none; /* Initially hidden, will be shown via JS on recipe pages */
 }
@@ -6,138 +6,6 @@
 /* Only show the cooking mode button on recipe pages */
 body:has(.recipe-content) .cooking-mode-btn {
     display: flex;
-}
-
-/* Cooking mode container styles */
-.cooking-mode-container {
-    padding: 1rem;
-    margin: 0 auto;
-    max-width: 100% !important;
-    background-color: #f5f0e1;
-}
-
-/* Tab styles */
-.cooking-tabs {
-    display: flex;
-    border-bottom: 2px solid #c86b6b;
-    margin-bottom: 1.5rem;
-    background-color: #f5f0e1;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding-top: 0.5rem;
-}
-
-.cooking-tabs .tab-btn {
-    color: #8e6e53;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s ease-in-out;
-    padding: 0.75rem 1.5rem;
-    font-size: 1.125rem;
-    font-weight: 500;
-}
-
-.cooking-tabs .tab-btn.tab-active {
-    color: #c86b6b;
-    border-bottom: 3px solid #c86b6b;
-    font-weight: bold;
-}
-
-.cooking-tabs .tab-btn:hover {
-    color: #c86b6b;
-}
-
-/* Content tabs */
-.tab-content {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.tab-content.hidden {
-    display: none;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Recipe section styling */
-.cooking-mode-container section {
-    background-color: white;
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.cooking-mode-container h3 {
-    color: #8e6e53;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-}
-
-/* Checkbox styling */
-.cooking-mode-container input[type="checkbox"] {
-    height: 1.25rem;
-    width: 1.25rem;
-    border: 2px solid #c86b6b;
-    border-radius: 0.25rem;
-    margin-right: 0.75rem;
-    cursor: pointer;
-    position: relative;
-    top: 0.25rem;
-}
-
-.cooking-mode-container input[type="checkbox"]:checked {
-    background-color: #c86b6b;
-}
-
-.cooking-mode-container input[type="checkbox"]:checked + span {
-    text-decoration: line-through;
-    color: #6b7280;
-}
-
-/* Step navigation */
-.step-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding: 0.5rem 0;
-}
-
-.step-nav button {
-    background-color: #c86b6b;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease-in-out;
-}
-
-.step-nav button:hover:not(:disabled) {
-    background-color: #8e6e53;
-}
-
-.step-nav button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.step-indicator {
-    font-weight: 500;
-    color: #8e6e53;
-}
-
-/* Cooking steps */
-.cooking-step {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    background-color: white;
-    margin-bottom: 1rem;
-    font-size: 1.25rem;
-    line-height: 1.6;
-    animation: fadeIn 0.3s ease-in-out;
 }
 
 /* Timer styles */
@@ -148,22 +16,33 @@ body:has(.recipe-content) .cooking-mode-btn {
     z-index: 50;
     background-color: white;
     border-radius: 0.5rem;
-    padding: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    min-width: 120px;
+    padding: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    min-width: 100px;
+    width: auto;
+    opacity: 0.85;
 }
 
 .timer-display {
     font-family: monospace;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
+    color: #8e6e53;
 }
 
 .timer-start, .timer-reset {
-    padding: 0.25rem 0.75rem;
+    padding: 0.3rem 0.5rem;
     border-radius: 0.25rem;
-    margin-top: 0.5rem;
-    margin-right: 0.5rem;
+    margin-top: 0.3rem;
+    margin-right: 0.3rem;
+    font-size: 0.8rem;
+    min-height: 30px;
+    min-width: 45px;
+}
+
+#timer-handle {
+    cursor: move;
+    user-select: none;
 }
 
 .timer-start {
@@ -178,63 +57,25 @@ body:has(.recipe-content) .cooking-mode-btn {
 
 /* Media queries for responsive design */
 @media (max-width: 640px) {
-    .cooking-mode-container {
-        padding: 0.5rem;
-    }
-
     .cooking-timer {
-        top: auto;
-        right: auto;
-        bottom: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-width: 300px;
+        /* Initial position on mobile, then user can drag */
+        top: 10px;
+        right: 10px;
+        width: auto;
+        max-width: 120px;
     }
 
     #cooking-mode-toggle {
         bottom: 20px;
         left: 50%;
         transform: translateX(-50%);
-    }
-
-    .cooking-tabs .tab-btn {
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 1.1rem;
     }
 }
 
-/* For larger screens */
-@media (min-width: 768px) {
-    .cooking-mode-container {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
-    .cooking-mode-container section {
-        padding: 2rem;
-    }
-
-    .cooking-step {
-        font-size: 1.5rem;
-        padding: 1.5rem;
-    }
-}
-
-/* Enhance readability of ingredients */
-.cooking-mode-container ul {
-    margin-left: 0;
-    padding-left: 0;
-    list-style-type: none;
-}
-
-.cooking-mode-container li {
-    margin-bottom: 0.75rem;
-    font-size: 1.125rem;
-}
-
-/* Make sure all buttons are easily tappable */
-.cooking-mode-container button {
-    min-height: 44px;
-    min-width: 44px;
+/* Make the cooking mode toggle button more visible */
+#cooking-mode-toggle {
+    font-size: 1.15rem;
+    padding: 0.75rem 1.25rem;
 }

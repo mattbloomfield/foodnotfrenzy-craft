@@ -1,0 +1,40 @@
+/* Recipe checkbox styling */
+.recipe-content input[type="checkbox"] {
+    accent-color: #c86b6b;
+    cursor: pointer;
+    height: 1.2rem;
+    width: 1.2rem;
+    border-radius: 0.25rem;
+    margin-right: 0.75rem;
+    position: relative;
+    top: 0.25rem;
+}
+
+/* Styling for checked items */
+.recipe-content input[type="checkbox"]:checked + span {
+    text-decoration: line-through;
+    color: #6b7280;
+}
+
+/* Reset button styling */
+.reset-checkboxes {
+    display: block;
+    margin: 0 auto 1.5rem auto;
+    background-color: #8e6e53;
+    transition: background-color 0.2s;
+}
+
+.reset-checkboxes:hover {
+    background-color: #c86b6b;
+}
+
+/* Add more space between instruction items */
+.recipe-content section ol li {
+    margin-bottom: 0.75rem;
+}
+
+/* Make sure text wraps correctly with checkbox */
+.recipe-content section ol li > div > span,
+.recipe-content section ul li label > span {
+    display: inline-block;
+}

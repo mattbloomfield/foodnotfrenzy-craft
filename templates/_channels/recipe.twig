@@ -7,15 +7,18 @@
 {% block headExtras %}
     <meta name="description" content="{% if entry.description %}{{ entry.description|striptags|slice(0, 160) }}{% else %}{{ siteName }} - {{ entry.title }} recipe with step-by-step instructions{% endif %}">
     <link rel="stylesheet" href="/assets/css/cooking-mode.css">
+    <link rel="stylesheet" href="/assets/css/recipe-checklist.css">
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
     <script src="/assets/js/cooking-mode.js"></script>
+    <script src="/assets/js/recipe-checklist.js"></script>
+
 {% endblock %}
 
 {% block jsonLd %}
-<script type="application/ld+json">
+    <script type="application/ld+json">
 {
   "@context": "https://schema.org/",
   "@type": "Recipe",
@@ -33,24 +36,24 @@
   "recipeCategory": "{% for category in entry.categories.all() %}{{ category.title }}{% if not loop.last %}, {% endif %}{% endfor %}",
   "recipeIngredient": [
     {% for block in entry.ingredientsAndInstructions %}
-    {% if block.type == "ingredientsBlock" %}
-    {% for row in block.ingredientsList %}
+        {% if block.type == "ingredientsBlock" %}
+        {% for row in block.ingredientsList %}
           "{{ row.quantity|default('') }} {{ row.unit != 'none' ? row.unit : '' }} {{ row.ingredientName }}{{ row.notes is not empty ? ', ' ~ row.notes : '' }}"{% if not loop.last %},{% endif %}
-    {% endfor %}
-    {% endif %}
-    {% endfor %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
   ],
   "recipeInstructions": [
     {% for block in entry.ingredientsAndInstructions %}
-    {% if block.type == "instructionsBlock" %}
-    {% for row in block.instructions %}
+        {% if block.type == "instructionsBlock" %}
+        {% for row in block.instructions %}
           {
             "@type": "HowToStep",
             "text": "{{ row.instruction }}"
           }{% if not loop.last %},{% endif %}
-    {% endfor %}
-    {% endif %}
-    {% endfor %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
   ]
 }
 </script>
@@ -202,25 +205,26 @@
                         <ul class="bg-soft-pink bg-opacity-20 rounded-lg p-6 space-y-2 border border-soft-pink">
                             {% for row in block.ingredientsList %}
                                 {% apply spaceless %}
-                                <li class=" items-baseline {% if row.optional %}text-gray-600{% endif %}">
-                                    <span class="font-medium">{{ row.quantity|default|nicefractions }}&nbsp;</span>
+                                    <li class="items-baseline {% if row.optional %}text-gray-600{% endif %}">
+                                        <!-- No checkbox here, will be added by JavaScript -->
+                                        <span class="font-medium">{{ row.quantity|default|nicefractions }}&nbsp;</span>
 
-                                    {% if row.unit != 'none' %}
-                                        <span class="">{{ row.unit }}&nbsp;</span>
-                                    {% else %}
-                                        <span class=""></span>
-                                    {% endif %}
+                                        {% if row.unit != 'none' %}
+                                            <span class="">{{ row.unit }}&nbsp;</span>
+                                        {% else %}
+                                            <span class=""></span>
+                                        {% endif %}
 
-                                    <span class="">{{ row.ingredientName }}</span>
+                                        <span class="">{{ row.ingredientName }}</span>
 
-                                    {% if row.notes is not empty %}
-                                        <span class="flex-grow">, {{ row.notes }}</span>
-                                    {% endif %}
+                                        {% if row.notes is not empty %}
+                                            <span class="flex-grow">, {{ row.notes }}</span>
+                                        {% endif %}
 
-                                    {% if row.optional %}
-                                        <span class="italic text-sm ml-2">(optional)</span>
-                                    {% endif %}
-                                </li>
+                                        {% if row.optional %}
+                                            <span class="italic text-sm ml-2">(optional)</span>
+                                        {% endif %}
+                                    </li>
                                 {% endapply %}
                             {% endfor %}
                         </ul>

@@ -1,297 +1,167 @@
-// Cooking Mode JavaScript - DOM Transformation
+// Simplified Timer with Drag Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Add the cooking mode toggle button to recipe pages
+    // Add the timer button to recipe pages
     const recipeContent = document.querySelector('.recipe-content');
     if (recipeContent) {
-        // Create the cooking mode button
-        const cookingModeBtn = document.createElement('button');
-        cookingModeBtn.id = 'cooking-mode-toggle';
-        cookingModeBtn.className = 'cooking-mode-btn flex items-center bg-deep-rose hover:bg-warm-brown text-white font-medium rounded-lg py-2 px-4 shadow-md transition duration-200 fixed bottom-6 left-6 z-50';
-        cookingModeBtn.innerHTML = `
+        // Create the timer button
+        const timerBtn = document.createElement('button');
+        timerBtn.id = 'cooking-mode-toggle';
+        timerBtn.className = 'cooking-mode-btn flex items-center bg-deep-rose hover:bg-warm-brown text-white font-medium rounded-lg py-2 px-4 shadow-md transition duration-200 fixed bottom-6 left-6 z-50';
+        timerBtn.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.616a1 1 0 01.894-1.79l1.599.8L9 4.323V3a1 1 0 011-1z" clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
             </svg>
-            Cooking Mode
+            Timer
         `;
 
         // Add the button to the page
-        document.body.appendChild(cookingModeBtn);
+        document.body.appendChild(timerBtn);
 
-        // Add event listener to toggle cooking mode
-        cookingModeBtn.addEventListener('click', toggleCookingMode);
+        // Add event listener to toggle timer
+        timerBtn.addEventListener('click', toggleTimer);
 
         // Create timer element (hidden initially)
         const timerContainer = document.createElement('div');
         timerContainer.id = 'cooking-timer';
-        timerContainer.className = 'cooking-timer bg-white rounded-lg p-4 shadow-md fixed top-6 right-6 z-50 hidden';
+        timerContainer.className = 'cooking-timer bg-white rounded-lg shadow-md fixed top-6 right-6 z-50 hidden';
         timerContainer.innerHTML = `
-            <div class="text-center">
-                <span class="timer-display text-2xl font-bold">00:00</span>
-                <div class="flex justify-center mt-2 gap-2">
-                    <button class="timer-start bg-deep-rose text-white py-1 px-3 rounded">Start</button>
-                    <button class="timer-reset bg-gray-300 text-gray-700 py-1 px-3 rounded">Reset</button>
+            <div id="timer-handle" class="cursor-move bg-gray-200 rounded-t-lg px-2 py-1 text-xs text-gray-500 flex justify-between">
+                <span>Drag</span>
+                <button id="timer-close" class="text-gray-500 hover:text-gray-700">×</button>
+            </div>
+            <div class="p-2 text-center">
+                <span class="timer-display block text-xl font-bold">00:00</span>
+                <div class="flex justify-center mt-2 gap-1">
+                    <button class="timer-start bg-deep-rose text-white text-sm py-1 px-2 rounded">Start</button>
+                    <button class="timer-reset bg-gray-300 text-gray-700 text-sm py-1 px-2 rounded">Reset</button>
                 </div>
             </div>
         `;
         document.body.appendChild(timerContainer);
 
+        // Make timer draggable
+        makeDraggable(timerContainer);
+
+        // Add close button functionality
+        document.getElementById('timer-close').addEventListener('click', function() {
+            timerContainer.classList.add('hidden');
+            timerBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                </svg>
+                Timer
+            `;
+            keepScreenAwake(false);
+        });
+
         // Add timer functionality
         setupTimer();
     }
 
-    // Function to toggle cooking mode
-    function toggleCookingMode() {
-        const body = document.body;
-        const cookingBtn = document.getElementById('cooking-mode-toggle');
-        const header = document.querySelector('header');
-        const footer = document.querySelector('footer');
-        const recipeContainer = document.querySelector('article');
-        const recipeContent = document.querySelector('.recipe-content');
+    // Function to toggle timer
+    function toggleTimer() {
         const timerContainer = document.getElementById('cooking-timer');
-        const printLink = document.querySelector('.print-link');
+        const timerBtn = document.getElementById('cooking-mode-toggle');
 
-        // Toggle cooking mode class
-        body.classList.toggle('cooking-mode-active');
-
-        if (body.classList.contains('cooking-mode-active')) {
-            // Entering cooking mode
-            cookingBtn.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-                Exit Cooking Mode
-            `;
-
-            // Hide header, footer, and print link
-            header.classList.add('hidden');
-            footer.classList.add('hidden');
-            if (printLink) printLink.classList.add('hidden');
-
+        // Toggle timer visibility
+        if (timerContainer.classList.contains('hidden')) {
             // Show timer
             timerContainer.classList.remove('hidden');
-
-            // Modify recipe container
-            recipeContainer.classList.add('cooking-mode-container');
-            recipeContainer.classList.add('max-w-full');
-
-            // Transform the recipe content for cooking mode
-            transformRecipeForCookingMode();
+            timerBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                </svg>
+                Hide Timer
+            `;
 
             // Prevent screen from sleeping
             keepScreenAwake(true);
-
         } else {
-            // Exiting cooking mode
-            cookingBtn.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.616a1 1 0 01.894-1.79l1.599.8L9 4.323V3a1 1 0 011-1z" clip-rule="evenodd" />
-                </svg>
-                Cooking Mode
-            `;
-
-            // Show header, footer, and print link
-            header.classList.remove('hidden');
-            footer.classList.remove('hidden');
-            if (printLink) printLink.classList.remove('hidden');
-
             // Hide timer
             timerContainer.classList.add('hidden');
-
-            // Remove cooking mode classes
-            recipeContainer.classList.remove('cooking-mode-container', 'max-w-full');
-
-            // Restore the original recipe content
-            restoreOriginalRecipe();
+            timerBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                </svg>
+                Timer
+            `;
 
             // Let the screen sleep normally
             keepScreenAwake(false);
         }
     }
 
-    // Function to transform recipe for cooking mode
-    function transformRecipeForCookingMode() {
-        const recipeContent = document.querySelector('.recipe-content');
-        const recipeHeader = document.querySelector('article header');
-        const recipeTitle = document.querySelector('h1').textContent;
+    // Function to make an element draggable
+    function makeDraggable(element) {
+        const handle = document.getElementById('timer-handle');
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-        // Save current state for restoration later
-        window.originalRecipeContent = recipeContent.innerHTML;
-        window.originalRecipeHeader = recipeHeader.innerHTML;
-
-        // Modify header to be simpler
-        recipeHeader.innerHTML = `
-            <h1 class="text-3xl md:text-4xl font-bold text-warm-brown mb-4 text-center font-serif">${recipeTitle}</h1>
-        `;
-
-        // Find ingredients and instructions sections
-        const ingredientsSections = [];
-        const instructionsSections = [];
-
-        recipeContent.querySelectorAll('section').forEach(section => {
-            const heading = section.querySelector('h3');
-            if (!heading) return;
-
-            if (heading.textContent.trim().toLowerCase().includes('ingredient')) {
-                ingredientsSections.push(section);
-            } else if (heading.textContent.trim().toLowerCase().includes('instruction')) {
-                instructionsSections.push(section);
-            }
-        });
-
-        // Add checkboxes to ingredients
-        ingredientsSections.forEach(section => {
-            const items = section.querySelectorAll('li');
-            items.forEach(item => {
-                const itemText = item.innerHTML;
-                item.innerHTML = `
-                    <label class="flex items-start cursor-pointer">
-                        <input type="checkbox" class="mt-1 mr-3 h-5 w-5">
-                        <span>${itemText}</span>
-                    </label>
-                `;
-            });
-        });
-
-        // Transform instructions for step-by-step navigation
-        instructionsSections.forEach(section => {
-            const items = Array.from(section.querySelectorAll('li'));
-            if (items.length <= 1) return; // No need for navigation with only one step
-
-            const heading = section.querySelector('h3');
-            const ol = section.querySelector('ol');
-
-            // Create step navigation
-            const stepNav = document.createElement('div');
-            stepNav.className = 'step-nav flex justify-between items-center mb-4';
-            stepNav.innerHTML = `
-                <button class="step-prev bg-deep-rose text-white py-2 px-4 rounded-lg opacity-50 cursor-not-allowed" disabled>&larr; Previous</button>
-                <span class="step-indicator font-medium">Step 1 of ${items.length}</span>
-                <button class="step-next bg-deep-rose text-white py-2 px-4 rounded-lg">Next &rarr;</button>
-            `;
-
-            // Insert step navigation after heading
-            heading.after(stepNav);
-
-            // Add data attributes and classes to list items
-            items.forEach((item, index) => {
-                item.dataset.step = index;
-                item.classList.add('cooking-step');
-
-                // Only display the first step initially
-                if (index > 0) {
-                    item.classList.add('hidden');
-                }
-
-                // Add step number
-                const stepNumber = document.createElement('div');
-                stepNumber.className = 'text-deep-rose font-bold text-xl mb-2';
-                stepNumber.textContent = `Step ${index + 1}`;
-                item.prepend(stepNumber);
-            });
-
-            // Add event listeners for step navigation
-            const prevBtn = stepNav.querySelector('.step-prev');
-            const nextBtn = stepNav.querySelector('.step-next');
-            const indicator = stepNav.querySelector('.step-indicator');
-
-            prevBtn.addEventListener('click', function() {
-                const currentStep = ol.querySelector('li.cooking-step:not(.hidden)');
-                const currentIndex = parseInt(currentStep.dataset.step);
-
-                if (currentIndex > 0) {
-                    // Hide current step, show previous step
-                    currentStep.classList.add('hidden');
-                    ol.querySelector(`li[data-step="${currentIndex - 1}"]`).classList.remove('hidden');
-
-                    // Update step indicator
-                    indicator.textContent = `Step ${currentIndex} of ${items.length}`;
-
-                    // Update button states
-                    nextBtn.disabled = false;
-                    nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-
-                    if (currentIndex - 1 === 0) {
-                        this.disabled = true;
-                        this.classList.add('opacity-50', 'cursor-not-allowed');
-                    }
-                }
-            });
-
-            nextBtn.addEventListener('click', function() {
-                const currentStep = ol.querySelector('li.cooking-step:not(.hidden)');
-                const currentIndex = parseInt(currentStep.dataset.step);
-
-                if (currentIndex < items.length - 1) {
-                    // Hide current step, show next step
-                    currentStep.classList.add('hidden');
-                    ol.querySelector(`li[data-step="${currentIndex + 1}"]`).classList.remove('hidden');
-
-                    // Update step indicator
-                    indicator.textContent = `Step ${currentIndex + 2} of ${items.length}`;
-
-                    // Update button states
-                    prevBtn.disabled = false;
-                    prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-
-                    if (currentIndex + 1 === items.length - 1) {
-                        this.disabled = true;
-                        this.classList.add('opacity-50', 'cursor-not-allowed');
-                    }
-                }
-            });
-        });
-
-        // Add tab navigation if both ingredients and instructions exist
-        if (ingredientsSections.length > 0 && instructionsSections.length > 0) {
-            // Create tabs container
-            const tabsContainer = document.createElement('div');
-            tabsContainer.className = 'cooking-tabs flex border-b border-deep-rose mb-6 sticky top-0 bg-warm-beige z-10';
-
-            // Create tabs
-            tabsContainer.innerHTML = `
-                <button class="tab-btn py-3 px-6 font-medium text-lg tab-active" data-tab="ingredients">Ingredients</button>
-                <button class="tab-btn py-3 px-6 font-medium text-lg" data-tab="instructions">Steps</button>
-            `;
-
-            // Add tabs before recipe content
-            recipeContent.prepend(tabsContainer);
-
-            // Tag sections for tab control
-            ingredientsSections.forEach(section => {
-                section.dataset.content = 'ingredients';
-                section.classList.add('tab-content', 'tab-active');
-            });
-
-            instructionsSections.forEach(section => {
-                section.dataset.content = 'instructions';
-                section.classList.add('tab-content', 'hidden');
-            });
-
-            // Add event listeners for tabs
-            tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Remove active class from all tabs
-                    tabsContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
-                    recipeContent.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-
-                    // Add active class to clicked tab
-                    btn.classList.add('tab-active');
-                    recipeContent.querySelectorAll(`.tab-content[data-content="${btn.dataset.tab}"]`).forEach(section => {
-                        section.classList.remove('hidden');
-                    });
-                });
-            });
+        if (handle) {
+            // If handle exists, use handle for dragging
+            handle.onmousedown = dragMouseDown;
+            handle.ontouchstart = dragTouchStart;
+        } else {
+            // Otherwise, move from anywhere inside the element
+            element.onmousedown = dragMouseDown;
+            element.ontouchstart = dragTouchStart;
         }
-    }
 
-    // Function to restore original recipe layout
-    function restoreOriginalRecipe() {
-        if (window.originalRecipeContent && window.originalRecipeHeader) {
-            const recipeContent = document.querySelector('.recipe-content');
-            const recipeHeader = document.querySelector('article header');
+        function dragMouseDown(e) {
+            e.preventDefault();
+            // Get the mouse cursor position at startup
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // Call function when cursor moves
+            document.onmousemove = elementDrag;
+        }
 
-            recipeContent.innerHTML = window.originalRecipeContent;
-            recipeHeader.innerHTML = window.originalRecipeHeader;
+        function dragTouchStart(e) {
+            e.preventDefault();
+            // Get the touch position at startup
+            const touch = e.touches[0];
+            pos3 = touch.clientX;
+            pos4 = touch.clientY;
+            document.ontouchend = closeDragElement;
+            // Call function when finger moves
+            document.ontouchmove = elementTouchDrag;
+        }
+
+        function elementDrag(e) {
+            e.preventDefault();
+            // Calculate the new cursor position
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // Set the element's new position
+            element.style.top = (element.offsetTop - pos2) + "px";
+            element.style.left = (element.offsetLeft - pos1) + "px";
+            // Reset right position to avoid conflicts
+            element.style.right = "auto";
+        }
+
+        function elementTouchDrag(e) {
+            e.preventDefault();
+            // Calculate the new touch position
+            const touch = e.touches[0];
+            pos1 = pos3 - touch.clientX;
+            pos2 = pos4 - touch.clientY;
+            pos3 = touch.clientX;
+            pos4 = touch.clientY;
+            // Set the element's new position
+            element.style.top = (element.offsetTop - pos2) + "px";
+            element.style.left = (element.offsetLeft - pos1) + "px";
+            // Reset right position to avoid conflicts
+            element.style.right = "auto";
+        }
+
+        function closeDragElement() {
+            // Stop moving when mouse button/touch is released
+            document.onmouseup = null;
+            document.onmousemove = null;
+            document.ontouchend = null;
+            document.ontouchmove = null;
         }
     }
 
