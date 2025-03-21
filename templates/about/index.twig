@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Recipe Haven</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro&display=swap">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['"Playfair Display"', 'serif'],
+                        'sans': ['"Source Sans Pro"', 'sans-serif'],
+                    },
+                    colors: {
+                        'warm-beige': '#f5f0e1',
+                        'soft-pink': '#ffd5c2',
+                        'warm-brown': '#8e6e53',
+                        'deep-rose': '#c86b6b',
+                        'sage': '#a9c0a6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-warm-beige text-gray-800 flex flex-col min-h-screen font-sans">
+<header class="bg-white shadow-sm border-b-2 border-soft-pink">
+    <div class="container mx-auto px-4 py-5">
+        <nav class="flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-warm-brown font-serif">Recipe Haven</a>
+            <ul class="flex space-x-8">
+                <li><a href="/categories" class="text-warm-brown hover:text-deep-rose transition duration-200">Categories</a></li>
+                <li><a href="/search" class="text-warm-brown hover:text-deep-rose transition duration-200 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        Search
+                    </a></li>
+                <li><a href="/about" class="text-deep-rose font-medium hover:text-warm-brown transition duration-200">About Us</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="flex-grow container mx-auto px-4 py-12">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-deep-rose">Our Story</h1>
+
+        <div class="prose prose-lg mx-auto text-gray-800">
+            <p class="text-xl font-serif italic text-warm-brown mb-8">
+                Every revolution begins with a breaking point. Ours came on a Tuesday evening in the midst of a downpour.
+            </p>
+
+            <div class="mb-10">
+                <img src="/api/placeholder/800/400" alt="A dimly lit kitchen with a frustrated cook" class="rounded-lg shadow-md w-full mb-4">
+                <p class="text-sm text-gray-600 text-center italic">The moment that sparked our revolution</p>
+            </div>
+
+            <p class="mb-6">
+                I still remember it vividly. Three hungry children, a spouse working late, and a desperate need to get dinner on the table. The rain hammered against the kitchen window as I frantically searched for a simple pasta recipe. What I found was digital violence.
+            </p>
+
+            <p class="mb-6">
+                Seventeen paragraphs about someone's summer in Tuscany. Four auto-play videos. A newsletter signup form that consumed half my screen. Then, just as the recipe finally came into view—a full-page ad for weight loss supplements exploded across my device, sending me back to the top of the page.
+            </p>
+
+            <p class="mb-6">
+                Something inside me shattered. I slammed my tablet down, hard enough that a hairline fracture appeared across its screen—a physical manifestation of my broken patience. In that moment, as my children stared wide-eyed from the doorway, I made a vow through clenched teeth: <span class="font-medium">"This ends now."</span>
+            </p>
+
+            <blockquote class="bg-soft-pink bg-opacity-20 border-l-4 border-deep-rose p-4 italic my-8">
+                "The internet had weaponized our most basic human need—to feed ourselves and those we love—against us. Each recipe had become a battleground where our attention was the spoil of war."
+            </blockquote>
+
+            <p class="mb-6">
+                That night, after serving a meal cobbled together from pantry remnants, I reached out to fellow parents, home cooks, and food enthusiasts. What emerged from our conversations was a shared trauma—the collective wounding inflicted by recipe sites that had forgotten their purpose.
+            </p>
+
+            <p class="mb-6">
+                Maria had missed her daughter's dance recital because she got trapped in an endless scroll of pop-ups while searching for a birthday cake recipe. James described breaking down in tears after spending forty minutes fighting through ads for a chicken soup recipe when his partner was ill. Elderly Mrs. Chen had given up cooking her family's traditional recipes because navigating modern recipe sites had become too overwhelming.
+            </p>
+
+            <p class="mb-6">
+                These weren't just inconveniences. They were heartbreaking violations of the sacred act of nourishing those we love. Something fundamental was being stolen from us—our time, our patience, our joy in cooking.
+            </p>
+
+            <h2 class="text-2xl font-serif font-bold text-warm-brown mt-12 mb-6">The Birth of Recipe Haven</h2>
+
+            <div class="mb-10">
+                <img src="/api/placeholder/800/400" alt="A bright, welcoming kitchen with organized recipes" class="rounded-lg shadow-md w-full mb-4">
+                <p class="text-sm text-gray-600 text-center italic">Our first team meeting in 2023</p>
+            </div>
+
+            <p class="mb-6">
+                Recipe Haven emerged from that collective pain. We assembled a small team of developers, chefs, and people who simply believed that recipes should be accessible without a fight. We pooled our savings, worked nights and weekends, and built what we wished existed.
+            </p>
+
+            <p class="mb-6">
+                Our mission became clear: Create a sanctuary where recipes exist to serve people, not advertisers. A place where you can find what you need quickly, without life stories, without pop-ups, without psychological manipulation.
+            </p>
+
+            <p class="mb-6">
+                We vowed that no parent would miss another recital, no caregiver would shed tears of frustration, and no elder would abandon their culinary heritage because a recipe was held hostage behind a wall of ads.
+            </p>
+
+            <div class="bg-white rounded-lg shadow-md p-6 border border-soft-pink my-10">
+                <h3 class="text-xl font-serif font-bold text-warm-brown mb-4">Our Promises to You:</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>Recipes that appear immediately—no scrolling required</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>No pop-up ads, ever</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>No auto-play videos</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>No life stories (unless you want them)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>Simple, clean design that respects your time and attention</span>
+                    </li>
+                </ul>
+            </div>
+
+            <p class="mb-6">
+                Today, Recipe Haven serves thousands of home cooks who, like us, believe that food should bring us together, not drive us apart. We're not backed by venture capital or major corporations. We're sustained by people who believe in what we're doing.
+            </p>
+
+            <p class="mb-6">
+                That cracked tablet still sits on my desk—a battle scar from the day we decided to reclaim cooking from those who had weaponized it against us. It reminds me daily of what we're fighting for: the simple dignity of making a meal without a fight.
+            </p>
+
+            <blockquote class="bg-soft-pink bg-opacity-20 border-l-4 border-deep-rose p-4 italic my-8">
+                "We believe that every recipe has a soul—an essence that connects generations, cultures, and hearts. That soul was being suffocated. We're here to set it free again."
+            </blockquote>
+
+            <p class="mb-8">
+                Thank you for being part of our sanctuary. Every time you use a recipe from our site, you're helping prove that there's a better way—that we don't have to accept digital violence as the price of making dinner.
+            </p>
+
+            <p class="font-serif text-deep-rose text-xl">
+                Welcome home.
+            </p>
+
+            <div class="border-t border-soft-pink mt-12 pt-8">
+                <h3 class="text-xl font-serif font-bold text-warm-brown mb-4">Meet Our Team</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md p-4 text-center">
+                        <div class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4">
+                            <img src="/api/placeholder/100/100" alt="Team member" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-medium text-warm-brown">Elena Martinez</h4>
+                        <p class="text-gray-600 text-sm">Founder & Head Chef</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md p-4 text-center">
+                        <div class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4">
+                            <img src="/api/placeholder/100/100" alt="Team member" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-medium text-warm-brown">Marcus Chen</h4>
+                        <p class="text-gray-600 text-sm">Technical Director</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg overflow-hidden shadow-md p-4 text-center">
+                        <div class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4">
+                            <img src="/api/placeholder/100/100" alt="Team member" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="font-medium text-warm-brown">Olivia Johnson</h4>
+                        <p class="text-gray-600 text-sm">Community Manager</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-white border-t-2 border-soft-pink py-6">
+    <div class="container mx-auto px-4 text-center text-warm-brown">
+        <p>&copy; 2025 Recipe Haven. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
