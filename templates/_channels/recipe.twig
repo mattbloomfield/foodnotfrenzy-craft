@@ -14,6 +14,7 @@
     {{ parent() }}
     <script src="/assets/js/cooking-mode.js"></script>
     <script src="/assets/js/recipe-checklist.js"></script>
+    <script src="/assets/js/walmart-integration.js"></script>
 
 {% endblock %}
 
@@ -205,24 +206,24 @@
                         <ul class="bg-soft-pink bg-opacity-20 rounded-lg p-6 space-y-2 border border-soft-pink">
                             {% for row in block.ingredientsList %}
                                 {% apply spaceless %}
-                                    <li class="items-baseline {% if row.optional %}text-gray-600{% endif %}">
+                                    <li class="items-baseline flex {% if row.optional %}text-gray-600{% endif %}" data-ingredient>
                                         <!-- No checkbox here, will be added by JavaScript -->
-                                        <span class="font-medium">{{ row.quantity|default|nicefractions }}&nbsp;</span>
+                                        <span class="font-medium" data-ingredient-quanity>{{ row.quantity|default|nicefractions }}&nbsp;</span>
 
                                         {% if row.unit != 'none' %}
-                                            <span class="">{{ row.unit }}&nbsp;</span>
+                                            <span data-ingredient-unit>{{ row.unit }}&nbsp;</span>
                                         {% else %}
-                                            <span class=""></span>
+                                            <span ></span>
                                         {% endif %}
 
-                                        <span class="">{{ row.ingredientName }}</span>
+                                        <span data-ingredient-name="{{ row.ingredientName }}">{{ row.ingredientName }}</span>
 
                                         {% if row.notes is not empty %}
-                                            <span class="flex-grow">, {{ row.notes }}</span>
+                                            <span data-ingredient-note>, {{ row.notes }}</span>
                                         {% endif %}
 
                                         {% if row.optional %}
-                                            <span class="italic text-sm ml-2">(optional)</span>
+                                            <span data-ingredient-optional class="italic text-sm ml-2">(optional)</span>
                                         {% endif %}
                                     </li>
                                 {% endapply %}
