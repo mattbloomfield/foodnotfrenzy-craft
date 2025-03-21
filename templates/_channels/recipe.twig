@@ -6,6 +6,12 @@
 
 {% block headExtras %}
     <meta name="description" content="{% if entry.description %}{{ entry.description|striptags|slice(0, 160) }}{% else %}{{ siteName }} - {{ entry.title }} recipe with step-by-step instructions{% endif %}">
+    <link rel="stylesheet" href="/assets/css/cooking-mode.css">
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script src="/assets/js/cooking-mode.js"></script>
 {% endblock %}
 
 {% block jsonLd %}
