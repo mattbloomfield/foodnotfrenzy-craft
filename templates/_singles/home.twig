@@ -9,13 +9,14 @@
             {% include "_components/search" %}
         </section>
 
-        <!-- Category Selection Block -->
+        <!-- Category Selection Block for Home Page -->
         <section class="mb-12">
             <div class="bg-white rounded-lg shadow-md p-6 border-2 border-soft-pink">
                 <h2 class="text-2xl font-serif font-bold text-warm-brown mb-4">Browse by Category</h2>
 
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                    {% for category in craft.entries.section('categories').all() %}
+                    {% set topLevelCategories = craft.entries.section('categories').level(1).all() %}
+                    {% for category in topLevelCategories %}
                         <a href="{{ category.url }}" class="bg-soft-pink bg-opacity-20 hover:bg-opacity-40 transition duration-200 rounded-lg p-3 text-center border border-soft-pink">
                             <span class="font-serif text-warm-brown">{{ category.title }}</span>
                         </a>
