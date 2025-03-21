@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ef8aa7ff9d619985b92955f7f73fb53",
+    "content-hash": "a2c4225a57250af5db8248c569859fa6",
     "packages": [
         {
             "name": "albertofem/rsync-lib",
@@ -870,11 +870,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "5.6.11",
+            "version": "5.6.13",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/72064b36c095def517b68141ecab6169a2499b12",
-                "reference": "72064b36c095def517b68141ecab6169a2499b12",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/8df33fb8a3233ecc5434954934ed2f31e965f9dc",
+                "reference": "8df33fb8a3233ecc5434954934ed2f31e965f9dc",
                 "shasum": ""
             },
             "require": {
@@ -974,7 +974,7 @@
                 "docs": "https://craftcms.com/docs/5.x/",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2025-03-05T00:19:27+00:00"
+            "time": "2025-03-19T19:56:07+00:00"
         },
         {
             "name": "craftcms/flysystem",
@@ -1351,17 +1351,26 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "4.0.3",
+            "version": "4.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/egulias/EmailValidator.git",
+                "reference": "d42c8731f0624ad6bdc8d3e5e9a4524f68801cfa"
+            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/b115554301161fa21467629f1e1391c1936de517",
-                "reference": "b115554301161fa21467629f1e1391c1936de517",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/d42c8731f0624ad6bdc8d3e5e9a4524f68801cfa",
+                "reference": "d42c8731f0624ad6bdc8d3e5e9a4524f68801cfa",
                 "shasum": ""
             },
             "require": {
                 "doctrine/lexer": "^2.0 || ^3.0",
                 "php": ">=8.1",
                 "symfony/polyfill-intl-idn": "^1.26"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.2",
+                "vimeo/psalm": "^5.12"
             },
             "suggest": {
                 "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
@@ -1377,6 +1386,7 @@
                     "Egulias\\EmailValidator\\": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1394,7 +1404,17 @@
                 "validation",
                 "validator"
             ],
-            "time": "2024-12-27T00:36:43+00:00"
+            "support": {
+                "issues": "https://github.com/egulias/EmailValidator/issues",
+                "source": "https://github.com/egulias/EmailValidator/tree/4.0.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/egulias",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-03-06T22:45:56+00:00"
         },
         {
             "name": "elvanto/litemoji",
@@ -4039,6 +4059,50 @@
             "time": "2023-09-03T09:24:00+00:00"
         },
         {
+            "name": "spatie/schema-org",
+            "version": "3.23.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/schema-org/zipball/a8dc1b6fcdd06afc1ab084c3ead9b7a4c3d7a35d",
+                "reference": "a8dc1b6fcdd06afc1ab084c3ead9b7a4c3d7a35d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\SchemaOrg\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "email": "dev.gummibeer@gmail.com",
+                    "homepage": "https://gummibeer.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A fluent builder Schema.org types and ld+json generator",
+            "homepage": "https://github.com/spatie/schema-org",
+            "keywords": [
+                "schema-org",
+                "spatie"
+            ],
+            "time": "2025-01-31T14:54:12+00:00"
+        },
+        {
             "name": "spomky-labs/cbor-php",
             "version": "3.1.0",
             "dist": {
@@ -6192,6 +6256,61 @@
                 "templating"
             ],
             "time": "2024-11-17T15:59:19+00:00"
+        },
+        {
+            "name": "vaersaagod/seomate",
+            "version": "3.1.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vaersaagod/seomate/zipball/6f0894935c0610d0c15f5556794d8ad72b98d33e",
+                "reference": "6f0894935c0610d0c15f5556794d8ad72b98d33e",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.0.0",
+                "php": "^8.2",
+                "spatie/schema-org": "^2.0|^3.0"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "SEOMate",
+                "handle": "seomate",
+                "hasCpSettings": false,
+                "hasCpSection": false,
+                "changelogUrl": "https://raw.githubusercontent.com/vaersaagod/seomate/master/CHANGELOG.md",
+                "components": [],
+                "class": "vaersaagod\\seomate\\SEOMate"
+            },
+            "autoload": {
+                "psr-4": {
+                    "vaersaagod\\seomate\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Værsågod",
+                    "homepage": "https://www.vaersaagod.no/"
+                }
+            ],
+            "description": "SEO, mate! It's important.",
+            "keywords": [
+                "cms",
+                "craft",
+                "craft-plugin",
+                "craftcms",
+                "json-ld",
+                "meta",
+                "seo",
+                "seomate"
+            ],
+            "support": {
+                "docs": "https://github.com/vaersaagod/seomate/blob/master/README.md",
+                "issues": "https://github.com/vaersaagod/seomate/issues"
+            },
+            "time": "2024-09-05T12:54:37+00:00"
         },
         {
             "name": "verbb/base",

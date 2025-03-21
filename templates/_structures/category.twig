@@ -2,6 +2,8 @@
 
 {% block title %}{{ entry.title }} Recipes | {{ siteName }}{% endblock %}
 
+{% block headExtras %}<link rel="canonical" href="{{ entry.url }}" />{% endblock %}
+
 {% block content %}
     <div class="max-w-6xl mx-auto">
         <!-- Breadcrumb Navigation -->

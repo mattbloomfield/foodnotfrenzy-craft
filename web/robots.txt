@@ -1,0 +1,43 @@
+# Prevent duplicate content
+Disallow: /print/
+Disallow: /search/
+Disallow: /*/print/
+Disallow: /*?*
+
+# Admin/system paths
+Disallow: /admin/
+Disallow: /craft/
+Disallow: /cp/
+Disallow: /cpresources/
+Disallow: /index.php/
+
+# Temporary or test content
+Disallow: /temp/
+Disallow: /test/
+Disallow: /dev/
+
+# Media or assets
+Allow: /assets/
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Allow Google Image bot full access to image directories
+User-agent: Googlebot-Image
+Allow: /assets/
+Allow: /images/
+
+# For Bing/Microsoft bot
+User-agent: Bingbot
+Allow: /
+
+# Special instructions for other crawlers as needed
+User-agent: Pinterestbot
+Allow: /
+
+# Rate limiting for certain bots if needed
+# User-agent: AhrefsBot
+# Crawl-delay: 10
+
+# Sitemap declarations
+Sitemap: https://www.foodnotfrenzy.com/sitemap.xml

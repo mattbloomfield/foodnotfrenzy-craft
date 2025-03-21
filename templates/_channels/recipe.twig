@@ -1,8 +1,96 @@
 {% extends "_layout/base.twig" %}
 
-{% block title %}{{ entry.title }} | {{ siteName }}{% endblock %}
+{% block title %}
+    {{ entry.title }} Recipe | {{ siteName }}
+{% endblock %}
+
+{% block headExtras %}
+    <meta name="description" content="{% if entry.description %}{{ entry.description|striptags|slice(0, 160) }}{% else %}{{ siteName }} - {{ entry.title }} recipe with step-by-step instructions{% endif %}">
+{% endblock %}
+
+{% block jsonLd %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Recipe",
+  "name": "{{ entry.title }}",
+  "image": "{{ entry.image.one() ? entry.image.one().url : '' }}",
+  "description": "{{ entry.description }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ siteName }}"
+  },
+  "prepTime": "{{ entry.prepTime }}",
+  "cookTime": "{{ entry.cookTime }}",
+  "totalTime": "{{ entry.cookTime|default(0) + entry.prepTime|default(0) }}",
+  "recipeYield": "{{ entry.servings }}",
+  "recipeCategory": "{% for category in entry.categories.all() %}{{ category.title }}{% if not loop.last %}, {% endif %}{% endfor %}",
+  "recipeIngredient": [
+    {% for block in entry.ingredientsAndInstructions %}
+    {% if block.type == "ingredientsBlock" %}
+    {% for row in block.ingredientsList %}
+          "{{ row.quantity|default('') }} {{ row.unit != 'none' ? row.unit : '' }} {{ row.ingredientName }}{{ row.notes is not empty ? ', ' ~ row.notes : '' }}"{% if not loop.last %},{% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+  ],
+  "recipeInstructions": [
+    {% for block in entry.ingredientsAndInstructions %}
+    {% if block.type == "instructionsBlock" %}
+    {% for row in block.instructions %}
+          {
+            "@type": "HowToStep",
+            "text": "{{ row.instruction }}"
+          }{% if not loop.last %},{% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endblock %}
 
 {% block content %}
+    <!-- Breadcrumb Navigation -->
+    <nav class="mb-6">
+        <ol class="flex flex-wrap items-center text-sm">
+            <li class="flex items-center">
+                <a href="/" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">Home</a>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </li>
+            <li class="flex items-center">
+                <a href="/categories" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">Categories</a>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </li>
+            {% set ancestors = entry.categories.one().getAncestors().all() %}
+            {% for ancestor in ancestors %}
+                <li class="flex items-center">
+                    <a href="{{ ancestor.url }}" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">
+                        {{ ancestor.title }}
+                    </a>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </li>
+            {% endfor %}
+
+            <li class="flex items-center">
+                <a href="{{ entry.categories.one().url }}" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">
+                    {{ entry.categories.one().title }}
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </li>
+
+            <li class="font-medium text-warm-brown">{{ entry.title }}</li>
+        </ol>
+    </nav>
+
     <article class="max-w-4xl mx-auto">
         <header class="mb-8">
             <div class="flex justify-between items-start">
@@ -87,7 +175,12 @@
 
             {% if entry.image.one() %}
                 <div class="rounded-lg overflow-hidden shadow-md mb-8 border-4 border-white">
-                    <img src="{{ entry.image.one().url }}" alt="{{ entry.title }}" class="w-full h-auto">
+                    <img src="{{ entry.image.one().url }}"
+                         alt="{{ entry.title }} - {{ entry.description|striptags|slice(0, 125) }}"
+                         width="{{ entry.image.one().width }}"
+                         height="{{ entry.image.one().height }}"
+                         loading="lazy"
+                         class="object-cover w-full h-full">
                 </div>
             {% endif %}
         </header>
@@ -142,4 +235,41 @@
             {% endfor %}
         </div>
     </article>
+
+    {% set relatedRecipes = craft.entries()
+        .section('recipes')
+        .relatedTo(entry.categories.all())
+        .id('not ' ~ entry.id)
+        .limit(3)
+        .all() %}
+
+    {% if relatedRecipes|length %}
+        <section class="mt-12 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold font-serif text-warm-brown mb-6">You Might Also Like</h2>
+            <!-- Display related recipes -->
+            {% set gridItems = [] %}
+            {% for recipe in relatedRecipes %}
+                {% set categories = [] %}
+                {% for category in recipe.categories.all() %}
+                    {% set categories = categories|merge([{
+                        title: category.title,
+                        href: category.url,
+                    }]) %}
+                {% endfor %}
+                {% set gridItems = gridItems|merge([{
+                    type: '@card/recipe',
+                    data: {
+                        title: recipe.title,
+                        href: recipe.url,
+                        image: recipe.image.one() ? recipe.image.one().url : null,
+                        description: recipe.description,
+                        categories: categories,
+                    },
+                }]) %}
+            {% endfor %}
+            {% include "@listing/grid" with {
+                items: gridItems,
+            } %}
+        </section>
+    {% endif %}
 {% endblock %}

@@ -25,7 +25,13 @@
             }
         }
     </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical assets -->
     {% block headExtras %}{% endblock %}
+    {% block jsonLd %}{% endblock %}
+    {% hook 'seomateMeta' %}
+
 </head>
 <body class="bg-warm-beige text-gray-800 flex flex-col min-h-screen font-sans">
 <header class="bg-white shadow-sm border-b-2 border-soft-pink">
