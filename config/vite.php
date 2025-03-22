@@ -5,7 +5,7 @@ use craft\helpers\App;
 try {
     $config = [
         'checkDevServer' => true,
-        'devServerInternal' => 'http://localhost:5174',
+        'devServerInternal' => 'http://localhost:5173',
         'devServerPublic' => App::env('PRIMARY_SITE_URL') . ':5174',
         'useDevServer' => App::parseBooleanEnv('$VITE_USE_DEV_SERVER'),
         'errorEntry' => '',

@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ siteName }}{% endblock %}</title>
-    {{ craft.vite.script("src/js/app.js") }}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro&display=swap">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Preload critical assets -->
-    {% block headExtras %}{% endblock %}
-    {% block jsonLd %}{% endblock %}
-    {% hook 'seomateMeta' %}
+    {{ craft.vite.script("src/js/app.js", false) }}
+{#    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro&display=swap">#}
+{#    <link rel="preconnect" href="https://fonts.googleapis.com">#}
+{#    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>#}
+{#    <!-- Preload critical assets -->#}
+{#    {% block headExtras %}{% endblock %}#}
+{#    {% block jsonLd %}{% endblock %}#}
+{#    {% hook 'seomateMeta' %}#}
 
 </head>
 <body class="bg-warm-beige text-gray-800 flex flex-col min-h-screen font-sans">

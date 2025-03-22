@@ -22,7 +22,7 @@ export default defineConfig(({command}) => ({
 
     server: {
         allowedHosts: true,
-        cors: false,
+        cors: true,
         host: '0.0.0.0',
         port: 5173, // Use port 5173 for dev server.
         strictPort: true, // Don't try next available port if 5173 isn't available.
