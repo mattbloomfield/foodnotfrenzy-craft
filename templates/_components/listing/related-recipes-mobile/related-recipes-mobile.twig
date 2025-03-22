@@ -1,0 +1,29 @@
+<div class="md:hidden mt-12">
+    <h2 class="text-2xl font-bold font-serif text-warm-brown mb-6 pb-2 border-b-2 border-deep-rose">You Might Also Like</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {% for relatedRecipe in entry.relatedRecipes.all() %}
+            <a href="{{ relatedRecipe.url }}" class="group">
+                <article class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-200 h-full">
+                    {% if relatedRecipe.image.one() %}
+                        <div class="aspect-w-16 aspect-h-9 border-b-2 border-soft-pink overflow-hidden">
+                            <img src="{{ relatedRecipe.image.one().url }}" alt="{{ relatedRecipe.title }}" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                    {% else %}
+                        <div class="aspect-w-16 aspect-h-9 bg-soft-pink/20 border-b-2 border-soft-pink flex items-center justify-center">
+                            <span class="text-warm-brown font-serif">No image</span>
+                        </div>
+                    {% endif %}
+
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold font-serif text-warm-brown group-hover:text-deep-rose transition duration-200">{{ relatedRecipe.title }}</h3>
+
+                        {% if relatedRecipe.description %}
+                            <p class="mt-2 text-gray-700 line-clamp-2">{{ relatedRecipe.description }}</p>
+                        {% endif %}
+                    </div>
+                </article>
+            </a>
+        {% endfor %}
+    </div>
+</div>

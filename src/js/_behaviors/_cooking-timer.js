@@ -146,6 +146,7 @@ const cookingTimer = createBehavior('cookingTimer',
     },
     {
         init() {
+            var that = this;
             document.addEventListener('DOMContentLoaded', function () {
                 // Add the timer button to recipe pages
                 const recipeContent = document.querySelector('.recipe-content');
@@ -187,7 +188,7 @@ const cookingTimer = createBehavior('cookingTimer',
                     document.body.appendChild(timerContainer);
 
                     // Make timer draggable
-                    this.makeDraggable(timerContainer);
+                    that.makeDraggable(timerContainer);
 
                     // Add close button functionality
                     document.getElementById('timer-close').addEventListener('click', function () {
@@ -198,11 +199,11 @@ const cookingTimer = createBehavior('cookingTimer',
                 </svg>
                 Timer
             `;
-                        this.keepScreenAwake(false);
+                        that.keepScreenAwake(false);
                     });
 
                     // Add timer functionality
-                    this.setupTimer();
+                    that.setupTimer();
                 }
 
                 // Function to toggle timer
@@ -222,7 +223,7 @@ const cookingTimer = createBehavior('cookingTimer',
             `;
 
                         // Prevent screen from sleeping
-                        this.keepScreenAwake(true);
+                        that.keepScreenAwake(true);
                     } else {
                         // Hide timer
                         timerContainer.classList.add('hidden');
@@ -234,7 +235,7 @@ const cookingTimer = createBehavior('cookingTimer',
             `;
 
                         // Let the screen sleep normally
-                        this.keepScreenAwake(false);
+                        that.keepScreenAwake(false);
                     }
                 }
 

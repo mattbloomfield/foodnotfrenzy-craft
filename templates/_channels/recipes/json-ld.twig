@@ -1,0 +1,39 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Recipe",
+  "name": "{{ entry.title }}",
+  "image": "{{ entry.image.one() ? entry.image.one().url : '' }}",
+  "description": "{{ entry.description }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ siteName }}"
+  },
+  "prepTime": "{{ entry.prepTime }}",
+  "cookTime": "{{ entry.cookTime }}",
+  "totalTime": "{{ entry.cookTime|default(0) + entry.prepTime|default(0) }}",
+  "recipeYield": "{{ entry.servings }}",
+  "recipeCategory": "{% for category in entry.categories.all() %}{{ category.title }}{% if not loop.last %}, {% endif %}{% endfor %}",
+  "recipeIngredient": [
+    {% for block in entry.ingredientsAndInstructions %}
+    {% if block.type == "ingredientsBlock" %}
+    {% for row in block.ingredientsList %}
+          "{{ row.quantity|default('') }} {{ row.unit != 'none' ? row.unit : '' }} {{ row.ingredientName }}{{ row.notes is not empty ? ', ' ~ row.notes : '' }}"{% if not loop.last %},{% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+  ],
+  "recipeInstructions": [
+    {% for block in entry.ingredientsAndInstructions %}
+    {% if block.type == "instructionsBlock" %}
+    {% for row in block.instructions %}
+          {
+            "@type": "HowToStep",
+            "text": "{{ row.instruction }}"
+          }{% if not loop.last %},{% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+  ]
+}
+</script>

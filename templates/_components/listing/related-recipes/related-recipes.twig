@@ -1,0 +1,29 @@
+<div class="hidden md:block sticky top-6">
+    <div class="bg-white rounded-lg shadow-md p-6 border-2 border-soft-pink">
+        <h2 class="text-xl font-bold font-serif text-warm-brown mb-4 pb-2 border-b border-soft-pink">You Might Also Like</h2>
+
+        <div class="space-y-6">
+            {% for relatedRecipe in entry.relatedRecipes.all() %}
+                <a href="{{ relatedRecipe.url }}" class="group block">
+                    <article class="flex flex-col">
+                        {% if relatedRecipe.image.one() %}
+                            <div class="rounded-lg overflow-hidden border-2 border-soft-pink mb-3">
+                                <img src="{{ relatedRecipe.image.one().url }}" alt="{{ relatedRecipe.title }}" class="object-cover w-full h-32 group-hover:scale-105 transition-transform duration-300">
+                            </div>
+                        {% endif %}
+
+                        <h3 class="font-bold font-serif text-warm-brown group-hover:text-deep-rose transition duration-200">{{ relatedRecipe.title }}</h3>
+
+                        {% if relatedRecipe.description %}
+                            <p class="mt-1 text-sm text-gray-700 line-clamp-2">{{ relatedRecipe.description }}</p>
+                        {% endif %}
+                    </article>
+                </a>
+
+                {% if not loop.last %}
+                    <div class="border-b border-soft-pink/30"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

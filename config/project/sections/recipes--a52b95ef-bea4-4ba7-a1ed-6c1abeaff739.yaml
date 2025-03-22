@@ -23,6 +23,6 @@ siteSettings:
   b2ead43b-fee4-4670-92fb-5937a95908d9: # Food Not Frenzy
     enabledByDefault: true
     hasUrls: true
-    template: _channels/recipe.twig
+    template: _channels/recipes/recipe.twig
     uriFormat: 'recipes/{slug}'
 type: channel

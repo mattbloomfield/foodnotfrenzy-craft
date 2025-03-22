@@ -1,0 +1,27 @@
+<section class="mt-12 max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold font-serif text-warm-brown mb-6">More From {{ entry.categories.one().title }}</h2>
+    <!-- Display related recipes -->
+    {% set gridItems = [] %}
+    {% for recipe in recipes %}
+        {% set categories = [] %}
+        {% for category in recipe.categories.all() %}
+            {% set categories = categories|merge([{
+                title: category.title,
+                href: category.url,
+            }]) %}
+        {% endfor %}
+        {% set gridItems = gridItems|merge([{
+            type: '@card/recipe',
+            data: {
+                title: recipe.title,
+                href: recipe.url,
+                image: recipe.image.one() ? recipe.image.one().url : null,
+                description: recipe.description,
+                categories: categories,
+            },
+        }]) %}
+    {% endfor %}
+    {% include "@listing/grid" with {
+        items: gridItems,
+    } %}
+</section>

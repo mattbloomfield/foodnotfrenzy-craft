@@ -12,8 +12,8 @@
 }
 
 /* Styling for checked items */
-[data-instruction-checkbox] + p,
-[data-ingredient-checkbox] + span {
+[data-instruction-checkbox]:checked + p,
+[data-ingredient-checkbox]:checked + span {
 text-decoration: line-through;
 color: #6b7280;
 }
