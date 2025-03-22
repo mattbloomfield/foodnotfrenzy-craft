@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import './_components/_recipe.css';
+@import './_components/_cooking-timer.css';
 
 @theme {
     --color-warm-beige: #f5f0e1;

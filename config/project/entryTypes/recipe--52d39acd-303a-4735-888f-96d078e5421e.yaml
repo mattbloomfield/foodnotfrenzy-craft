@@ -1,6 +1,9 @@
 color: amber
 fieldLayouts:
   c3304cba-9234-4589-ac35-9cf07b9bdd60:
+    cardView:
+      - 'layoutElement:ba70db61-3854-4591-b351-f07bae9c5697'
+      - 'layoutElement:6299b877-ca41-44ca-879c-441e13588ce6'
     tabs:
       -
         elementCondition: null
@@ -10,7 +13,7 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 889fde06-2382-4da2-8f42-6622555a0f49 # Categories
             handle: null
-            includeInCards: false
+            includeInCards: true
             instructions: null
             label: null
             providesThumbs: false
@@ -110,7 +113,7 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 5f6b6eba-f03c-49ac-8e1d-9e315d0e19e0 # Description
             handle: null
-            includeInCards: false
+            includeInCards: true
             instructions: null
             label: null
             providesThumbs: false
@@ -129,7 +132,7 @@ fieldLayouts:
             includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
+            providesThumbs: true
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

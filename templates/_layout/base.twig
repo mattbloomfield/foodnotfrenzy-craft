@@ -20,22 +20,7 @@
 
 </head>
 <body class="bg-warm-beige text-gray-800 flex flex-col min-h-screen font-sans">
-<header class="bg-white shadow-sm border-b-2 border-soft-pink">
-    <div class="container mx-auto px-4 py-5">
-        <nav class="flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold text-warm-brown font-serif">{{ siteName }}</a>
-            <ul class="flex space-x-8">
-                <li><a href="/categories" class="text-warm-brown hover:text-deep-rose transition duration-200">Categories</a></li>
-                <li><a href="/search" class="text-warm-brown hover:text-deep-rose transition duration-200 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        Search
-                    </a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
+    {% include "@global/nav" %}
 
 <main class="flex-grow container mx-auto px-4 py-8">
     {% if currentUser %}
@@ -60,11 +45,7 @@
     {% block content %}{% endblock %}
 </main>
 
-<footer class="bg-white border-t-2 border-soft-pink py-6">
-    <div class="container mx-auto px-4 text-center text-warm-brown">
-        <p>&copy; {{ now|date('Y') }} {{ siteName }}. All rights reserved.</p>
-    </div>
-</footer>
+{% include "@global/footer" %}
 
 {% block scripts %}
 {% endblock %}

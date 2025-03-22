@@ -21,5 +21,8 @@
     "vite": "^6.2.2",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-restart": "^0.4.2"
+  },
+  "dependencies": {
+    "@area17/a17-behaviors": "^0.4.5"
   }
 }

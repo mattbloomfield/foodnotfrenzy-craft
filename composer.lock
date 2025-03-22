@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "21839d2f9186dd81c1ba0d98f5e22492",
+    "content-hash": "c56de31feb74b3ce02918628ef1ca147",
     "packages": [
         {
             "name": "albertofem/rsync-lib",
@@ -4097,6 +4097,90 @@
             "time": "2021-10-29T13:26:27+00:00"
         },
         {
+            "name": "putyourlightson/craft-datastar",
+            "version": "1.0.0-beta.8",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/putyourlightson/craft-datastar/zipball/a29b10c657c56b8410535036e36e2a32a6e5009c",
+                "reference": "a29b10c657c56b8410535036e36e2a32a6e5009c",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.0",
+                "php": "^8.2",
+                "putyourlightson/craft-datastar-module": "^1.0.0-beta.14"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "handle": "datastar",
+                "name": "Datastar",
+                "developer": "PutYourLightsOn",
+                "developerUrl": "https://putyourlightson.com/",
+                "documentationUrl": "https://putyourlightson.com/plugins/datastar",
+                "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-datastar/develop/CHANGELOG.md",
+                "class": "putyourlightson\\datastar\\plugin\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "putyourlightson\\datastar\\plugin\\": "src/"
+                }
+            },
+            "license": [
+                "mit"
+            ],
+            "description": "A template-driven, reactive hypermedia framework for Craft.",
+            "time": "2025-02-25T15:49:38+00:00"
+        },
+        {
+            "name": "putyourlightson/craft-datastar-module",
+            "version": "1.0.0-beta.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/putyourlightson/craft-datastar-module.git",
+                "reference": "99501433dee316d30d07894d26cb8417e6dacf9f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/putyourlightson/craft-datastar-module/zipball/99501433dee316d30d07894d26cb8417e6dacf9f",
+                "reference": "99501433dee316d30d07894d26cb8417e6dacf9f",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.0",
+                "php": "^8.2",
+                "starfederation/datastar-php": "1.0.0-beta.14"
+            },
+            "require-dev": {
+                "craftcms/ecs": "dev-main",
+                "craftcms/phpstan": "dev-main",
+                "markhuot/craft-pest-core": "^2.0.4",
+                "nystudio107/craft-autocomplete": "^1.12"
+            },
+            "type": "yii-module",
+            "autoload": {
+                "psr-4": {
+                    "putyourlightson\\datastar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "mit"
+            ],
+            "description": "A template-driven, reactive hypermedia framework for Craft.",
+            "support": {
+                "docs": "https://github.com/putyourlightson/craft-datastar-module",
+                "issues": "https://github.com/putyourlightson/craft-datastar-module/issues",
+                "source": "https://github.com/putyourlightson/craft-datastar-module"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/bencroker",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-02-25T15:47:50+00:00"
+        },
+        {
             "name": "ralouphie/getallheaders",
             "version": "3.0.3",
             "dist": {
@@ -4540,6 +4624,53 @@
                 "x690"
             ],
             "time": "2025-01-03T09:35:48+00:00"
+        },
+        {
+            "name": "starfederation/datastar-php",
+            "version": "1.0.0-beta.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/starfederation/datastar-php.git",
+                "reference": "2b8182bb79df4aebfed0a57204b2355756de7952"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/starfederation/datastar-php/zipball/2b8182bb79df4aebfed0a57204b2355756de7952",
+                "reference": "2b8182bb79df4aebfed0a57204b2355756de7952",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "craftcms/ecs": "dev-main",
+                "craftcms/phpstan": "dev-main",
+                "pestphp/pest": "^3.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "starfederation\\datastar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Croker",
+                    "homepage": "https://putyourlightson.com/",
+                    "role": "Author"
+                }
+            ],
+            "description": "A PHP SDK for working with Datastar.",
+            "support": {
+                "docs": "https://github.com/starfederation/datastar-php",
+                "issues": "https://github.com/starfederation/datastar-php/issues",
+                "source": "https://github.com/starfederation/datastar-php"
+            },
+            "time": "2025-02-25T15:36:55+00:00"
         },
         {
             "name": "symfony/console",

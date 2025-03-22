@@ -203,28 +203,36 @@
                 {% elseif block.type == "ingredientsBlock" %}
                     <section class="mb-10">
                         <h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Ingredients</h3>
-                        <ul class="bg-soft-pink/20 rounded-lg p-6 space-y-2 border border-soft-pink">
+                        <ul class="bg-soft-pink/20 rounded-lg p-6 space-y-2 border border-soft-pink" data-ingredients>
                             {% for row in block.ingredientsList %}
                                 {% apply spaceless %}
+
                                     <li class="items-baseline flex {% if row.optional %}text-gray-600{% endif %}" data-ingredient>
-                                        <!-- No checkbox here, will be added by JavaScript -->
-                                        <span class="font-medium" data-ingredient-quanity>{{ row.quantity|default|nicefractions }}&nbsp;</span>
+                                        <label class="flex items-start cursor-pointer">
+                                            <input data-ingredient-checkbox type="checkbox" class="mt-1 mr-3 h-5 w-5 accent-deep-rose">
+                                            <span>
+                                                <!-- No checkbox here, will be added by JavaScript -->
+                                                <span class="font-medium" data-ingredient-quanity>{{ row.quantity|default|nicefractions }}&nbsp;</span>
 
-                                        {% if row.unit != 'none' %}
-                                            <span data-ingredient-unit>{{ row.unit }}&nbsp;</span>
-                                        {% else %}
-                                            <span ></span>
-                                        {% endif %}
+                                                {% if row.unit != 'none' %}
+                                                    <span data-ingredient-unit>{{ row.unit }}&nbsp;</span>
+                                                {% else %}
+                                                    <span ></span>
+                                                {% endif %}
 
-                                        <span data-ingredient-name="{{ row.ingredientName }}">{{ row.ingredientName }}</span>
+                                                <span data-ingredient-name="{{ row.ingredientName }}">{{ row.ingredientName }}</span>
 
-                                        {% if row.notes is not empty %}
-                                            <span data-ingredient-note>, {{ row.notes }}</span>
-                                        {% endif %}
+                                                {% if row.notes is not empty %}
+                                                    <span data-ingredient-note>, {{ row.notes }}</span>
+                                                {% endif %}
 
-                                        {% if row.optional %}
-                                            <span data-ingredient-optional class="italic text-sm ml-2">(optional)</span>
-                                        {% endif %}
+                                                {% if row.optional %}
+                                                    <span data-ingredient-optional class="italic text-sm ml-2">(optional)</span>
+                                                {% endif %}
+                                            </span>
+
+                                        </label>
+
                                     </li>
                                 {% endapply %}
                             {% endfor %}
@@ -234,10 +242,13 @@
                 {% elseif block.type == "instructionsBlock" %}
                     <section class="mb-10">
                         <h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Instructions</h3>
-                        <ol class="space-y-4">
+                        <ol class="space-y-4" data-instructions>
                             {% for row in block.instructions %}
-                                <li class="ml-8 list-decimal marker:text-deep-rose marker:font-serif">
-                                    <p class="pl-2">{{ row.instruction }}</p>
+                                <li data-instruction class="ml-8 list-decimal marker:text-deep-rose marker:font-serif">
+                                    <label>
+                                        <input data-instruction-checkbox type="checkbox" class="">
+                                        <p data-instruction-text class="pl-2">{{ row.instruction }}</p>
+                                    </label>
                                 </li>
                             {% endfor %}
                         </ol>
@@ -283,4 +294,7 @@
             } %}
         </section>
     {% endif %}
+    <form>
+        <input type="hidden" name="recipe_id" value="{{ entry.id }}">
+    </form>
 {% endblock %}

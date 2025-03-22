@@ -1,5 +1,6 @@
 /* Recipe checkbox styling */
-.recipe-content input[type="checkbox"] {
+[data-instruction-checkbox],
+[data-ingredient-checkbox] {
     accent-color: #c86b6b;
     cursor: pointer;
     height: 1.2rem;
@@ -11,21 +12,10 @@
 }
 
 /* Styling for checked items */
-.recipe-content input[type="checkbox"]:checked + span {
-    text-decoration: line-through;
-    color: #6b7280;
-}
-
-/* Reset button styling */
-.reset-checkboxes {
-    display: block;
-    margin: 0 auto 1.5rem auto;
-    background-color: #8e6e53;
-    transition: background-color 0.2s;
-}
-
-.reset-checkboxes:hover {
-    background-color: #c86b6b;
+[data-instruction-checkbox] + p,
+[data-ingredient-checkbox] + span {
+text-decoration: line-through;
+color: #6b7280;
 }
 
 /* Add more space between instruction items */

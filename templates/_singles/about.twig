@@ -7,10 +7,10 @@
 {% endblock %}
 
 {% block content %}
-
-    <h1 class="text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-deep-rose">{{ entry.title }}</h1>
-    <p class="text-xl font-serif italic text-warm-brown mb-8">{{ entry.description }}</p>
     <div class="max-w-3xl mx-auto prose">
+
+        <h1 class="text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-deep-rose">{{ entry.title }}</h1>
+        <p class="text-xl font-serif italic text-warm-brown mb-8">{{ entry.description }}</p>
         {{ entry.landingPageBuilder }}
 
         <div class="border-t border-soft-pink mt-12 pt-8">
