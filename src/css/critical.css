@@ -1,0 +1,24 @@
+/* Include in your main.css */
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/assets/fonts/playfair-display-regular.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/assets/fonts/playfair-display-bold.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/assets/fonts/source-sans-pro-regular.woff2') format('woff2');
+    font-display: swap;
+}

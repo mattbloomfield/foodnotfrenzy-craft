@@ -1,4 +1,4 @@
-dateModified: 1742575648
+dateModified: 1742586063
 elementSources:
   craft\elements\Entry:
     -
@@ -20,6 +20,19 @@ elementSources:
       type: heading
     -
       key: 'single:45c2b589-716b-45bb-a1c4-a272c488bb72' # Home
+      type: native
+    -
+      defaultSort:
+        - id
+        - asc
+      defaultViewMode: ''
+      disabled: false
+      key: 'single:e221ba22-80d8-4783-952c-9d1352aef3ee' # About
+      tableAttributes:
+        - status
+        - postDate
+        - expiryDate
+        - link
       type: native
     -
       key: 'single:50d3082b-97f0-45e0-b929-b340b014cc14' # Category Listing
@@ -47,6 +60,9 @@ elementSources:
         - link
       type: native
     -
+      heading: Relations
+      type: heading
+    -
       defaultSort:
         - structure
         - asc
@@ -60,11 +76,11 @@ elementSources:
         - link
       type: native
     -
-      heading: ''
-      type: heading
-    -
       key: 'section:ea405781-a163-45a6-b02d-389df79ed6bd' # Sources
       type: native
+    -
+      heading: ''
+      type: heading
 email:
   fromEmail: heyitsjenni@gmail.com
   fromName: 'Food Not Frenzy'
@@ -95,6 +111,7 @@ meta:
     5acbae4c-d457-4bae-bd1e-64eafe66aba1: Heading # Heading
     5f6b6eba-f03c-49ac-8e1d-9e315d0e19e0: Description # Description
     6ee21a4c-5f40-41dc-9ce7-7ecf02b65a61: 'Food Not Frenzy' # Food Not Frenzy
+    8b93b0b3-87e7-4719-9e18-ddf0b482eaf5: 'Landing Page Builder' # Landing Page Builder
     9f1a37e6-5a3b-422c-9023-05dc6881f215: Category # Category
     9fa28bcd-aca4-4b54-888d-84eddc43804f: 'Related Recipes' # Related Recipes
     45c2b589-716b-45bb-a1c4-a272c488bb72: Home # Home
@@ -106,17 +123,25 @@ meta:
     889fde06-2382-4da2-8f42-6622555a0f49: Categories # Categories
     891b58b4-599f-490c-8dcd-7d080f86a696: Source # Source
     37829aaa-d568-406c-929f-70d8fef00120: Source # Source
+    98033637-a135-47f7-99e1-67a4a00f53af: Simple # Simple
     a4d34421-d53c-4cc7-beb0-734bfd880ba6: 'Ingredients Block' # Ingredients Block
     a52b95ef-bea4-4ba7-a1ed-6c1abeaff739: Recipes # Recipes
     ac800ffd-0a62-4673-9b3b-07b0ddf5ea0e: Rating # Rating
     b2ead43b-fee4-4670-92fb-5937a95908d9: 'Food Not Frenzy' # Food Not Frenzy
+    bf627ebc-3e6c-4e74-9399-6199acd72d96: About # About
     cb74c351-0aab-4e50-a18c-0a5cfc5ca873: 'Ingredients and Instructions' # Ingredients and Instructions
+    cdf03fe9-480e-4e08-8a4d-1c98ac6433e9: 'Landing Page' # Landing Page
     d4add76d-5e84-4ad3-a1ce-63e485462600: 'Cook Time' # Cook Time
     d8ea3146-9c3b-484e-bdbf-bd7fab1e6d42: 'Ingredients List' # Ingredients List
     d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e: 'Prep Time' # Prep Time
+    e221ba22-80d8-4783-952c-9d1352aef3ee: About # About
     ea405781-a163-45a6-b02d-389df79ed6bd: Sources # Sources
     f974a3de-1eb2-4b1b-9a38-731ff297975c: Categories # Categories
 plugins:
+  ckeditor:
+    edition: standard
+    enabled: true
+    schemaVersion: 3.0.0.0
   component-library:
     edition: standard
     enabled: true
@@ -138,6 +163,10 @@ plugins:
     enabled: true
     schemaVersion: '2.0'
   seomate:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  vite:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0

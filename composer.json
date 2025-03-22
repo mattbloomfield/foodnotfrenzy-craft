@@ -2,10 +2,12 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
+    "craftcms/ckeditor": "4.6.0",
     "craftcms/cms": "^5.0.0",
     "fortrabbit/craft-copy": "^3.0",
     "fortrabbit/craft-object-storage": "4.0.0",
     "madebyraygun/craft-component-library": "1.0.0",
+    "nystudio107/craft-vite": "5.0.1",
     "topshelfcraft/environment-label": "5.0.0",
     "vaersaagod/seomate": "3.1.1",
     "verbb/expanded-singles": "3.0.2",

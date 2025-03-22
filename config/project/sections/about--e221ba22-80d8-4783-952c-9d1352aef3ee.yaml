@@ -1,0 +1,28 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: bf627ebc-3e6c-4e74-9399-6199acd72d96 # About
+handle: about
+maxAuthors: 1
+name: About
+previewTargets:
+  -
+    __assoc__:
+      -
+        - label
+        - 'Primary entry page'
+      -
+        - urlFormat
+        - '{url}'
+      -
+        - refresh
+        - '1'
+propagationMethod: all
+siteSettings:
+  b2ead43b-fee4-4670-92fb-5937a95908d9: # Food Not Frenzy
+    enabledByDefault: true
+    hasUrls: true
+    template: _singles/about.twig
+    uriFormat: about
+type: single

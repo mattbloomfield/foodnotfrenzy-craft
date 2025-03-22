@@ -1,0 +1,67 @@
+color: violet
+fieldLayouts:
+  c99f682c-cda2-45c5-8356-04806c6866e0:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2025-03-21T18:58:48+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            includeInCards: false
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            providesThumbs: false
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 7e4e5925-8b03-44b7-b3b5-42d13275836b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-21T19:00:23+00:00'
+            elementCondition: null
+            fieldUid: 8b93b0b3-87e7-4719-9e18-ddf0b482eaf5 # Landing Page Builder
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3ceceb14-d172-40d2-96b9-c53fcf6c1677
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: f197b502-dd72-43fb-b2e1-28cf0b764e1a
+        userCondition: null
+handle: about
+hasTitleField: true
+icon: address-card
+name: About
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

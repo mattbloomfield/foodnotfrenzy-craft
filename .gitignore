@@ -2,6 +2,7 @@
 /.idea
 /vendor
 .DS_Store
+/node_modules
 
 
 # Prevent to .sql files (added by fortrabbit/craft-copy)

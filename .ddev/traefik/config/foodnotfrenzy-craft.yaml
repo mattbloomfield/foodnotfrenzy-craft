@@ -1,0 +1,104 @@
+#ddev-generated
+# If you remove the ddev-generated line above you
+# are responsible for maintaining this file. DDEV will not then
+# update it, for example if you add `additional_hostnames`, etc.
+
+http:
+  routers:
+    foodnotfrenzy-craft-web-80-http:
+      entrypoints:
+        - http-80
+      rule: HostRegexp(`^foodnotfrenzy-craft\.ddev\.site$`)
+      
+      service: "foodnotfrenzy-craft-web-80"
+      ruleSyntax: v3
+      tls: false
+      # middlewares:
+      #   - "foodnotfrenzy-craft-redirectHttps"
+    foodnotfrenzy-craft-web-8025-http:
+      entrypoints:
+        - http-8025
+      rule: HostRegexp(`^foodnotfrenzy-craft\.ddev\.site$`)
+      
+      service: "foodnotfrenzy-craft-web-8025"
+      ruleSyntax: v3
+      tls: false
+      # middlewares:
+      #   - "foodnotfrenzy-craft-redirectHttps"
+    foodnotfrenzy-craft-web-5173-http:
+      entrypoints:
+        - http-5174
+      rule: HostRegexp(`^foodnotfrenzy-craft\.ddev\.site$`)
+      
+      service: "foodnotfrenzy-craft-web-5173"
+      ruleSyntax: v3
+      tls: false
+      # middlewares:
+      #   - "foodnotfrenzy-craft-redirectHttps"
+    
+    
+    
+    
+    foodnotfrenzy-craft-web-80-https:
+      entrypoints:
+        - http-443
+      rule: HostRegexp(`^foodnotfrenzy-craft\.ddev\.site$`)
+      
+      service: "foodnotfrenzy-craft-web-80"
+      ruleSyntax: v3
+      
+      tls: true
+      
+    foodnotfrenzy-craft-web-8025-https:
+      entrypoints:
+        - http-8026
+      rule: HostRegexp(`^foodnotfrenzy-craft\.ddev\.site$`)
+      
+      service: "foodnotfrenzy-craft-web-8025"
+      ruleSyntax: v3
+      
+      tls: true
+      
+    foodnotfrenzy-craft-web-5173-https:
+      entrypoints:
+        - http-5173
+      rule: HostRegexp(`^foodnotfrenzy-craft\.ddev\.site$`)
+      
+      service: "foodnotfrenzy-craft-web-5173"
+      ruleSyntax: v3
+      
+      tls: true
+      
+    
+
+  middlewares:
+    foodnotfrenzy-craft-redirectHttps:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  services:
+    foodnotfrenzy-craft-web-80:
+      loadbalancer:
+        servers:
+          - url: http://ddev-foodnotfrenzy-craft-web:80
+        
+    foodnotfrenzy-craft-web-8025:
+      loadbalancer:
+        servers:
+          - url: http://ddev-foodnotfrenzy-craft-web:8025
+        
+    foodnotfrenzy-craft-web-5173:
+      loadbalancer:
+        servers:
+          - url: http://ddev-foodnotfrenzy-craft-web:5173
+        
+    
+    
+    
+    
+
+tls:
+  certificates:
+    - certFile: /mnt/ddev-global-cache/traefik/certs/foodnotfrenzy-craft.crt
+      keyFile: /mnt/ddev-global-cache/traefik/certs/foodnotfrenzy-craft.key

@@ -1,0 +1,23 @@
+columnSuffix: null
+handle: landingPageBuilder
+instructions: null
+name: 'Landing Page Builder'
+searchable: false
+settings:
+  availableTransforms: ''
+  availableVolumes:
+    - 4a693010-b1d3-4360-83f6-286e15b1e003 # Images
+  ckeConfig: cdf03fe9-480e-4e08-8a4d-1c98ac6433e9 # Landing Page
+  createButtonLabel: 'New Block'
+  defaultTransform: null
+  purifierConfig: null
+  purifyHtml: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  showWordCount: false
+  sourceEditingGroups:
+    - __ADMINS__
+  wordLimit: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\ckeditor\Field

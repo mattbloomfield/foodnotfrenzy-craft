@@ -4,27 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ siteName }}{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    {{ craft.vite.script("src/js/app.js") }}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro&display=swap">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'serif': ['"Playfair Display"', 'serif'],
-                        'sans': ['"Source Sans Pro"', 'sans-serif'],
-                    },
-                    colors: {
-                        'warm-beige': '#f5f0e1',
-                        'soft-pink': '#ffd5c2',
-                        'warm-brown': '#8e6e53',
-                        'deep-rose': '#c86b6b',
-                        'sage': '#a9c0a6',
-                    }
-                }
-            }
-        }
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Preload critical assets -->
