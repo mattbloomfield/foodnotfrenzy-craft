@@ -3,7 +3,7 @@
     font-family: 'Playfair Display';
     font-style: normal;
     font-weight: 400;
-    src: url('/assets/fonts/playfair-display-regular.woff2') format('woff2');
+    src: url('src/public/fonts/playfair/PlayfairDisplay-Regular.ttf') format('ttf');
     font-display: swap;
 }
 
@@ -11,7 +11,7 @@
     font-family: 'Playfair Display';
     font-style: normal;
     font-weight: 700;
-    src: url('/assets/fonts/playfair-display-bold.woff2') format('woff2');
+    src: url('src/public/fonts/playfair/PlayfairDisplay-Bold.ttf') format('woff2');
     font-display: swap;
 }
 
@@ -19,6 +19,6 @@
     font-family: 'Source Sans Pro';
     font-style: normal;
     font-weight: 400;
-    src: url('/assets/fonts/source-sans-pro-regular.woff2') format('woff2');
+    src: url('src/public/fonts/source-sans/SourceSans3-Regular.ttf') format('woff2');
     font-display: swap;
 }

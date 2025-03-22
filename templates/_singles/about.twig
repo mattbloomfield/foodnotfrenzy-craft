@@ -8,139 +8,43 @@
 
 {% block content %}
 
+    <h1 class="text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-deep-rose">{{ entry.title }}</h1>
+    <p class="text-xl font-serif italic text-warm-brown mb-8">{{ entry.description }}</p>
     <div class="max-w-3xl mx-auto prose">
         {{ entry.landingPageBuilder }}
-    </div>
 
+        <div class="border-t border-soft-pink mt-12 pt-8">
+            <h3 class="text-xl font-serif font-bold text-warm-brown mb-4">Meet Our Team</h3>
 
-
-    <div class="max-w-3xl mx-auto">
-        <h1 class="text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-deep-rose">Our Story</h1>
-
-        <div class="prose prose-lg mx-auto text-gray-800">
-            <p class="text-xl font-serif italic text-warm-brown mb-8">
-                Every revolution begins with a breaking point. Ours came on a rainy Tuesday evening.
-            </p>
-
-            <div class="mb-10">
-                <img src="/assets/images/about-us-hero.jpg" alt="A dimly lit kitchen with a frustrated cook" class="rounded-lg shadow-md w-full mb-4">
-                <p class="text-sm text-gray-600 text-center italic">The moment that sparked our revolution</p>
-            </div>
-
-            <p class="mb-6">
-                I remember it vividly. Three hungry children, a spouse working late, and dinner urgently needed. As rain hammered against the window, I searched for a simple pasta recipe. What I found was digital violence.
-            </p>
-
-            <p class="mb-6">
-                Seventeen paragraphs about someone's summer in Tuscany. Four auto-play videos. A newsletter popup. Then, just as the recipe came into view—a full-page ad exploded across my screen, sending me back to the top of the page.
-            </p>
-
-            <p class="mb-6">
-                Something inside me shattered. I slammed my tablet down hard enough to crack the screen—a physical manifestation of my broken patience. In that moment, as my children stared wide-eyed from the doorway, I vowed: <span class="font-medium">"This ends now."</span>
-            </p>
-
-            <blockquote class="bg-soft-pink bg-opacity-20 border-l-4 border-deep-rose p-4 italic my-8">
-                "The internet had weaponized our most basic human need—to feed ourselves and those we love—against us."
-            </blockquote>
-
-            <p class="mb-6">
-                That night, I reached out to fellow cooks. What emerged was a shared trauma—Maria had missed her daughter's recital because she got trapped in endless pop-ups. James broke down in tears after fighting through ads for chicken soup when his partner was ill.
-            </p>
-
-            <p class="mb-6">
-                These weren't inconveniences. They were violations of the sacred act of nourishing those we love.
-            </p>
-
-            <h2 class="text-2xl font-serif font-bold text-warm-brown mt-12 mb-6">The Birth of Food Not Frenzy</h2>
-
-            <div class="mb-10">
-                <img src="/assets/images/team-photo.jpg" alt="Our founding team" class="rounded-lg shadow-md w-full mb-4">
-                <p class="text-sm text-gray-600 text-center italic">Our first team meeting in 2023</p>
-            </div>
-
-            <p class="mb-6">
-                Food Not Frenzy emerged from that collective pain. We assembled a small team of developers and chefs who believed recipes should be accessible without a fight. We built what we wished existed.
-            </p>
-
-            <p class="mb-6">
-                Our mission: Create a sanctuary where recipes exist to serve people, not advertisers. A place without life stories, pop-ups, or psychological manipulation.
-            </p>
-
-            <div class="bg-white rounded-lg shadow-md p-6 border border-soft-pink my-10">
-                <h3 class="text-xl font-serif font-bold text-warm-brown mb-4">Our Promises to You:</h3>
-                <ul class="space-y-3">
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>Recipes that appear immediately—no scrolling required</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>No pop-up ads, ever</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>No auto-play videos</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>Simple, clean design that respects your time</span>
-                    </li>
-                </ul>
-            </div>
-
-            <p class="mb-6">
-                Today, Food Not Frenzy serves thousands of home cooks who believe food should bring us together, not drive us apart. We're sustained by people who believe in what we're doing.
-            </p>
-
-            <p class="mb-6">
-                That cracked tablet still sits on my desk—a reminder of what we're fighting for: the simple dignity of making a meal without a fight.
-            </p>
-
-            <blockquote class="bg-soft-pink bg-opacity-20 border-l-4 border-deep-rose p-4 italic my-8">
-                "We believe that every recipe has a soul that connects generations and cultures. That soul was being suffocated. We're here to set it free."
-            </blockquote>
-
-            <p class="mb-6 font-serif text-deep-rose text-xl">
-                Welcome home.
-            </p>
-
-            <div class="border-t border-soft-pink mt-12 pt-8">
-                <h3 class="text-xl font-serif font-bold text-warm-brown mb-4">Meet Our Team</h3>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                    <div class="bg-white rounded-lg overflow-hidden shadow-md p-4 text-center">
-                        <div class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4">
-                            <img src="/assets/images/team/elena.jpg" alt="Elena Martinez" class="w-full h-full object-cover">
-                        </div>
-                        <h4 class="font-medium text-warm-brown">Elena Martinez</h4>
-                        <p class="text-gray-600 text-sm">Founder & Head Chef</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                {% for person in entry.peopleListing %}
+                <div class="bg-white rounded-lg overflow-hidden shadow-md p-4 text-center">
+                    <div class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4">
+                        <img src="{{ person.headshot.one().url }}" alt="Elena Martinez" class="w-full h-full object-cover">
                     </div>
-
-                    <div class="bg-white rounded-lg overflow-hidden shadow-md p-4 text-center">
-                        <div class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4">
-                            <img src="/assets/images/team/marcus.jpg" alt="Marcus Chen" class="w-full h-full object-cover">
-                        </div>
-                        <h4 class="font-medium text-warm-brown">Marcus Chen</h4>
-                        <p class="text-gray-600 text-sm">Technical Director</p>
-                    </div>
-
-                    <div class="bg-white rounded-lg overflow-hidden shadow-md p-4 text-center">
-                        <div class="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4">
-                            <img src="/assets/images/team/olivia.jpg" alt="Olivia Johnson" class="w-full h-full object-cover">
-                        </div>
-                        <h4 class="font-medium text-warm-brown">Olivia Johnson</h4>
-                        <p class="text-gray-600 text-sm">Community Manager</p>
-                    </div>
+                    <h4 class="font-medium text-warm-brown">{{ person.firstName }} {{ person.lastName }}</h4>
+                    <p class="text-gray-600 text-sm">{{ person.professionalTitle }}</p>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>
+
+    <script>
+        // on page load get any h3 elements above ul elements and wrap both in a div called list
+        document.addEventListener('DOMContentLoaded', function() {
+            const uls = document.querySelectorAll('ul');
+            uls.forEach(ul => {
+                const h3 = ul.previousElementSibling;
+                if (h3.tagName === 'H3') {
+                    const list = document.createElement('div');
+                    list.classList.add('list');
+                    h3.parentNode.insertBefore(list, h3);
+                    list.appendChild(h3);
+                    list.appendChild(ul);
+                }
+            });
+        });
+    </script>
+
 {% endblock %}

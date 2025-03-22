@@ -1,99 +1,87 @@
-color: violet
+color: cyan
 fieldLayouts:
-  c99f682c-cda2-45c5-8356-04806c6866e0:
+  15cb0047-5ed9-4e75-a459-a8c9f433abb5:
+    cardView:
+      - 'layoutElement:a7e2dfc9-5ac5-432d-af63-3b437886952e'
     tabs:
       -
         elementCondition: null
         elements:
           -
-            autocapitalize: true
-            autocomplete: false
-            autocorrect: true
-            class: null
-            dateAdded: '2025-03-21T18:58:48+00:00'
-            disabled: false
+            dateAdded: '2025-03-22T13:34:48+00:00'
             elementCondition: null
-            id: null
+            fieldUid: 9cd023d0-050c-43d7-872c-0f04e40a4ce2 # First Name
+            handle: null
             includeInCards: false
-            inputType: null
             instructions: null
             label: null
-            max: null
-            min: null
-            name: null
-            orientation: null
-            placeholder: null
             providesThumbs: false
-            readonly: false
             required: true
-            size: null
-            step: null
             tip: null
-            title: null
-            type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 7e4e5925-8b03-44b7-b3b5-42d13275836b
+            type: craft\fieldlayoutelements\CustomField
+            uid: 299c1a14-5f18-4289-9450-a463670996c6
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2025-03-22T13:59:17+00:00'
+            dateAdded: '2025-03-22T13:34:48+00:00'
             elementCondition: null
-            fieldUid: 5f6b6eba-f03c-49ac-8e1d-9e315d0e19e0 # Description
+            fieldUid: 53db4810-9435-425e-8a67-19c3a758ac44 # Last Name
             handle: null
             includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f62d8161-b69f-49dd-a338-c7667f07cc17
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-22T13:34:48+00:00'
+            elementCondition: null
+            fieldUid: 435de420-224b-4488-91de-bf647d9fbd87 # Professional Title
+            handle: null
+            includeInCards: true
             instructions: null
             label: null
             providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: d65bb387-dbfb-4d65-af28-5dea4bf5c263
+            uid: a7e2dfc9-5ac5-432d-af63-3b437886952e
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2025-03-21T19:00:23+00:00'
+            dateAdded: '2025-03-22T13:34:48+00:00'
             elementCondition: null
-            fieldUid: 8b93b0b3-87e7-4719-9e18-ddf0b482eaf5 # Landing Page Builder
+            fieldUid: 39207932-cedb-4c50-adcd-6b0d32a116aa # Headshot
             handle: null
             includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
+            providesThumbs: true
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 3ceceb14-d172-40d2-96b9-c53fcf6c1677
-            userCondition: null
-            warning: null
-            width: 100
-          -
-            dateAdded: '2025-03-22T13:35:15+00:00'
-            elementCondition: null
-            fieldUid: b91008b2-e3e9-4b83-a095-430704ed0296 # People Listing
-            handle: null
-            includeInCards: false
-            instructions: null
-            label: null
-            providesThumbs: false
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 8a144839-17e4-4221-91d4-af36a8f4031d
+            uid: 2c5a075b-acdf-476a-a0ac-f72fe9894caa
             userCondition: null
             warning: null
             width: 100
         name: Content
-        uid: f197b502-dd72-43fb-b2e1-28cf0b764e1a
+        uid: baf39714-2c38-4040-8d0d-eeab0e66285f
         userCondition: null
-handle: about
-hasTitleField: true
-icon: address-card
-name: About
-showSlugField: true
-showStatusField: true
+handle: person
+hasTitleField: false
+icon: person
+name: Person
+showSlugField: false
+showStatusField: false
 slugTranslationKeyFormat: null
 slugTranslationMethod: site
-titleFormat: null
+titleFormat: '{firstName} {lastName}'
 titleTranslationKeyFormat: null
 titleTranslationMethod: site

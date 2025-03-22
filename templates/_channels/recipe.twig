@@ -203,7 +203,7 @@
                 {% elseif block.type == "ingredientsBlock" %}
                     <section class="mb-10">
                         <h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Ingredients</h3>
-                        <ul class="bg-soft-pink bg-opacity-20 rounded-lg p-6 space-y-2 border border-soft-pink">
+                        <ul class="bg-soft-pink/20 rounded-lg p-6 space-y-2 border border-soft-pink">
                             {% for row in block.ingredientsList %}
                                 {% apply spaceless %}
                                     <li class="items-baseline flex {% if row.optional %}text-gray-600{% endif %}" data-ingredient>

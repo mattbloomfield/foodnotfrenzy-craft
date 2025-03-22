@@ -1,94 +1,103 @@
 @import 'tailwindcss';
 
-    html {
-        @apply antialiased;
-        background-color: #0B69A3;
+@theme {
+    --color-warm-beige: #f5f0e1;
+    --color-warm-brown: #8e6e53;
+    --color-deep-rose: #c86b6b;
+    --color-soft-pink: #ffd5c2;
+    --color-sage: #a9c0a6;
+
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Poppins', sans-serif;
+}
+
+@layer components {
+    /* Base content styling */
+    .prose {
+        @apply max-w-none text-gray-800;
     }
 
-    body {
-        @apply font-sans text-gray-900 bg-white;
+    .prose p {
+        @apply mb-6;
     }
 
-    a:hover {
-        @apply underline;
+    .prose .lead {
+        @apply text-xl font-serif italic text-warm-brown mb-8;
     }
 
+    /* Headings */
+    .prose h1 {
+        @apply text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-deep-rose;
+    }
 
-/*@layer components {*/
-/*    !* Base content styling *!*/
-/*    .prose {*/
-/*        @apply max-w-none text-gray-800;*/
-/*    }*/
+    .prose h2 {
+        @apply text-2xl font-serif font-bold text-warm-brown mt-12 mb-6;
+    }
 
-/*    .prose p {*/
-/*        @apply mb-6;*/
-/*    }*/
+    .prose h3 {
+        @apply text-xl font-serif font-bold text-warm-brown mb-4;
+    }
 
-/*    .prose .lead {*/
-/*        @apply text-xl font-serif italic text-warm-brown mb-8;*/
-/*    }*/
+    .prose h4 {
+        @apply mb-6 font-serif text-deep-rose text-xl;
+    }
 
-/*    !* Headings *!*/
-/*    .prose h1 {*/
-/*        @apply text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-deep-rose;*/
-/*    }*/
+    /* Blockquotes */
+    .prose blockquote {
+        @apply bg-soft-pink/20 border-l-4 border-deep-rose p-4 italic my-8;
+    }
 
-/*    .prose h2 {*/
-/*        @apply text-2xl font-serif font-bold text-warm-brown mt-12 mb-6;*/
-/*    }*/
+    /* Images */
 
-/*    .prose h3 {*/
-/*        @apply text-xl font-serif font-bold text-warm-brown mb-4;*/
-/*    }*/
+    .prose .image {
+        @apply my-8;
+    }
+    .prose .image img {
+        @apply rounded-lg shadow-md w-full mb-4;
+    }
 
-/*    !* Blockquotes *!*/
-/*    .prose blockquote {*/
-/*        @apply bg-soft-pink bg-opacity-20 border-l-4 border-deep-rose p-4 italic my-8;*/
-/*    }*/
+    .prose .image figcaption {
+        @apply text-sm text-gray-600 text-center italic;
+    }
 
-/*    !* Images *!*/
-/*    .prose img {*/
-/*        @apply rounded-lg shadow-md w-full mb-4;*/
-/*    }*/
+    /* Lists */
+    .prose .list {
+        @apply space-y-3 bg-white p-4 rounded-lg shadow-md border border-soft-pink my-8;
+    }
 
-/*    .prose .img-caption {*/
-/*        @apply text-sm text-gray-600 text-center italic;*/
-/*    }*/
+    .prose ul li {
+        @apply flex items-start;
+    }
 
-/*    !* Lists *!*/
-/*    .prose ul {*/
-/*        @apply space-y-3;*/
-/*    }*/
+    .prose .list ul li {
+        @apply list-disc ml-6 mb-2;
+    }
 
-/*    .prose ul li {*/
-/*        @apply flex items-start;*/
-/*    }*/
+    /* Feature boxes */
+    .prose .feature-box {
+        @apply bg-white rounded-lg shadow-md p-6 border border-soft-pink my-10;
+    }
 
-/*    !* Feature boxes *!*/
-/*    .prose .feature-box {*/
-/*        @apply bg-white rounded-lg shadow-md p-6 border border-soft-pink my-10;*/
-/*    }*/
+    /* Team grid */
+    .prose .team-grid {
+        @apply grid grid-cols-1 md:grid-cols-3 gap-6 mt-8;
+    }
 
-/*    !* Team grid *!*/
-/*    .prose .team-grid {*/
-/*        @apply grid grid-cols-1 md:grid-cols-3 gap-6 mt-8;*/
-/*    }*/
+    .prose .team-card {
+        @apply bg-white rounded-lg overflow-hidden shadow-md p-4 text-center;
+    }
 
-/*    .prose .team-card {*/
-/*        @apply bg-white rounded-lg overflow-hidden shadow-md p-4 text-center;*/
-/*    }*/
+    .prose .team-image {
+        @apply w-24 h-24 mx-auto rounded-full overflow-hidden mb-4;
+    }
 
-/*    .prose .team-image {*/
-/*        @apply w-24 h-24 mx-auto rounded-full overflow-hidden mb-4;*/
-/*    }*/
+    /* Emphasis */
+    .prose .accent {
+        /*@apply font-serif text-deep-rose text-xl;*/
+    }
 
-/*    !* Emphasis *!*/
-/*    .prose .accent {*/
-/*        !*@apply font-serif text-deep-rose text-xl;*!*/
-/*    }*/
-
-/*    !* Dividers *!*/
-/*    .prose .section-divider {*/
-/*        @apply border-t border-soft-pink mt-12 pt-8;*/
-/*    }*/
-/*}*/
+    /* Dividers */
+    .prose .section-divider {
+        @apply border-t border-soft-pink mt-12 pt-8;
+    }
+}

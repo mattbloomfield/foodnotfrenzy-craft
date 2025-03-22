@@ -1,0 +1,35 @@
+columnSuffix: null
+handle: headshot
+instructions: null
+name: Headshot
+searchable: false
+settings:
+  allowSelfRelations: false
+  allowSubfolders: false
+  allowUploads: true
+  allowedKinds: null
+  branchLimit: null
+  defaultUploadLocationSource: 'volume:4a693010-b1d3-4360-83f6-286e15b1e003' # Images
+  defaultUploadLocationSubpath: people
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  previewMode: full
+  restrictFiles: false
+  restrictLocation: false
+  restrictedDefaultUploadSubpath: null
+  restrictedLocationSource: 'volume:4a693010-b1d3-4360-83f6-286e15b1e003' # Images
+  restrictedLocationSubpath: null
+  selectionLabel: 'Choose a headshot'
+  showCardsInGrid: false
+  showSiteMenu: false
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  sources:
+    - 'volume:4a693010-b1d3-4360-83f6-286e15b1e003' # Images
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: large
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Assets
