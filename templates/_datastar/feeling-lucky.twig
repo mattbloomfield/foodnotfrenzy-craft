@@ -1,22 +1,35 @@
-{% set count = craft.entries().section('recipes').count() %}
+{% set recipeQuery = craft.entries().section('recipes') %}
 
-{% set random = random(0, count - 1) %}
+{% if signals.category is not null and signals.category != 'null' %}
+    {% set recipeQuery = recipeQuery.categories(signals.category) %}
+{% endif %}
 
-{% set entry = craft.entries().section('recipes').offset(random).one() %}
+{% set count = recipeQuery.count() %}
 
-{% block content %}
+{% if count > 0 %}
+    {% set random = random(0, count - 1) %}
+    {% set entry = recipeQuery.offset(random).one() %}
+{% else %}
+    {% set entry = null %}
+{% endif %}
+
+
+
     {% fragment %}
     <div class="max-w-3xl mx-auto mt-20" id="FeelingLuckyResult">
         <div class="flex flex-col md:flex-row gap-8">
-            <div class="md:w-1/2">
-                <img src="{{ entry.image.one().url }}" alt="{{ entry.image.one().alt }}" class="w-full h-auto rounded-lg shadow-lg">
-            </div>
-            <div class="md:w-1/2">
-                <h2 class="text-2xl font-bold mb-4">{{ entry.title }}</h2>
-                <p class="text-lg text-gray-700 mb-4">{{ entry.description }}</p>
-                <a href="{{ entry.url }}" class="bg-deep-rose hover:bg-warm-brown text-white font-medium rounded-full py-2 px-4 shadow-lg transition duration-200">View Recipe</a>
-            </div>
+            {% if entry is not null %}
+                <div class="md:w-1/2">
+                    <img src="{{ entry.image.one().url }}" alt="{{ entry.image.one().alt }}" class="w-full h-auto rounded-lg shadow-lg">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-2xl font-bold mb-4">{{ entry.title }}</h2>
+                    <p class="text-lg text-gray-700 mb-4">{{ entry.description }}</p>
+                    <a href="{{ entry.url }}" class="bg-deep-rose hover:bg-warm-brown text-white font-medium rounded-full py-2 px-4 shadow-lg transition duration-200">View Recipe</a>
+                </div>
+            {% else %}
+                <p class="text-lg text-gray-600">No recipes found in this category. Please try again.</p>
+            {% endif %}
         </div>
     </div>
     {% endfragment %}
-{% endblock %}
