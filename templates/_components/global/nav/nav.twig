@@ -2,7 +2,16 @@
     <div class="container mx-auto px-4 py-5">
         <nav class="flex justify-between items-center">
             <a href="/" class="text-2xl font-bold text-warm-brown font-serif">{{ siteName }}</a>
-            <ul class="flex space-x-8">
+
+            <!-- Mobile Menu Button (hamburger) -->
+            <button id="mobile-menu-button" class="md:hidden flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-warm-brown" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            <!-- Desktop Navigation -->
+            <ul class="hidden md:flex space-x-8">
                 <li><a href="/about" class="text-warm-brown hover:text-deep-rose transition duration-200">About</a></li>
                 <li><a href="/categories" class="text-warm-brown hover:text-deep-rose transition duration-200">Categories</a></li>
                 <li><a href="/feeling-lucky" class="text-warm-brown hover:text-deep-rose transition duration-200">Feeling Lucky</a></li>
@@ -13,5 +22,28 @@
                     </a></li>
             </ul>
         </nav>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+            <ul class="flex flex-col space-y-4">
+                <li><a href="/about" class="block text-warm-brown hover:text-deep-rose transition duration-200">About</a></li>
+                <li><a href="/categories" class="block text-warm-brown hover:text-deep-rose transition duration-200">Categories</a></li>
+                <li><a href="/feeling-lucky" class="block text-warm-brown hover:text-deep-rose transition duration-200">Feeling Lucky</a></li>
+                <li><a href="/search" class="block text-warm-brown hover:text-deep-rose transition duration-200">Search</a></li>
+            </ul>
+        </div>
     </div>
 </header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get references to the button and menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Toggle menu visibility when button is clicked
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+    });
+</script>
