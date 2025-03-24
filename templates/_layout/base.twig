@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% if not devMode %}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EFHY9DKT6D"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-EFHY9DKT6D');
+    </script>
+    {% endif %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ siteName }}{% endblock %}</title>
@@ -17,7 +28,6 @@
     {% block headExtras %}{% endblock %}
     {% block jsonLd %}{% endblock %}
     {% hook 'seomateMeta' %}
-
 </head>
 <body class="bg-warm-beige text-gray-800 flex flex-col min-h-screen font-sans">
     {% include "@global/nav" %}
