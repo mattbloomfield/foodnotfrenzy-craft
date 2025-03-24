@@ -15,7 +15,8 @@ class RecipeFractionConverter extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('nicefractions', [$this, 'niceFractions']),
+            new TwigFilter('niceFractions', [$this, 'niceFractions']),
+            new TwigFilter('formatMinutes', [$this, 'formatMinutes']),
         ];
     }
 
@@ -78,5 +79,38 @@ class RecipeFractionConverter extends AbstractExtension
             // Fallback to original match
             return $matches[0];
         }, $value);
+    }
+
+    public function formatMinutes($minutes): string
+    {
+        // Validate input
+        $minutes = (int)$minutes;
+
+        // Handle special case: 0 minutes
+        if ($minutes === 0) {
+            return '0 min';
+        }
+
+        // Calculate hours and remaining minutes
+        $hours = floor($minutes / 60);
+        $remainingMinutes = $minutes % 60;
+
+        // Build the output string
+        $output = '';
+
+        // Add hours if we have any
+        if ($hours > 0) {
+            $output = $hours . ' hour' . ($hours > 1 ? 's' : '');
+        }
+
+        // Add minutes if we have any
+        if ($remainingMinutes > 0) {
+            if (!empty($output)) {
+                $output .= ' ';
+            }
+            $output .= $remainingMinutes . ' min';
+        }
+
+        return $output;
     }
 }
