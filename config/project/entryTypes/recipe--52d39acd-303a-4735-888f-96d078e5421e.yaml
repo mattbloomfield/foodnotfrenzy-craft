@@ -9,6 +9,36 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2025-03-17T03:37:30+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            includeInCards: false
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            providesThumbs: false
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 5261b332-e56d-4220-b96b-7124af6a9b47
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-03-17T04:48:30+00:00'
             elementCondition: null
             fieldUid: 889fde06-2382-4da2-8f42-6622555a0f49 # Categories
@@ -72,42 +102,115 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 50
+          -
+            dateAdded: '2025-03-18T04:07:02+00:00'
+            elementCondition: null
+            heading: 'Meta Info'
+            type: craft\fieldlayoutelements\Heading
+            uid: db0190db-a708-4fed-85a9-d68f3314311e
+            userCondition: null
+          -
+            dateAdded: '2025-03-17T05:22:55+00:00'
+            elementCondition: null
+            fieldUid: d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e # Prep Time
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: edbe2e51-b9a4-4e24-86ba-2124e6ae0b7a
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2025-03-24T15:25:13+00:00'
+            elementCondition: null
+            fieldUid: d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e # Prep Time
+            handle: idleTime
+            includeInCards: false
+            instructions: null
+            label: 'Idle Time'
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 67aa1602-b140-48e3-9b0a-a14898d98a75
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2025-03-17T05:22:55+00:00'
+            elementCondition: null
+            fieldUid: d4add76d-5e84-4ad3-a1ce-63e485462600 # Cook Time
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d1965104-3ab6-4fba-bf92-ba7e12b2501f
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2025-03-17T05:22:55+00:00'
+            elementCondition: null
+            fieldUid: 3ef245fe-5223-4cb5-be74-100896771253 # Difficulty
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9140ee6c-af8c-450e-ba6e-ea1f080544ea
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2025-03-17T05:22:55+00:00'
+            elementCondition: null
+            fieldUid: 0ef9f8ae-d2ec-443c-a3db-c411267a52fb # Servings
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0e4c434d-518a-43c4-add4-384e5c2d243c
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2025-03-24T15:25:13+00:00'
+            elementCondition: null
+            fieldUid: 0ef9f8ae-d2ec-443c-a3db-c411267a52fb # Servings
+            handle: yield
+            includeInCards: false
+            instructions: null
+            label: Yield
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a74012a5-3c18-46f0-883f-d3ffdb62ac28
+            userCondition: null
+            warning: null
+            width: 50
         name: Setup
         uid: 4c462fb6-734a-4742-ae6b-2170b639ca50
         userCondition: null
       -
         elementCondition: null
         elements:
-          -
-            autocapitalize: true
-            autocomplete: false
-            autocorrect: true
-            class: null
-            dateAdded: '2025-03-17T03:37:30+00:00'
-            disabled: false
-            elementCondition: null
-            id: null
-            includeInCards: false
-            inputType: null
-            instructions: null
-            label: null
-            max: null
-            min: null
-            name: null
-            orientation: null
-            placeholder: null
-            providesThumbs: false
-            readonly: false
-            required: true
-            size: null
-            step: null
-            tip: null
-            title: null
-            type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 5261b332-e56d-4220-b96b-7124af6a9b47
-            userCondition: null
-            warning: null
-            width: 100
           -
             dateAdded: '2025-03-17T03:43:44+00:00'
             elementCondition: null
@@ -156,77 +259,6 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
-          -
-            dateAdded: '2025-03-18T04:07:02+00:00'
-            elementCondition: null
-            heading: 'Meta Info'
-            type: craft\fieldlayoutelements\Heading
-            uid: db0190db-a708-4fed-85a9-d68f3314311e
-            userCondition: null
-          -
-            dateAdded: '2025-03-17T05:22:55+00:00'
-            elementCondition: null
-            fieldUid: d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e # Prep Time
-            handle: null
-            includeInCards: false
-            instructions: null
-            label: null
-            providesThumbs: false
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: edbe2e51-b9a4-4e24-86ba-2124e6ae0b7a
-            userCondition: null
-            warning: null
-            width: 25
-          -
-            dateAdded: '2025-03-17T05:22:55+00:00'
-            elementCondition: null
-            fieldUid: d4add76d-5e84-4ad3-a1ce-63e485462600 # Cook Time
-            handle: null
-            includeInCards: false
-            instructions: null
-            label: null
-            providesThumbs: false
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: d1965104-3ab6-4fba-bf92-ba7e12b2501f
-            userCondition: null
-            warning: null
-            width: 25
-          -
-            dateAdded: '2025-03-17T05:22:55+00:00'
-            elementCondition: null
-            fieldUid: 0ef9f8ae-d2ec-443c-a3db-c411267a52fb # Servings
-            handle: null
-            includeInCards: false
-            instructions: null
-            label: null
-            providesThumbs: false
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 0e4c434d-518a-43c4-add4-384e5c2d243c
-            userCondition: null
-            warning: null
-            width: 25
-          -
-            dateAdded: '2025-03-17T05:22:55+00:00'
-            elementCondition: null
-            fieldUid: 3ef245fe-5223-4cb5-be74-100896771253 # Difficulty
-            handle: null
-            includeInCards: false
-            instructions: null
-            label: null
-            providesThumbs: false
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 9140ee6c-af8c-450e-ba6e-ea1f080544ea
-            userCondition: null
-            warning: null
-            width: 25
         name: Content
         uid: 46ac3eac-952c-4019-8311-98803a9e69af
         userCondition: null

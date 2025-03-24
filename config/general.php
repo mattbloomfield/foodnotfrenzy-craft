@@ -11,6 +11,8 @@
 use craft\config\GeneralConfig;
 use craft\helpers\App;
 
+$isProduction = App::env('CRAFT_ENVIRONMENT') === 'production';
+
 return GeneralConfig::create()
     // Set the default week start day for date pickers (0 = Sunday, 1 = Monday, etc.)
     ->defaultWeekStartDay(1)
@@ -24,4 +26,9 @@ return GeneralConfig::create()
     ->aliases([
         '@webroot' => dirname(__DIR__) . '/web',
     ])
+    ->allowAdminChanges(!$isProduction)
+    ->allowUpdates(!$isProduction)
+    ->rememberedUserSessionDuration(0) // 1 year
+    ->userSessionDuration(86400*365) // 1 year
+
 ;
