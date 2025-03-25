@@ -48,11 +48,33 @@ class RecipeFractionConverter extends AbstractExtension
         'pounds' => 'pound'
     ];
 
+    // Display formats for units
+    private const UNIT_DISPLAY = [
+        'teaspoon' => 'teaspoon',
+        'tablespoon' => 'tablespoon',
+        'cup' => 'cup',
+        'ounce' => 'ounce',
+        'pound' => 'pound'
+    ];
+
     // Threshold values for unit conversions
     private const CONVERSION_THRESHOLDS = [
         'teaspoon_to_tablespoon' => 3,     // 3+ tsp → convert to tbsp
         'tablespoon_to_cup' => 4,          // 4+ tbsp → convert to cup
         'ounce_to_pound' => 16             // 16+ oz → convert to pound
+    ];
+
+    // Common fractions we want to ensure are properly recognized
+    private const COMMON_FRACTIONS = [
+        '1/4' => 0.25,
+        '1/3' => 0.333333333333,
+        '1/2' => 0.5,
+        '2/3' => 0.666666666667,
+        '3/4' => 0.75,
+        '1/8' => 0.125,
+        '3/8' => 0.375,
+        '5/8' => 0.625,
+        '7/8' => 0.875
     ];
 
     public function getName(): string
@@ -78,7 +100,7 @@ class RecipeFractionConverter extends AbstractExtension
      */
     public function niceFractions($value, float $scale, ?string $unit = null): array|string|null
     {
-        if ($value === 0) {
+        if ($value === 0 || $value === null || $value === '') {
             return '';
         }
 
@@ -99,12 +121,25 @@ class RecipeFractionConverter extends AbstractExtension
         // Optimize the unit and value
         list($optimizedValue, $optimizedUnit) = $this->optimizeUnitAndValue($numericValue, $normalizedUnit);
 
-        // Format the optimized value for display
-        $formattedValue = $this->formatFractionDisplay((string)$optimizedValue);
+        // Format the optimized value for display if needed
+        // (optimizedValue is already in fraction format after optimizeUnitAndValue changes)
+        $formattedValue = is_string($optimizedValue)
+            ? $this->formatFractionDisplay($optimizedValue)
+            : $this->formatFractionDisplay($this->convertToFractionString($optimizedValue));
+
+        // Get the display format for the unit
+        $displayUnit = self::UNIT_DISPLAY[$optimizedUnit] ?? $optimizedUnit;
+
+        // Add plural 's' if value is not 1
+        if ($numericValue != 1 && $displayUnit === 'cup') {
+            $displayUnit = 'cups';
+        } else if ($numericValue != 1 && substr($displayUnit, -1) !== 's') {
+            $displayUnit = $displayUnit . 's';
+        }
 
         return [
             'value' => $formattedValue,
-            'unit' => $optimizedUnit
+            'unit' => $displayUnit
         ];
     }
 
@@ -162,30 +197,30 @@ class RecipeFractionConverter extends AbstractExtension
             $newValue = $value / 3;
             // Only convert if it makes a clean fraction
             if ($this->isCleanFraction($newValue, 0.01)) {
-                return [$newValue, 'tablespoon'];
+                return [$this->convertToFractionString($newValue), 'tablespoon'];
             }
         } elseif ($unit === 'tablespoon' && $value >= self::CONVERSION_THRESHOLDS['tablespoon_to_cup']) {
             $newValue = $value / 16;
             // Only convert if it makes a clean fraction
             if ($this->isCleanFraction($newValue, 0.01)) {
-                return [$newValue, 'cup'];
+                return [$this->convertToFractionString($newValue), 'cup'];
             }
         } elseif ($unit === 'ounce' && $value >= self::CONVERSION_THRESHOLDS['ounce_to_pound']) {
             $newValue = $value / 16;
-            return [$newValue, 'pound'];
+            return [$this->convertToFractionString($newValue), 'pound'];
         }
 
         // Check if we should convert to a smaller unit
         if ($unit === 'tablespoon' && $value < 1) {
-            return [$value * 3, 'teaspoon'];
+            return [$this->convertToFractionString($value * 3), 'teaspoon'];
         } elseif ($unit === 'cup' && $value < 0.25) {
-            return [$value * 16, 'tablespoon'];
+            return [$this->convertToFractionString($value * 16), 'tablespoon'];
         } elseif ($unit === 'pound' && $value < 1) {
-            return [$value * 16, 'ounce'];
+            return [$this->convertToFractionString($value * 16), 'ounce'];
         }
 
         // No conversion needed
-        return [$value, $unit];
+        return [$this->convertToFractionString($value), $unit];
     }
 
     /**
@@ -193,15 +228,23 @@ class RecipeFractionConverter extends AbstractExtension
      */
     private function isCleanFraction(float $value, float $tolerance = 0.001): bool
     {
-        // Common denominators for "clean" fractions
-        $denominators = [2, 3, 4, 8];
-
         $wholeNumber = floor($value);
         $fraction = $value - $wholeNumber;
 
+        // Whole number
         if ($fraction < $tolerance) {
-            return true; // Whole number
+            return true;
         }
+
+        // Check against our common fractions
+        foreach (self::COMMON_FRACTIONS as $fractionStr => $fractionValue) {
+            if (abs($fraction - $fractionValue) < $tolerance) {
+                return true;
+            }
+        }
+
+        // Common denominators for "clean" fractions
+        $denominators = [2, 3, 4, 8];
 
         foreach ($denominators as $denominator) {
             for ($numerator = 1; $numerator < $denominator; $numerator++) {
@@ -321,6 +364,14 @@ class RecipeFractionConverter extends AbstractExtension
      */
     private function convertToFractionString($decimal): string
     {
+        // Handle string input
+        if (is_string($decimal) && strpos($decimal, '/') !== false) {
+            // Already a fraction, return as is
+            return $decimal;
+        }
+
+        $decimal = (float)$decimal;
+
         // Handle whole numbers
         if (floor($decimal) == $decimal) {
             return (string)$decimal;
@@ -329,6 +380,17 @@ class RecipeFractionConverter extends AbstractExtension
         // Extract whole part and decimal part
         $wholePart = floor($decimal);
         $decimalPart = $decimal - $wholePart;
+
+        // Check for common fractions first
+        foreach (self::COMMON_FRACTIONS as $fraction => $value) {
+            if (abs($decimalPart - $value) < 0.0001) {
+                if ($wholePart > 0) {
+                    return "$wholePart $fraction";
+                } else {
+                    return $fraction;
+                }
+            }
+        }
 
         // Convert decimal part to fraction
         list($numerator, $denominator) = $this->decimalToFraction($decimalPart);
