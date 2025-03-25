@@ -29,8 +29,15 @@ color: #6b7280;
     display: inline-block;
 }
 
+label:first-child input[name="scale"] + span {
+    @apply rounded-tl-md rounded-bl-md border-l;
+}
+label:last-child input[name="scale"] + span {
+    @apply rounded-tr-md rounded-br-md;
+}
+
 input[name="scale"] + span {
-    @apply block px-3 py-1 bg-white text-warm-brown border border-soft-pink rounded-md;
+    @apply block px-3 py-1 bg-white text-warm-brown border-t border-b border-r border-soft-pink ;
 }
 
 input[name="scale"]:checked + span {
