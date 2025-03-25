@@ -1,0 +1,6 @@
+{% fragment %}
+    {% include "_channels/recipes/recipe-core" with {
+        entry: craft.entries().id(entryId).one(),
+        scale: scale,
+    } %}
+{% endfragment %}

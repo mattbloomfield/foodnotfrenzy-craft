@@ -1,0 +1,37 @@
+<section
+    class="mb-10"
+>
+    <h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Ingredients</h3>
+    <ul class="bg-soft-pink/20 rounded-lg p-6 space-y-2 border border-soft-pink" data-ingredients data-behavior="checkableList">
+        {% for row in ingredientList %}
+            {% apply spaceless %}
+                <li class="items-baseline flex {% if row.optional %}text-gray-600{% endif %}" data-ingredient data-behavior="walmartIntegration">
+                    <label class="flex items-start cursor-pointer">
+                        <input data-ingredient-checkbox type="checkbox" class="mt-1 mr-3 h-5 w-5 accent-deep-rose">
+                        <span>
+                            {% set quantity = (row.quantity) ? row.quantity : 0 %}
+                            {% set quantity = quantity|niceFractions(scale) %}
+                            <span class="font-medium" data-ingredient-quanity>{{ quantity }}&nbsp;</span>
+
+                            {% if row.unit != 'none' %}
+                                <span data-ingredient-unit>{{ row.unit }}&nbsp;</span>
+                            {% else %}
+                                <span ></span>
+                            {% endif %}
+
+                            <span data-ingredient-name="{{ row.ingredientName }}">{{ row.ingredientName }}</span>
+
+                            {% if row.notes is not empty %}
+                                <span data-ingredient-note>, {{ row.notes }}</span>
+                            {% endif %}
+
+                            {% if row.optional %}
+                                <span data-ingredient-optional class="italic text-sm ml-2">(optional)</span>
+                            {% endif %}
+                        </span>
+                    </label>
+                </li>
+            {% endapply %}
+        {% endfor %}
+    </ul>
+</section>

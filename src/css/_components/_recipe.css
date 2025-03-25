@@ -28,3 +28,11 @@ color: #6b7280;
 .recipe-content section ul li label > span {
     display: inline-block;
 }
+
+input[name="scale"] + span {
+    @apply block px-3 py-1 bg-white text-warm-brown border border-soft-pink rounded-md;
+}
+
+input[name="scale"]:checked + span {
+    @apply bg-deep-rose text-white;
+}

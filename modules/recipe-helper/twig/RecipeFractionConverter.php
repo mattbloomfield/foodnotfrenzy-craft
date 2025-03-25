@@ -20,9 +20,14 @@ class RecipeFractionConverter extends AbstractExtension
         ];
     }
 
-    public function niceFractions($value): array|string|null
+    public function niceFractions($value, $scale): array|string|null
     {
-        // Define mapping of common fractions to Unicode characters
+        if ($value === 0) {
+            return '';
+        }
+        // multiply the $value times the scale, taking into account that most of the time it will be a fraction or even things like 1 1/2
+
+        $value = $this->_getScaledValue($value, $scale);
 
         // Define regex pattern to match mixed numbers and fractions
         $pattern = '/(\d+)\s+(\d+)\/(\d+)|(\d+)\/(\d+)/';
@@ -79,6 +84,140 @@ class RecipeFractionConverter extends AbstractExtension
             // Fallback to original match
             return $matches[0];
         }, $value);
+    }
+
+    private function _getScaledValue($value, $scale): string
+    {
+        // Handle case where $value is already a numeric value
+        if (is_numeric($value)) {
+            $result = $value * $scale;
+            return $this->convertToFractionString($result);
+        }
+
+        $valueParts = explode(' ', $value);
+        $whole = 0;
+        $fraction = 0;
+
+        // Handle the first part (either whole number or fraction)
+        $fractionParts = explode('/', $valueParts[0]);
+        if (count($fractionParts) > 1) {
+            // It's a fraction like "1/2"
+            $fraction = $fractionParts[0] / $fractionParts[1];
+        } else {
+            // It's a whole number
+            $whole = (float)$valueParts[0];
+        }
+
+        // Handle mixed numbers like "1 1/2"
+        if (count($valueParts) > 1) {
+            $fractionParts = explode('/', $valueParts[1]);
+            if (count($fractionParts) > 1) {
+                $fraction = $fraction + $fractionParts[0] / $fractionParts[1];
+            }
+        }
+
+        // Calculate the total value with scaling
+        $result = ($whole + $fraction) * $scale;
+
+        // Convert to a fraction string
+        return $this->convertToFractionString($result);
+    }
+
+    /**
+     * Convert a decimal number to a simplified fraction string
+     */
+    private function convertToFractionString($decimal): string
+    {
+        // Handle whole numbers
+        if (floor($decimal) == $decimal) {
+            return (string)$decimal;
+        }
+
+        // Extract whole part and decimal part
+        $wholePart = floor($decimal);
+        $decimalPart = $decimal - $wholePart;
+
+        // Convert decimal part to fraction
+        list($numerator, $denominator) = $this->decimalToFraction($decimalPart);
+
+        // Format as a mixed number or simple fraction
+        if ($wholePart > 0) {
+            return "$wholePart $numerator/$denominator";
+        } else {
+            return "$numerator/$denominator";
+        }
+    }
+
+    /**
+     * Convert a decimal to a simplified fraction
+     *
+     * @return array [numerator, denominator]
+     */
+    private function decimalToFraction($decimal): array
+    {
+        // Handle special case for zero
+        if ($decimal == 0) {
+            return [0, 1];
+        }
+
+        // First, try some common fractions that are problematic in floating point
+        $commonFractions = [
+            1/3 => [1, 3],
+            2/3 => [2, 3],
+            1/6 => [1, 6],
+            5/6 => [5, 6]
+        ];
+
+        foreach ($commonFractions as $value => $fraction) {
+            if (abs($decimal - $value) < 0.0001) {
+                return $fraction;
+            }
+        }
+
+        // Implementation of continued fraction algorithm
+        $maximumDenominator = 100; // Limit denominator to avoid huge fractions
+
+        $bestApproximation = [0, 1];
+        $bestError = $decimal;
+
+        for ($denominator = 1; $denominator <= $maximumDenominator; $denominator++) {
+            $numerator = round($decimal * $denominator);
+            $error = abs($decimal - $numerator / $denominator);
+
+            if ($error < $bestError) {
+                $bestError = $error;
+                $bestApproximation = [$numerator, $denominator];
+
+                // If we've found an exact (or extremely close) match, return it
+                if ($error < 0.0000001) {
+                    break;
+                }
+            }
+        }
+
+        // Simplify the fraction
+        $gcd = $this->findGCD($bestApproximation[0], $bestApproximation[1]);
+        return [
+            (int)($bestApproximation[0] / $gcd),
+            (int)($bestApproximation[1] / $gcd)
+        ];
+    }
+
+    /**
+     * Find the greatest common divisor using Euclidean algorithm
+     */
+    private function findGCD($a, $b): int
+    {
+        $a = abs($a);
+        $b = abs($b);
+
+        while ($b != 0) {
+            $t = $b;
+            $b = $a % $b;
+            $a = $t;
+        }
+
+        return $a;
     }
 
     public function formatMinutes($minutes): string
