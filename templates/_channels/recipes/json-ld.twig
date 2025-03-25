@@ -18,7 +18,11 @@
     {% for block in entry.ingredientsAndInstructions %}
     {% if block.type == "ingredientsBlock" %}
     {% for row in block.ingredientsList %}
-          "{{ row.quantity|default('') }} {{ row.unit != 'none' ? row.unit : '' }} {{ row.ingredientName }}{{ row.notes is not empty ? ', ' ~ row.notes : '' }}"{% if not loop.last %},{% endif %}
+    {% set quantity = (row.quantity) ? row.quantity : 0 %}
+    {% set result = quantity|niceFractions(1, row.unit) %}
+    {% set formattedQuantity = result is iterable ? result.value : result %}
+    {% set formattedUnit = result is iterable ? result.unit : (row.unit != 'none' ? row.unit : '') %}
+          "{{ formattedQuantity }} {{ formattedUnit }} {{ row.ingredientName }}{{ row.notes is not empty ? ', ' ~ row.notes : '' }}"{% if not loop.last %},{% endif %}
     {% endfor %}
     {% endif %}
     {% endfor %}

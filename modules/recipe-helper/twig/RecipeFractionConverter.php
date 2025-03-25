@@ -7,6 +7,54 @@ use Twig\TwigFilter;
 
 class RecipeFractionConverter extends AbstractExtension
 {
+    // Unit conversion constants
+    private const UNIT_CONVERSIONS = [
+        // Volume conversions
+        'teaspoon' => [
+            'tablespoon' => 1/3,
+            'cup' => 1/48
+        ],
+        'tablespoon' => [
+            'teaspoon' => 3,
+            'cup' => 1/16
+        ],
+        'cup' => [
+            'tablespoon' => 16,
+            'teaspoon' => 48
+        ],
+        // Weight conversions
+        'ounce' => [
+            'pound' => 1/16
+        ],
+        'pound' => [
+            'ounce' => 16
+        ]
+    ];
+
+    // Unit aliases for normalization
+    private const UNIT_ALIASES = [
+        'tsp' => 'teaspoon',
+        'teaspoons' => 'teaspoon',
+        't' => 'teaspoon',
+        'tbsp' => 'tablespoon',
+        'tablespoons' => 'tablespoon',
+        'T' => 'tablespoon',
+        'c' => 'cup',
+        'cups' => 'cup',
+        'oz' => 'ounce',
+        'ounces' => 'ounce',
+        'lb' => 'pound',
+        'lbs' => 'pound',
+        'pounds' => 'pound'
+    ];
+
+    // Threshold values for unit conversions
+    private const CONVERSION_THRESHOLDS = [
+        'teaspoon_to_tablespoon' => 3,     // 3+ tsp → convert to tbsp
+        'tablespoon_to_cup' => 4,          // 4+ tbsp → convert to cup
+        'ounce_to_pound' => 16             // 16+ oz → convert to pound
+    ];
+
     public function getName(): string
     {
         return 'Recipe Fraction Converter';
@@ -20,37 +68,182 @@ class RecipeFractionConverter extends AbstractExtension
         ];
     }
 
-    public function niceFractions($value, $scale): array|string|null
+    /**
+     * Convert a quantity and unit to the most logical format
+     *
+     * @param mixed $value The original quantity value
+     * @param float $scale The scaling factor
+     * @param string|null $unit The original unit (optional)
+     * @return array|string|null Formatted value and unit
+     */
+    public function niceFractions($value, float $scale, ?string $unit = null): array|string|null
     {
         if ($value === 0) {
             return '';
         }
-        // multiply the $value times the scale, taking into account that most of the time it will be a fraction or even things like 1 1/2
 
-        $value = $this->_getScaledValue($value, $scale);
+        // Scale the value
+        $scaledValue = $this->_getScaledValue($value, $scale);
 
+        // If no unit was provided, just format the value with nice fractions
+        if ($unit === null || $unit === 'none' || $unit === '') {
+            return $this->formatFractionDisplay($scaledValue);
+        }
+
+        // Normalize unit name
+        $normalizedUnit = $this->normalizeUnit($unit);
+
+        // Convert numeric string to actual number for calculations
+        $numericValue = $this->stringToNumber($scaledValue);
+
+        // Optimize the unit and value
+        list($optimizedValue, $optimizedUnit) = $this->optimizeUnitAndValue($numericValue, $normalizedUnit);
+
+        // Format the optimized value for display
+        $formattedValue = $this->formatFractionDisplay((string)$optimizedValue);
+
+        return [
+            'value' => $formattedValue,
+            'unit' => $optimizedUnit
+        ];
+    }
+
+    /**
+     * Normalize unit names to a standard format
+     */
+    private function normalizeUnit(string $unit): string
+    {
+        $unit = strtolower(trim($unit));
+
+        return self::UNIT_ALIASES[$unit] ?? $unit;
+    }
+
+    /**
+     * Convert a string representation of a number to a numeric value
+     */
+    private function stringToNumber(string $value): float
+    {
+        // Handle whole numbers
+        if (is_numeric($value)) {
+            return (float)$value;
+        }
+
+        // Handle mixed numbers (e.g., "1 1/2")
+        if (strpos($value, ' ') !== false) {
+            $parts = explode(' ', $value);
+            $wholeNumber = (float)$parts[0];
+
+            if (isset($parts[1]) && strpos($parts[1], '/') !== false) {
+                list($numerator, $denominator) = explode('/', $parts[1]);
+                return $wholeNumber + ((float)$numerator / (float)$denominator);
+            }
+
+            return $wholeNumber;
+        }
+
+        // Handle simple fractions (e.g., "1/2")
+        if (strpos($value, '/') !== false) {
+            list($numerator, $denominator) = explode('/', $value);
+            return (float)$numerator / (float)$denominator;
+        }
+
+        return (float)$value;
+    }
+
+    /**
+     * Optimize the unit and value combination
+     *
+     * @return array [optimizedValue, optimizedUnit]
+     */
+    private function optimizeUnitAndValue(float $value, string $unit): array
+    {
+        // Check if we should convert to a larger unit
+        if ($unit === 'teaspoon' && $value >= self::CONVERSION_THRESHOLDS['teaspoon_to_tablespoon']) {
+            $newValue = $value / 3;
+            // Only convert if it makes a clean fraction
+            if ($this->isCleanFraction($newValue, 0.01)) {
+                return [$newValue, 'tablespoon'];
+            }
+        } elseif ($unit === 'tablespoon' && $value >= self::CONVERSION_THRESHOLDS['tablespoon_to_cup']) {
+            $newValue = $value / 16;
+            // Only convert if it makes a clean fraction
+            if ($this->isCleanFraction($newValue, 0.01)) {
+                return [$newValue, 'cup'];
+            }
+        } elseif ($unit === 'ounce' && $value >= self::CONVERSION_THRESHOLDS['ounce_to_pound']) {
+            $newValue = $value / 16;
+            return [$newValue, 'pound'];
+        }
+
+        // Check if we should convert to a smaller unit
+        if ($unit === 'tablespoon' && $value < 1) {
+            return [$value * 3, 'teaspoon'];
+        } elseif ($unit === 'cup' && $value < 0.25) {
+            return [$value * 16, 'tablespoon'];
+        } elseif ($unit === 'pound' && $value < 1) {
+            return [$value * 16, 'ounce'];
+        }
+
+        // No conversion needed
+        return [$value, $unit];
+    }
+
+    /**
+     * Check if a value represents a "clean" fraction (1/4, 1/3, 1/2, 2/3, 3/4, etc.)
+     */
+    private function isCleanFraction(float $value, float $tolerance = 0.001): bool
+    {
+        // Common denominators for "clean" fractions
+        $denominators = [2, 3, 4, 8];
+
+        $wholeNumber = floor($value);
+        $fraction = $value - $wholeNumber;
+
+        if ($fraction < $tolerance) {
+            return true; // Whole number
+        }
+
+        foreach ($denominators as $denominator) {
+            for ($numerator = 1; $numerator < $denominator; $numerator++) {
+                $cleanFraction = $numerator / $denominator;
+                if (abs($fraction - $cleanFraction) < $tolerance) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Format a numeric value as a nice-looking fraction string
+     */
+    private function formatFractionDisplay(string $value): string
+    {
         // Define regex pattern to match mixed numbers and fractions
         $pattern = '/(\d+)\s+(\d+)\/(\d+)|(\d+)\/(\d+)/';
 
+        // Map of fractions to Unicode characters
+        $fractionMap = [
+            '1/4' => '¼',
+            '1/2' => '½',
+            '3/4' => '¾',
+            '1/3' => '⅓',
+            '2/3' => '⅔',
+            '1/5' => '⅕',
+            '2/5' => '⅖',
+            '3/5' => '⅗',
+            '4/5' => '⅘',
+            '1/6' => '⅙',
+            '5/6' => '⅚',
+            '1/8' => '⅛',
+            '3/8' => '⅜',
+            '5/8' => '⅝',
+            '7/8' => '⅞'
+        ];
+
         // Process the input
-        return preg_replace_callback($pattern, static function($matches) {
-            $fractionMap = [
-                '1/4' => '¼',
-                '1/2' => '½',
-                '3/4' => '¾',
-                '1/3' => '⅓',
-                '2/3' => '⅔',
-                '1/5' => '⅕',
-                '2/5' => '⅖',
-                '3/5' => '⅗',
-                '4/5' => '⅘',
-                '1/6' => '⅙',
-                '5/6' => '⅚',
-                '1/8' => '⅛',
-                '3/8' => '⅜',
-                '5/8' => '⅝',
-                '7/8' => '⅞'
-            ];
+        return preg_replace_callback($pattern, static function($matches) use ($fractionMap) {
             // Check if it's a mixed number (1 1/2 format)
             if (!empty($matches[1]) && !empty($matches[2]) && !empty($matches[3])) {
                 $whole = $matches[1];
@@ -66,8 +259,8 @@ class RecipeFractionConverter extends AbstractExtension
                 // If no Unicode fraction available, return the original format
                 return $whole . ' ' . $fractionString;
             }
-            // It's a simple fraction (1/2 format)
 
+            // It's a simple fraction (1/2 format)
             if (!empty($matches[4]) && !empty($matches[5])) {
                 $numerator = $matches[4];
                 $denominator = $matches[5];

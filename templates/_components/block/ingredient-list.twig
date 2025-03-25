@@ -1,5 +1,5 @@
 <section
-    class="mb-10"
+        class="mb-10"
 >
     <h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Ingredients</h3>
     <ul class="bg-soft-pink/20 rounded-lg p-6 space-y-2 border border-soft-pink" data-ingredients data-behavior="checkableList">
@@ -10,13 +10,18 @@
                         <input data-ingredient-checkbox type="checkbox" class="mt-1 mr-3 h-5 w-5 accent-deep-rose">
                         <span>
                             {% set quantity = (row.quantity) ? row.quantity : 0 %}
-                            {% set quantity = quantity|niceFractions(scale) %}
-                            <span class="font-medium" data-ingredient-quanity>{{ quantity }}&nbsp;</span>
+                            {% set result = quantity|niceFractions(scale, row.unit) %}
 
-                            {% if row.unit != 'none' %}
-                                <span data-ingredient-unit>{{ row.unit }}&nbsp;</span>
+                            {% if result is iterable %}
+                                <span class="font-medium" data-ingredient-quanity>{{ result.value }}&nbsp;</span>
+                                <span data-ingredient-unit>{{ result.unit }}&nbsp;</span>
                             {% else %}
-                                <span ></span>
+                                <span class="font-medium" data-ingredient-quanity>{{ result }}&nbsp;</span>
+                                {% if row.unit != 'none' %}
+                                    <span data-ingredient-unit>{{ row.unit }}&nbsp;</span>
+                                {% else %}
+                                    <span></span>
+                                {% endif %}
                             {% endif %}
 
                             <span data-ingredient-name="{{ row.ingredientName }}">{{ row.ingredientName }}</span>
