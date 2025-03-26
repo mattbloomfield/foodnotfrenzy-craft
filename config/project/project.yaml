@@ -1,4 +1,4 @@
-dateModified: 1742829913
+dateModified: 1743009635
 elementSources:
   craft\elements\Entry:
     -
@@ -58,6 +58,7 @@ elementSources:
         - 'field:ac800ffd-0a62-4673-9b3b-07b0ddf5ea0e' # Rating
         - status
         - link
+        - dateCreated
       type: native
     -
       heading: Relations
@@ -81,6 +82,12 @@ elementSources:
     -
       heading: ''
       type: heading
+    -
+      heading: ''
+      type: heading
+    -
+      key: 'section:7954968a-6a99-4703-acb6-fdbafee96a77' # People
+      type: native
 email:
   fromEmail: heyitsjenni@gmail.com
   fromName: 'Food Not Frenzy'
