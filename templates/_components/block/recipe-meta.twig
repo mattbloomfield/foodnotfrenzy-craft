@@ -1,0 +1,89 @@
+<div class="bg-gradient-to-r from-white to-soft-pink/10 rounded-xl shadow-sm border border-soft-pink/20 my-8 overflow-hidden">
+
+<!-- Time-related information grouped together -->
+    <div class="flex flex-wrap justify-between items-center p-5 border-b border-soft-pink/20 bg-white/80">
+        <div class="flex items-center space-x-10 mx-auto">
+            <!-- Prep Time -->
+            {% if entry.prepTime is not null %}
+            <div class="flex flex-col items-center relative">
+                <svg class="h-6 w-6 text-deep-rose mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22.3744 19.4394C22.9602 20.0252 22.9602 20.975 22.3744 21.5607C21.7886 22.1465 20.8388 22.1465 20.253 21.5607L15.6569 16.9646L12.1213 20.5001L4.34315 12.7219C1.2779 9.65666 1.22006 4.72285 4.16964 1.58709L4.34315 1.4082L22.3744 19.4394Z"></path></svg>
+                <span class="text-xs uppercase tracking-wider text-warm-brown font-medium">Prep Time</span>
+                <span class="text-lg font-serif font-bold text-gray-800">{{ entry.prepTime|formatMinutes }}</span>
+            </div>
+            {% endif %}
+
+            {% if entry.idleTime is not null %}
+                <div class="flex flex-col items-center relative">
+                    <svg class="h-6 w-6 text-deep-rose mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C12.5523 2 13 2.44772 13 3V6C13 6.55228 12.5523 7 12 7C11.4477 7 11 6.55228 11 6V3C11 2.44772 11.4477 2 12 2ZM12 17C12.5523 17 13 17.4477 13 18V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V18C11 17.4477 11.4477 17 12 17ZM22 12C22 12.5523 21.5523 13 21 13H18C17.4477 13 17 12.5523 17 12C17 11.4477 17.4477 11 18 11H21C21.5523 11 22 11.4477 22 12ZM7 12C7 12.5523 6.55228 13 6 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H6C6.55228 11 7 11.4477 7 12ZM19.0711 19.0711C18.6805 19.4616 18.0474 19.4616 17.6569 19.0711L15.5355 16.9497C15.145 16.5592 15.145 15.9261 15.5355 15.5355C15.9261 15.145 16.5592 15.145 16.9497 15.5355L19.0711 17.6569C19.4616 18.0474 19.4616 18.6805 19.0711 19.0711ZM8.46447 8.46447C8.07394 8.85499 7.44078 8.85499 7.05025 8.46447L4.92893 6.34315C4.53841 5.95262 4.53841 5.31946 4.92893 4.92893C5.31946 4.53841 5.95262 4.53841 6.34315 4.92893L8.46447 7.05025C8.85499 7.44078 8.85499 8.07394 8.46447 8.46447ZM4.92893 19.0711C4.53841 18.6805 4.53841 18.0474 4.92893 17.6569L7.05025 15.5355C7.44078 15.145 8.07394 15.145 8.46447 15.5355C8.85499 15.9261 8.85499 16.5592 8.46447 16.9497L6.34315 19.0711C5.95262 19.4616 5.31946 19.4616 4.92893 19.0711ZM15.5355 8.46447C15.145 8.07394 15.145 7.44078 15.5355 7.05025L17.6569 4.92893C18.0474 4.53841 18.6805 4.53841 19.0711 4.92893C19.4616 5.31946 19.4616 5.95262 19.0711 6.34315L16.9497 8.46447C16.5592 8.85499 15.9261 8.85499 15.5355 8.46447Z"></path></svg>
+                    <span class="text-xs uppercase tracking-wider text-warm-brown font-medium">Idle Time</span>
+                    <span class="text-lg font-serif font-bold text-gray-800">{{ entry.idleTime|formatMinutes }}</span>
+                </div>
+            {% endif %}
+
+            <!-- Cook Time -->
+            {% if entry.cookTime is not null %}
+            <div class="flex flex-col items-center relative">
+                <svg class="h-6 w-6 text-deep-rose mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 23C7.85786 23 4.5 19.6421 4.5 15.5C4.5 13.3462 5.40786 11.4045 6.86179 10.0366C8.20403 8.77375 11.5 6.49951 11 1.5C17 5.5 20 9.5 14 15.5C15 15.5 16.5 15.5 19 13.0296C19.2697 13.8032 19.5 14.6345 19.5 15.5C19.5 19.6421 16.1421 23 12 23Z"></path></svg>
+                <span class="text-xs uppercase tracking-wider text-warm-brown font-medium">Cook Time</span>
+                <span class="text-lg font-serif font-bold text-gray-800">{{ entry.cookTime|formatMinutes }}</span>
+            </div>
+            {% endif %}
+
+            <!-- Total Time -->
+            {% if entry.cookTime is not null or entry.prepTime is not null or entry.idleTime is not null %}
+            <div class="flex flex-col items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose mb-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-14a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V4z" clip-rule="evenodd" />
+                </svg>                <span class="text-xs uppercase tracking-wider text-warm-brown font-medium">Total Time</span>
+                <span class="text-lg font-serif font-bold text-gray-800">{{ (entry.cookTime|default(0) + entry.prepTime|default(0) + entry.idleTime|default(0))|formatMinutes }}</span>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <!-- Other metadata items -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-5">
+        <!-- Servings -->
+        {% if entry.servings is defined and entry.servings %}
+            <div class="flex items-center space-x-4 transform transition hover:-translate-y-1 duration-300">
+                <div class="bg-soft-pink/20 p-3 rounded-lg">
+                    <svg class="h-5 w-5 text-deep-rose" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10C14.2091 10 16 8.20914 16 6 16 3.79086 14.2091 2 12 2 9.79086 2 8 3.79086 8 6 8 8.20914 9.79086 10 12 10ZM5.5 13C6.88071 13 8 11.8807 8 10.5 8 9.11929 6.88071 8 5.5 8 4.11929 8 3 9.11929 3 10.5 3 11.8807 4.11929 13 5.5 13ZM21 10.5C21 11.8807 19.8807 13 18.5 13 17.1193 13 16 11.8807 16 10.5 16 9.11929 17.1193 8 18.5 8 19.8807 8 21 9.11929 21 10.5ZM12 11C14.7614 11 17 13.2386 17 16V22H7V16C7 13.2386 9.23858 11 12 11ZM5 15.9999C5 15.307 5.10067 14.6376 5.28818 14.0056L5.11864 14.0204C3.36503 14.2104 2 15.6958 2 17.4999V21.9999H5V15.9999ZM22 21.9999V17.4999C22 15.6378 20.5459 14.1153 18.7118 14.0056 18.8993 14.6376 19 15.307 19 15.9999V21.9999H22Z"></path></svg>
+
+                </div>
+                <div>
+                    <div class="text-xs uppercase tracking-wider text-warm-brown font-medium">Servings</div>
+                    <div class="text-lg font-serif font-bold text-gray-800">{{ entry.servings * scale }}</div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Yield -->
+        {% if entry.yield is defined and entry.yield %}
+            <div class="flex items-center space-x-4 transform transition hover:-translate-y-1 duration-300">
+                <div class="bg-soft-pink/20 p-3 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3C2.44772 3 2 3.44772 2 4V10C2 10.5523 2.44772 11 3 11H10C10.5523 11 11 10.5523 11 10V4C11 3.44772 10.5523 3 10 3H3ZM4 9V5H9V9H4ZM3 13C2.44772 13 2 13.4477 2 14V20C2 20.5523 2.44772 21 3 21H10C10.5523 21 11 20.5523 11 20V14C11 13.4477 10.5523 13 10 13H3ZM4 19V15H9V19H4ZM13 4C13 3.44772 13.4477 3 14 3H21C21.5523 3 22 3.44772 22 4V10C22 10.5523 21.5523 11 21 11H14C13.4477 11 13 10.5523 13 10V4ZM15 5V9H20V5H15ZM14 13C13.4477 13 13 13.4477 13 14V20C13 20.5523 13.4477 21 14 21H21C21.5523 21 22 20.5523 22 20V14C22 13.4477 21.5523 13 21 13H14ZM15 19V15H20V19H15Z"></path></svg>
+                </div>
+                <div>
+                    <div class="text-xs uppercase tracking-wider text-warm-brown font-medium">Yield</div>
+                    <div class="text-lg font-serif font-bold text-gray-800">{{ entry.yield * scale }}</div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Difficulty -->
+        {% if entry.difficulty is defined and entry.difficulty.value is not null %}
+            <div class="flex items-center space-x-4 transform transition hover:-translate-y-1 duration-300">
+                <div class="bg-soft-pink/20 p-3 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-deep-rose" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15 3H21V21H3V15H7V11H11V7H15V3Z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-xs uppercase tracking-wider text-warm-brown font-medium">Difficulty</div>
+                    <div class="text-lg font-serif font-bold text-gray-800">{{ entry.difficulty|capitalize }}</div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
