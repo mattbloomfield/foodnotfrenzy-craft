@@ -55,22 +55,6 @@ fieldLayouts:
             warning: null
             width: 50
           -
-            dateAdded: '2025-03-18T04:07:02+00:00'
-            elementCondition: null
-            fieldUid: 9fa28bcd-aca4-4b54-888d-84eddc43804f # Related Recipes
-            handle: null
-            includeInCards: false
-            instructions: null
-            label: null
-            providesThumbs: false
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: bce24e50-c005-4aa0-9e26-95816deabe5f
-            userCondition: null
-            warning: null
-            width: 50
-          -
             dateAdded: '2025-03-17T22:16:40+00:00'
             elementCondition: null
             fieldUid: 37829aaa-d568-406c-929f-70d8fef00120 # Source
@@ -83,6 +67,22 @@ fieldLayouts:
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: 81dbad06-4a80-4a7c-93a8-5987b6414698
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2025-03-18T04:07:02+00:00'
+            elementCondition: null
+            fieldUid: 9fa28bcd-aca4-4b54-888d-84eddc43804f # Related Recipes
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: bce24e50-c005-4aa0-9e26-95816deabe5f
             userCondition: null
             warning: null
             width: 50
@@ -256,6 +256,22 @@ fieldLayouts:
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: 110f9637-5652-4689-93f1-06678890088b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-03-27T14:46:28+00:00'
+            elementCondition: null
+            fieldUid: ecaa8e48-5014-48da-ad4b-cf43b984c6e5 # Notes
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: fb759b05-345d-44c7-8371-5ba29352f8d7
             userCondition: null
             warning: null
             width: 100

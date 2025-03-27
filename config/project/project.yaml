@@ -1,4 +1,4 @@
-dateModified: 1743009635
+dateModified: 1743086788
 elementSources:
   craft\elements\Entry:
     -
@@ -150,6 +150,7 @@ meta:
     d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e: 'Prep Time' # Prep Time
     e221ba22-80d8-4783-952c-9d1352aef3ee: About # About
     ea405781-a163-45a6-b02d-389df79ed6bd: Sources # Sources
+    ecaa8e48-5014-48da-ad4b-cf43b984c6e5: Notes # Notes
     f974a3de-1eb2-4b1b-9a38-731ff297975c: Categories # Categories
 plugins:
   ckeditor:

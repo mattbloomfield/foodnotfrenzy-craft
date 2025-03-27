@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: notes
+instructions: 'Add any recipe notes here. They will appear at the bottom'
+name: Notes
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 4
+  multiline: true
+  placeholder: null
+  uiMode: enlarged
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText
