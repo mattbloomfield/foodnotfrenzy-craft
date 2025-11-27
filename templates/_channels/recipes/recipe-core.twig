@@ -1,133 +1,109 @@
 {% set scale = scale|default(1) %}
 
 <article id="Recipe">
-    <header class="mb-8">
-        <div class="flex justify-between items-start">
-            <h1 class="text-3xl md:text-4xl font-bold text-warm-brown mb-4 font-serif">{{ entry.title }}</h1>
-            <a href="/print/recipe?entryId={{ entry.id }}" class="print-link flex items-center text-deep-rose hover:text-warm-brown transition-colors duration-200" title="Print this recipe">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                </svg>
-                <span class="ml-2">Print</span>
-            </a>
-        </div>
+	<header class="mb-8">
+		<div class="flex justify-between items-start">
+			<h1 class="text-3xl md:text-4xl font-bold text-warm-brown mb-4 font-serif">{{ entry.title }}</h1>
+			<a href="/print/recipe?entryId={{ entry.id }}" class="print-link flex items-center text-deep-rose hover:text-warm-brown transition-colors duration-200" title="Print this recipe">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+				</svg>
+				<span class="ml-2">Print</span>
+			</a>
+		</div>
 
-        {% if entry.description %}
-            <div class="text-lg text-gray-700 mb-6 italic">
-                {{ entry.description }}
-            </div>
-        {% endif %}
+		{% if entry.description %}
+			<div class="text-lg text-gray-700 mb-6 italic">
+				{{ entry.description }}
+			</div>
+		{% endif %}
 
-        {% if entry.prepTime is not null or entry.cookTime is not null or entry.servings is not null or entry.difficulty.value is not null %}
-            {% include "@block/recipe-meta" %}
-        {% endif %}
+		{% if entry.prepTime is not null or entry.cookTime is not null or entry.servings is not null or entry.difficulty.value is not null %}
+			{% include "@block/recipe-meta" %}
+		{% endif %}
 
-        {% if entry.image.one() %}
-            <div class="rounded-lg overflow-hidden shadow-md mb-8 border-4 border-white">
-                <img src="{{ entry.image.one().url }}"
-                     alt="{{ entry.title }} - {{ entry.description|striptags|slice(0, 125) }}"
-                     width="{{ entry.image.one().width }}"
-                     height="{{ entry.image.one().height }}"
-                     loading="lazy"
-                     class="object-cover w-full h-full">
-            </div>
-        {% endif %}
-    </header>
+		{% set image = entry.image.one() %}
 
-    <!-- Recipe Scaling Control -->
-    <div class="bg-soft-pink/20 p-4 rounded-lg border border-soft-pink mb-4">
-        <div class="flex items-center justify-between">
-            <span class="font-medium text-warm-brown">Scale Recipe:</span>
-            <div class="flex">
-                <label>
-                    <input
-                            class="hidden"
-                            type="radio"
-                            name="scale"
-                            value="1"
-                            data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 1 }) }}"
-                            {{ scale == 1 ? 'checked' : '' }}
-                    />
-                    <span>1x</span>
-                </label>
-                <label>
-                    <input
-                            class="hidden"
-                            type="radio"
-                            name="scale"
-                            value="2"
-                            data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 2 }) }}"
-                            {{ scale == 2 ? 'checked' : '' }}
-                    />
-                    <span>2x</span>
-                </label>
-                <label>
-                    <input
-                            class="hidden"
-                            type="radio"
-                            name="scale"
-                            value="3"
-                            data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 3 }) }}"
-                            {{ scale == 3 ? 'checked' : '' }}
-                    />
-                    <span>3x</span>
-                </label>
-                <label>
-                    <input
-                            class="hidden"
-                            type="radio"
-                            name="scale"
-                            value="4"
-                            data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 4 }) }}"
-                            {{ scale == 4 ? 'checked' : '' }}
-                    />
-                    <span>4x</span>
-                </label>
-            </div>
-        </div>
-    </div>
+		{% if image %}
+			{% set recipeBlock = {
+                mode: 'crop',
+                width: 632,
+                height: 474,
+                quality: 75,
+                position: 'center-center'
+            } %}
+			<div class="rounded-lg overflow-hidden shadow-md mb-8 border-4 border-white">
+				<img src="{{ image.getUrl(recipeBlock) }}" alt="{{ entry.title }} - {{ entry.description|striptags|slice(0, 125) }}" width="{{ image.getWidth(recipeBlock) }}" height="{{ image.getHeight(recipeBlock) }}" loading="lazy" class="object-cover w-full h-full">
+			</div>
+		{% endif %}
+	</header>
 
-    <div class="recipe-content">
-        {% for block in entry.ingredientsAndInstructions %}
-            {% if block.type == "heading" %}
-                <h2 class="text-2xl font-bold text-warm-brown mt-10 mb-6 pb-2 border-b-2 border-deep-rose font-serif">{{ block.title }}</h2>
+	<!-- Recipe Scaling Control -->
+	<div class="bg-soft-pink/20 p-4 rounded-lg border border-soft-pink mb-4">
+		<div class="flex items-center justify-between">
+			<span class="font-medium text-warm-brown">Scale Recipe:</span>
+			<div class="flex">
+				<label>
+					<input class="hidden" type="radio" name="scale" value="1" data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 1 }) }}" {{ scale == 1 ? 'checked' : '' }}/>
+					<span>1x</span>
+				</label>
+				<label>
+					<input class="hidden" type="radio" name="scale" value="2" data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 2 }) }}" {{ scale == 2 ? 'checked' : '' }}/>
+					<span>2x</span>
+				</label>
+				<label>
+					<input class="hidden" type="radio" name="scale" value="3" data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 3 }) }}" {{ scale == 3 ? 'checked' : '' }}/>
+					<span>3x</span>
+				</label>
+				<label>
+					<input class="hidden" type="radio" name="scale" value="4" data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 4 }) }}" {{ scale == 4 ? 'checked' : '' }}/>
+					<span>4x</span>
+				</label>
+			</div>
+		</div>
+	</div>
 
-            {% elseif block.type == "ingredientsBlock" %}
-                {% include "@block/ingredient-list" with {
+	<div class="recipe-content">
+		{% for block in entry.ingredientsAndInstructions %}
+			{% if block.type == "heading" %}
+				<h2 class="text-2xl font-bold text-warm-brown mt-10 mb-6 pb-2 border-b-2 border-deep-rose font-serif">{{ block.title }}</h2>
+
+			{% elseif block.type == "ingredientsBlock" %}
+				{% include "@block/ingredient-list" with {
                     ingredientList: block.ingredientsList,
                     scale: scale,
                 } only %}
 
-            {% elseif block.type == "instructionsBlock" %}
-                <section class="mb-10">
-                    <h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Instructions</h3>
-                    <ol class="space-y-4" data-instructions>
-                        {% for row in block.instructions %}
-                            <li data-instruction class="ml-8 list-decimal marker:text-deep-rose marker:font-serif">
-                                <label>
-                                    <input data-instruction-checkbox type="checkbox" class="hidden">
-                                    <p data-instruction-text class="pl-2">{{ row.instruction }}</p>
-                                </label>
-                            </li>
-                        {% endfor %}
-                    </ol>
-                </section>
-            {% endif %}
-        {% endfor %}
-        {% if entry.notes is not null %}
-        <div class="mb-12">
-            <h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Notes</h3>
-            <div class="text-gray-700">
-                {{ entry.notes }}
-            </div>
-        </div>
-        {% endif %}
-    </div>
+			{% elseif block.type == "instructionsBlock" %}
+				<section class="mb-10">
+					<h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Instructions</h3>
+					<ol class="space-y-4" data-instructions>
+						{% for row in block.instructions %}
+							<li data-instruction class="ml-8 list-decimal marker:text-deep-rose marker:font-serif">
+								<label>
+									<input data-instruction-checkbox type="checkbox" class="hidden">
+									<p data-instruction-text class="pl-2">{{ row.instruction }}</p>
+								</label>
+							</li>
+						{% endfor %}
+					</ol>
+				</section>
+			{% endif %}
+		{% endfor %}
+		{% if entry.notes is not null %}
+			<div class="mb-12">
+				<h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Notes</h3>
+				<div class="text-gray-700">
+					{{ entry.notes }}
+				</div>
+			</div>
+		{% endif %}
+	</div>
 
-    <!-- Related Recipes - Mobile Only -->
-    {% if entry.relatedRecipes is defined and entry.relatedRecipes.all()|length %}
-        {% include "@listing/related-recipes-mobile" with {
+	<!-- Related Recipes - Mobile Only -->
+	{% if entry.relatedRecipes is defined and entry.relatedRecipes.all()|length %}
+		{% include "@listing/related-recipes-mobile" with {
             relatedRecipes: entry.relatedRecipes.all()
         } %}
-    {% endif %}
+	{% endif %}
 </article>
