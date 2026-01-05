@@ -4,13 +4,16 @@ instructions: null
 name: Servings
 searchable: false
 settings:
-  byteLimit: null
-  charLimit: null
-  code: false
-  initialRows: 4
-  multiline: false
-  placeholder: null
-  uiMode: normal
+  decimals: 1
+  defaultValue: null
+  max: null
+  min: 0
+  prefix: null
+  previewCurrency: null
+  previewFormat: decimal
+  size: null
+  step: null
+  suffix: null
 translationKeyFormat: null
 translationMethod: none
-type: craft\fields\PlainText
+type: craft\fields\Number

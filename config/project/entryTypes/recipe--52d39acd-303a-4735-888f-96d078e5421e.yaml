@@ -1,6 +1,8 @@
 color: amber
+description: null
 fieldLayouts:
   c3304cba-9234-4589-ac35-9cf07b9bdd60:
+    cardThumbAlignment: end
     cardView:
       - 'layoutElement:ba70db61-3854-4591-b351-f07bae9c5697'
       - 'layoutElement:6299b877-ca41-44ca-879c-441e13588ce6'
@@ -40,6 +42,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-03-17T04:48:30+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 889fde06-2382-4da2-8f42-6622555a0f49 # Categories
             handle: null
@@ -47,7 +50,7 @@ fieldLayouts:
             instructions: null
             label: null
             providesThumbs: false
-            required: false
+            required: true
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: 6299b877-ca41-44ca-879c-441e13588ce6
@@ -56,6 +59,7 @@ fieldLayouts:
             width: 50
           -
             dateAdded: '2025-03-17T22:16:40+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 37829aaa-d568-406c-929f-70d8fef00120 # Source
             handle: null
@@ -72,6 +76,7 @@ fieldLayouts:
             width: 50
           -
             dateAdded: '2025-03-18T04:07:02+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 9fa28bcd-aca4-4b54-888d-84eddc43804f # Related Recipes
             handle: null
@@ -88,6 +93,7 @@ fieldLayouts:
             width: 50
           -
             dateAdded: '2025-03-17T22:16:40+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: ac800ffd-0a62-4673-9b3b-07b0ddf5ea0e # Rating
             handle: null
@@ -111,8 +117,9 @@ fieldLayouts:
             userCondition: null
           -
             dateAdded: '2025-03-17T05:22:55+00:00'
+            editCondition: null
             elementCondition: null
-            fieldUid: d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e # Prep Time
+            fieldUid: d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e # Prep Time (minutes)
             handle: null
             includeInCards: false
             instructions: null
@@ -127,12 +134,13 @@ fieldLayouts:
             width: 25
           -
             dateAdded: '2025-03-24T15:25:13+00:00'
+            editCondition: null
             elementCondition: null
-            fieldUid: d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e # Prep Time
+            fieldUid: d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e # Prep Time (minutes)
             handle: idleTime
             includeInCards: false
             instructions: null
-            label: 'Idle Time'
+            label: 'Idle Time (minutes)'
             providesThumbs: false
             required: false
             tip: null
@@ -143,8 +151,9 @@ fieldLayouts:
             width: 25
           -
             dateAdded: '2025-03-17T05:22:55+00:00'
+            editCondition: null
             elementCondition: null
-            fieldUid: d4add76d-5e84-4ad3-a1ce-63e485462600 # Cook Time
+            fieldUid: d4add76d-5e84-4ad3-a1ce-63e485462600 # Cook Time (minutes)
             handle: null
             includeInCards: false
             instructions: null
@@ -159,6 +168,7 @@ fieldLayouts:
             width: 25
           -
             dateAdded: '2025-03-17T05:22:55+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 3ef245fe-5223-4cb5-be74-100896771253 # Difficulty
             handle: null
@@ -175,6 +185,7 @@ fieldLayouts:
             width: 25
           -
             dateAdded: '2025-03-17T05:22:55+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 0ef9f8ae-d2ec-443c-a3db-c411267a52fb # Servings
             handle: null
@@ -191,6 +202,7 @@ fieldLayouts:
             width: 50
           -
             dateAdded: '2025-03-24T15:25:13+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 0ef9f8ae-d2ec-443c-a3db-c411267a52fb # Servings
             handle: yield
@@ -213,6 +225,7 @@ fieldLayouts:
         elements:
           -
             dateAdded: '2025-03-17T03:43:44+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 5f6b6eba-f03c-49ac-8e1d-9e315d0e19e0 # Description
             handle: null
@@ -229,6 +242,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-03-17T03:43:44+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: 791a0176-d2ea-4094-8330-33b1f63588cd # Image
             handle: null
@@ -245,6 +259,7 @@ fieldLayouts:
             width: 50
           -
             dateAdded: '2025-03-17T03:43:44+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: cb74c351-0aab-4e50-a18c-0a5cfc5ca873 # Ingredients and Instructions
             handle: null
@@ -261,6 +276,7 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-03-27T14:46:28+00:00'
+            editCondition: null
             elementCondition: null
             fieldUid: ecaa8e48-5014-48da-ad4b-cf43b984c6e5 # Notes
             handle: null

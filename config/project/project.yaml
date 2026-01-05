@@ -1,4 +1,4 @@
-dateModified: 1746646174
+dateModified: 1767644614
 elementSources:
   craft\elements\Entry:
     -
@@ -51,8 +51,8 @@ elementSources:
         - 'field:37829aaa-d568-406c-929f-70d8fef00120' # Source
         - 'field:791a0176-d2ea-4094-8330-33b1f63588cd' # Image
         - 'field:889fde06-2382-4da2-8f42-6622555a0f49' # Categories
-        - 'field:d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e' # Prep Time
-        - 'field:d4add76d-5e84-4ad3-a1ce-63e485462600' # Cook Time
+        - 'field:d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e' # Prep Time (minutes)
+        - 'field:d4add76d-5e84-4ad3-a1ce-63e485462600' # Cook Time (minutes)
         - 'field:0ef9f8ae-d2ec-443c-a3db-c411267a52fb' # Servings
         - 'field:3ef245fe-5223-4cb5-be74-100896771253' # Difficulty
         - 'field:ac800ffd-0a62-4673-9b3b-07b0ddf5ea0e' # Rating
@@ -145,9 +145,9 @@ meta:
     bf627ebc-3e6c-4e74-9399-6199acd72d96: About # About
     cb74c351-0aab-4e50-a18c-0a5cfc5ca873: 'Ingredients and Instructions' # Ingredients and Instructions
     cdf03fe9-480e-4e08-8a4d-1c98ac6433e9: 'Landing Page' # Landing Page
-    d4add76d-5e84-4ad3-a1ce-63e485462600: 'Cook Time' # Cook Time
+    d4add76d-5e84-4ad3-a1ce-63e485462600: 'Cook Time (minutes)' # Cook Time (minutes)
     d8ea3146-9c3b-484e-bdbf-bd7fab1e6d42: 'Ingredients List' # Ingredients List
-    d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e: 'Prep Time' # Prep Time
+    d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e: 'Prep Time (minutes)' # Prep Time (minutes)
     e221ba22-80d8-4783-952c-9d1352aef3ee: About # About
     ea405781-a163-45a6-b02d-389df79ed6bd: Sources # Sources
     ecaa8e48-5014-48da-ad4b-cf43b984c6e5: Notes # Notes
@@ -185,6 +185,10 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: '2.0'
+  mcp:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   seomate:
     edition: standard
     enabled: true
@@ -197,7 +201,7 @@ system:
   edition: solo
   live: true
   name: 'Food Not Frenzy'
-  schemaVersion: 5.7.0.3
+  schemaVersion: 5.8.0.3
   timeZone: America/Los_Angeles
 users:
   allowPublicRegistration: false
