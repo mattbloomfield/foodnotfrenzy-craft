@@ -2,165 +2,190 @@
 {% if not entryId %}
     {% exit 404 %}
 {% endif %}
-
-{% set entry = craft.entries.id(entryId).one() %}
-{% if not entry %}
+{% set recipe = craft.entries.id(entryId).one() %}
+{% if not recipe %}
     {% exit 404 %}
 {% endif %}
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ entry.title }} | Printable Recipe</title>
-        <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-        {% include "print/style.css.twig" %}
-    </head>
-    <body>
-        <div class="screen-controls no-print">
-            <a href="{{ entry.url }}" class="btn back-btn">&larr; Back to recipe</a>
-            <button onclick="window.print()" class="btn print-btn">Print this recipe</button>
-        </div>
+{# Recipe Print View Template #}
+<style type="text/css">
+    :root {
+        --primary-color: #c86b6b;
+        --accent-color: #8e6e53;
+        --text-dark: #2d2d2d;
+        --text-light: #666;
+        --border-light: #eee;
+    }
 
-        <div class="print-container">
-            <div class="print-recipe">
-                <h1 class="recipe-title">{{ entry.title }}</h1>
+    body {
+        font-family: 'Georgia', serif;
+        line-height: 1.6;
+        color: var(--text-dark);
+        margin: 0;
+        padding: 0;
+    }
 
-                {% if entry.description %}
-                    <div class="recipe-description">
-                        {{ entry.description }}
-                    </div>
-                {% endif %}
+    .print-container {
+        max-width: 850px;
+        margin: 0 auto;
+    }
 
-                <!-- Recipe metadata -->
-                <div class="recipe-meta">
-                    {% if entry.prepTime %}
-                        <div class="meta-item">
-                            <span class="meta-label">Prep Time</span>
-                            <span class="meta-value">{{ entry.prepTime|formatMinutes }}</span>
-                        </div>
-                    {% endif %}
+    /* Typography */
+    .recipe-title {
+        font-family: 'Arial', sans-serif;
+        font-size: 28pt;
+        font-weight: 800;
+        margin-bottom: 4pt;
+        text-align: center;
+        text-transform: uppercase;
+    }
 
-                    {% if entry.cookTime %}
-                        <div class="meta-item">
-                            <span class="meta-label">Cook Time</span>
-                            <span class="meta-value">{{ entry.cookTime|formatMinutes }}</span>
-                        </div>
-                    {% endif %}
+    .recipe-description {
+        font-style: italic;
+        font-size: 11pt;
+        color: var(--text-light);
+        margin: 0 auto 25px;
+        text-align: center;
+        max-width: 85%;
+    }
 
-                    {% if entry.idleTime %}
-                        <div class="meta-item">
-                            <span class="meta-label">Idle Time</span>
-                            <span class="meta-value">{{ entry.idleTime|formatMinutes }}</span>
-                        </div>
-                    {% endif %}
+    .recipe-meta {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin: 20px 0;
+        padding: 15px 0;
+        border-top: 1px solid var(--border-light);
+        border-bottom: 1px solid var(--border-light);
+    }
 
-                    {% if entry.prepTime is defined or entry.cookTime is defined or entry.idleTime is defined %}
-                        <div class="meta-item">
-                            <span class="meta-label">Total Time</span>
-                            <span class="meta-value">{{ (entry.cookTime|default(0) + entry.prepTime|default(0) + entry.idleTime|default(0))|formatMinutes }}</span>
-                        </div>
-                    {% endif %}
+    .meta-item { text-align: center; font-family: 'Arial', sans-serif; }
+    .meta-label { font-size: 8pt; text-transform: uppercase; color: var(--text-light); display: block; }
+    .meta-value { font-size: 11pt; font-weight: bold; color: var(--accent-color); }
 
-                    {% if entry.servings %}
-                        <div class="meta-item">
-                            <span class="meta-label">Servings</span>
-                            <span class="meta-value">{{ entry.servings }}</span>
-                        </div>
-                    {% endif %}
+    /* Sections */
+    h2 {
+        font-family: 'Arial', sans-serif;
+        font-size: 16pt;
+        text-transform: uppercase;
+        margin-top: 30pt;
+        color: var(--accent-color);
+        display: flex;
+        align-items: center;
+    }
 
-                    {% if entry.difficulty %}
-                        <div class="meta-item">
-                            <span class="meta-label">Difficulty</span>
-                            <span class="meta-value">{{ entry.difficulty }}</span>
-                        </div>
-                    {% endif %}
-                </div>
+    h2:after {
+        content: ""; flex: 1; margin-left: 15px; height: 1px; background: var(--border-light);
+    }
 
-                {% if entry.image.one() %}
-                    <div class="recipe-image">
-                        <img src="{{ entry.image.one().url }}" alt="{{ entry.title }}">
-                    </div>
-                {% endif %}
+    .ingredients-list { list-style: none; padding: 0; column-count: 2; column-gap: 40px; }
+    .ingredient-item {
+        margin-bottom: 12px;
+        break-inside: avoid;
+        position: relative;
+        padding-left: 28px;
+    }
 
-                <div class="recipe-content">
-                    {% set currentHeading = '' %}
-                    {% for block in entry.ingredientsAndInstructions %}
-                        {% if block.type == "heading" %}
-                            <h2>{{ block.title }}</h2>
-                            {% set currentHeading = block.title %}
+    .ingredient-item:before {
+        content: ""; position: absolute; left: 0; top: 3px; width: 14px; height: 14px;
+        border: 1px solid var(--primary-color); border-radius: 3px;
+    }
 
-                        {% elseif block.type == "ingredientsBlock" %}
-                            <div class="recipe-section">
-                                <h3>{% if currentHeading %}{{ currentHeading }} {% endif %}Ingredients</h3>
-                                <ul class="ingredients-list">
-                                    {% for row in block.ingredientsList %}
-                                        <li class="ingredient-item">
-                                            {% if row.quantity %}
-                                                <span class="quantity">
-                                                        {% set quantity = row.quantity %}
-                                                    {% set result = quantity|niceFractions(1, row.unit) %}
-                                                    {% if result is iterable %}
-                                                        {{ result.value }}
-                                                        {% if result.unit != 'none' and result.unit is not empty %}
-                                                            {{ result.unit }}
-                                                        {% endif %}
-                                                    {% else %}
-                                                        {{ result }}
-                                                        {% if row.unit != 'none' and row.unit is not empty %}
-                                                            {{ row.unit }}
-                                                        {% endif %}
-                                                    {% endif %}
-                                                    </span>
-                                            {% endif %}
+    .instructions-list { padding: 0; list-style: none; counter-reset: steps; }
+    .instruction-item {
+        margin-bottom: 20px;
+        padding-left: 45px;
+        position: relative;
+        break-inside: avoid;
+    }
 
-                                            <span class="ingredient-name">{{ row.ingredientName }}</span>
+    .instruction-item:before {
+        counter-increment: steps; content: counter(steps);
+        position: absolute; left: 0; top: -2px; width: 30px; height: 30px;
+        background-color: var(--primary-color); color: white;
+        border-radius: 50%; text-align: center; line-height: 30px;
+        font-weight: bold; font-size: 10pt;
+    }
 
-                                            {% if row.notes is not empty %}
-                                                <span class="ingredient-notes">, {{ row.notes }}</span>
-                                            {% endif %}
+    /* Print & Screen Utilities */
+    @media screen {
+        body { background-color: #f9f7f2; padding: 40px 20px; }
+        .print-container { background: white; padding: 50px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .screen-controls { margin-bottom: 30px; display: flex; justify-content: space-between; }
+        .btn { background: var(--primary-color); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; }
+    }
 
-                                            {% if row.optional %}
-                                                <span class="optional-note">(optional)</span>
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+    @media print {
+        .no-print { display: none !important; }
+        .instruction-item:before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+</style>
 
-                        {% elseif block.type == "instructionsBlock" %}
-                            <div class="recipe-section">
-                                <h3>{% if currentHeading %}{{ currentHeading }} {% endif %}Instructions</h3>
-                                <ol class="instructions-list">
-                                    {% for row in block.instructions %}
-                                        <li class="instruction-item">{{ row.instruction }}</li>
-                                    {% endfor %}
-                                </ol>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+<div class="print-container">
+    {# Screen-only navigation #}
+    <div class="screen-controls no-print">
+        <a href="{{ recipe.url|default('#') }}" class="btn">← Back to Recipe</a>
+        <button onclick="window.print()" class="btn">Print PDF</button>
+    </div>
 
-                <div class="print-footer">
-                    <div class="source-url">
-                        Recipe from: {{ siteUrl }}
-                    </div>
-                    <div id="qrcode" class="qrcode"></div>
-                </div>
+    <header>
+        <h1 class="recipe-title">{{ recipe.title }}</h1>
+        {% if recipe.description %}
+            <p class="recipe-description">{{ recipe.description }}</p>
+        {% endif %}
 
-                <script>
-                    // Generate QR code
-                    window.onload = function() {
-                        var typeNumber = 4;
-                        var errorCorrectionLevel = 'L';
-                        var qr = qrcode(typeNumber, errorCorrectionLevel);
-                        qr.addData('{{ entry.url }}');
-                        qr.make();
-                        document.getElementById('qrcode').innerHTML = qr.createImgTag(3);
-                    }
-                </script>
+        <div class="recipe-meta">
+            <div class="meta-item">
+                <span class="meta-label">Prep</span>
+                <span class="meta-value">{{ recipe.prepTime }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Cook</span>
+                <span class="meta-value">{{ recipe.cookTime }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Yields</span>
+                <span class="meta-value">{{ recipe.servings }}</span>
             </div>
         </div>
-    </body>
-</html>
+    </header>
+
+    {% if recipe.image.one() is not null %}
+        <div class="recipe-image">
+            <img src="{{ recipe.image.one().url }}" alt="{{ recipe.title }}">
+        </div>
+    {% endif %}
+
+    {% for entry in recipe.ingredientsAndInstructions %}
+        {% if entry.type == 'ingredientsBlock' %}
+        <section class="recipe-section">
+            <h2>Ingredients</h2>
+            <ul class="ingredients-list">
+                {% for ingredient in entry.ingredientsList %}
+                    <li class="ingredient-item">
+                        <span class="quantity">{{ ingredient.quantity }}</span>
+                        {{ ingredient.ingredientName }}
+                        {% if ingredient.notes %}
+                            <span class="optional-note">({{ ingredient.notes }})</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% elseif entry.type == 'instructionsBlock' %}
+            <section class="recipe-section">
+                <h2>Instructions</h2>
+                <ol class="instructions-list">
+                    {% for step in entry.instructions %}
+                        <li class="instruction-item">
+                            {{ step.instruction }}
+                        </li>
+                    {% endfor %}
+                </ol>
+            </section>
+        {% elseif entry.type == 'heading' %}
+            <h2>{{ entry.title }}</h2>
+        {% endif %}
+    {% endfor %}
+
+</div>

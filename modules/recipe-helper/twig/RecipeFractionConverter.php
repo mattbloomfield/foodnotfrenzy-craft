@@ -324,6 +324,11 @@ class RecipeFractionConverter extends AbstractExtension
 
     private function _getScaledValue($value, $scale): string
     {
+        // sometimes value may be a range. Just return as is in that case
+        if (is_string($value) && str_contains($value, '-')) {
+            return $value;
+        }
+
         // Handle case where $value is already a numeric value
         if (is_numeric($value)) {
             $result = $value * $scale;
@@ -338,7 +343,11 @@ class RecipeFractionConverter extends AbstractExtension
         $fractionParts = explode('/', $valueParts[0]);
         if (count($fractionParts) > 1) {
             // It's a fraction like "1/2"
-            $fraction = $fractionParts[0] / $fractionParts[1];
+            $numerator = (int)$fractionParts[0];
+            $denominator = (int)$fractionParts[1];
+            if ($denominator !== 0) {
+                $fraction = $numerator / $denominator;
+            }
         } else {
             // It's a whole number
             $whole = (float)$valueParts[0];

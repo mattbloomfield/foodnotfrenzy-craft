@@ -1,0 +1,46 @@
+{% extends "_layout/base.twig" %}
+
+{% block title %}
+    {{ siteName }}
+{% endblock %}
+
+{% block content %}
+    <div
+            class="max-w-6xl mx-auto">
+        <!-- Search Block -->
+        <section class="mb-8">
+            {% include "_components/search" %}
+        </section>
+
+        <!-- Recent Recipes Heading -->
+        <h1 class="text-3xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-deep-rose">Latest Recipes</h1>
+
+        <!-- Recipe Grid -->
+        {% set recipes = craft.entries.section('recipes').orderBy('postDate DESC').all() %}
+        {% set gridItems = [] %}
+        {% for recipe in recipes %}
+            {% set categories = [] %}
+            {% for category in recipe.categories.all() %}
+                {% set categories = categories|merge([{
+                    title: category.title,
+                    href: category.url,
+                }]) %}
+            {% endfor %}
+            {% set gridItems = gridItems|merge([{
+                type: '@card/recipe',
+                data: {
+                    title: recipe.title,
+                    href: recipe.url,
+                    image: recipe.image.one() ? recipe.image.one() : null,
+                    description: recipe.description,
+                    categories: categories,
+                    date: recipe.postDate,
+                },
+            }]) %}
+        {% endfor %}
+        {% include "@listing/grid" with {
+            items: gridItems,
+        } %}
+
+    </div>
+{% endblock %}
