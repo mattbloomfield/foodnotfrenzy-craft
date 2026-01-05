@@ -164,6 +164,7 @@
                 {% for ingredient in entry.ingredientsList %}
                     <li class="ingredient-item">
                         <span class="quantity">{{ ingredient.quantity }}</span>
+                        <span class="unit">{{ ingredient.unit }}</span>
                         {{ ingredient.ingredientName }}
                         {% if ingredient.notes %}
                             <span class="optional-note">({{ ingredient.notes }})</span>
