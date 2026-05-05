@@ -54,6 +54,14 @@ class RecipeImportService
 
         $entry->setFieldValues($fieldValues);
 
+        // Handle categories
+        if (!empty($data['categoryKeywords'])) {
+            $categoryIds = $this->matchCategories($data['categoryKeywords']);
+            if (!empty($categoryIds)) {
+                $entry->setFieldValue('categories', $categoryIds);
+            }
+        }
+
         // Handle source entry relation
         if (!empty($data['sourceUrl'])) {
             $sourceEntry = $this->findOrCreateSource($data['sourceUrl']);
@@ -140,7 +148,40 @@ class RecipeImportService
     }
 
     /**
-     * Find an existing Source entry by domain, or create a new one.
+     * Match category keywords against existing Category entries (case-insensitive).
+     *
+     * @return int[] Array of matched category entry IDs
+     */
+    private function matchCategories(array $keywords): array
+    {
+        if (empty($keywords)) {
+            return [];
+        }
+
+        // Load all categories once
+        $allCategories = Entry::find()
+            ->section('categories')
+            ->status(null)
+            ->all();
+
+        $matched = [];
+        foreach ($keywords as $keyword) {
+            $keyword = strtolower(trim($keyword));
+            if ($keyword === '') {
+                continue;
+            }
+            foreach ($allCategories as $cat) {
+                if (strtolower($cat->title) === $keyword && !in_array($cat->id, $matched)) {
+                    $matched[] = $cat->id;
+                }
+            }
+        }
+
+        return $matched;
+    }
+
+    /**
+     * Find an existing Source entry by matching base domain in linkUrl, or create a new one.
      */
     private function findOrCreateSource(string $url): ?Entry
     {
@@ -149,17 +190,32 @@ class RecipeImportService
             return null;
         }
 
-        // Strip www. prefix for the title
+        // Strip www. prefix for matching
         $domain = preg_replace('/^www\./', '', $host);
 
-        // Look for existing source by title
-        $source = Entry::find()
+        // Search existing sources by checking if linkUrl contains the domain
+        $allSources = Entry::find()
             ->section('sources')
-            ->title($domain)
-            ->one();
+            ->status(null)
+            ->all();
 
-        if ($source) {
-            return $source;
+        foreach ($allSources as $source) {
+            $linkUrl = $source->getFieldValue('linkUrl');
+            $linkUrlStr = is_object($linkUrl) ? (string) $linkUrl : ($linkUrl ?? '');
+            $sourceHost = parse_url($linkUrlStr, PHP_URL_HOST);
+            if ($sourceHost) {
+                $sourceDomain = preg_replace('/^www\./', '', $sourceHost);
+                if (strcasecmp($sourceDomain, $domain) === 0) {
+                    return $source;
+                }
+            }
+        }
+
+        // Also check by title as fallback
+        foreach ($allSources as $source) {
+            if (strcasecmp($source->title, $domain) === 0) {
+                return $source;
+            }
         }
 
         // Create new source entry

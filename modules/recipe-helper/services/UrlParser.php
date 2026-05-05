@@ -108,6 +108,26 @@ class UrlParser
 
         $imageUrl = $this->extractImageUrl($raw['image'] ?? null);
 
+        // Collect category keywords from JSON-LD fields
+        $categoryKeywords = [];
+        foreach (['recipeCategory', 'recipeCuisine', 'keywords'] as $field) {
+            $val = $raw[$field] ?? null;
+            if (is_string($val)) {
+                foreach (preg_split('/[,;]+/', $val) as $kw) {
+                    $kw = trim($kw);
+                    if ($kw !== '') {
+                        $categoryKeywords[] = $kw;
+                    }
+                }
+            } elseif (is_array($val)) {
+                foreach ($val as $kw) {
+                    if (is_string($kw) && trim($kw) !== '') {
+                        $categoryKeywords[] = trim($kw);
+                    }
+                }
+            }
+        }
+
         return [
             'title' => $raw['name'] ?? '',
             'description' => strip_tags($raw['description'] ?? ''),
@@ -120,6 +140,7 @@ class UrlParser
             'ingredients' => $ingredients,
             'instructions' => $instructions,
             'notes' => '',
+            'categoryKeywords' => $categoryKeywords,
         ];
     }
 

@@ -92,6 +92,7 @@ Extract the recipe from this image. Return ONLY valid JSON with this exact struc
   "prepTime": null,
   "cookTime": null,
   "servings": null,
+  "categories": ["Dinner", "Italian"],
   "ingredients": [
     "2 cups all-purpose flour",
     "1 teaspoon salt"
@@ -106,6 +107,7 @@ Extract the recipe from this image. Return ONLY valid JSON with this exact struc
 Rules:
 - prepTime and cookTime are integers in minutes, or null if not specified
 - servings is an integer, or null if not specified
+- categories: suggest 1-3 descriptive categories for this recipe (meal type, cuisine, diet, etc.)
 - ingredients should be full strings like "2 cups flour" (do not split into parts)
 - instructions should be individual steps as strings
 - If the recipe has named sections (e.g. "For the sauce"), prefix the first ingredient/instruction in that section with the section name followed by a colon
@@ -164,6 +166,7 @@ PROMPT;
             'ingredients' => $ingredients,
             'instructions' => $sections,
             'notes' => $data['notes'] ?? '',
+            'categoryKeywords' => $data['categories'] ?? [],
         ];
     }
 }
