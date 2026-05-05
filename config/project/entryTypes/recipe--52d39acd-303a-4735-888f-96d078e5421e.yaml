@@ -19,7 +19,6 @@ fieldLayouts:
             disabled: false
             elementCondition: null
             id: null
-            includeInCards: false
             inputType: null
             instructions: null
             label: null
@@ -28,7 +27,6 @@ fieldLayouts:
             name: null
             orientation: null
             placeholder: null
-            providesThumbs: false
             readonly: false
             required: true
             size: null
@@ -46,10 +44,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 889fde06-2382-4da2-8f42-6622555a0f49 # Categories
             handle: null
-            includeInCards: true
             instructions: null
             label: null
-            providesThumbs: false
             required: true
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -63,10 +59,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 37829aaa-d568-406c-929f-70d8fef00120 # Source
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -80,10 +74,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 9fa28bcd-aca4-4b54-888d-84eddc43804f # Related Recipes
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -97,10 +89,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: ac800ffd-0a62-4673-9b3b-07b0ddf5ea0e # Rating
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -121,10 +111,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e # Prep Time (minutes)
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -138,10 +126,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: d39d8b85-4ed0-4e5f-a80c-bfbaf45ebb9e # Prep Time (minutes)
             handle: idleTime
-            includeInCards: false
             instructions: null
             label: 'Idle Time (minutes)'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -155,10 +141,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: d4add76d-5e84-4ad3-a1ce-63e485462600 # Cook Time (minutes)
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -172,10 +156,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 3ef245fe-5223-4cb5-be74-100896771253 # Difficulty
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -189,10 +171,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 0ef9f8ae-d2ec-443c-a3db-c411267a52fb # Servings
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -206,10 +186,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 0ef9f8ae-d2ec-443c-a3db-c411267a52fb # Servings
             handle: yield
-            includeInCards: false
             instructions: null
             label: Yield
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -229,10 +207,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 5f6b6eba-f03c-49ac-8e1d-9e315d0e19e0 # Description
             handle: null
-            includeInCards: true
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -246,10 +222,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 791a0176-d2ea-4094-8330-33b1f63588cd # Image
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: true
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -263,10 +237,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: cb74c351-0aab-4e50-a18c-0a5cfc5ca873 # Ingredients and Instructions
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -280,10 +252,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: ecaa8e48-5014-48da-ad4b-cf43b984c6e5 # Notes
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -294,6 +264,7 @@ fieldLayouts:
         name: Content
         uid: 46ac3eac-952c-4019-8311-98803a9e69af
         userCondition: null
+    thumbFieldKey: 'layoutElement:e6760456-53af-4173-8026-3846285f3628'
 handle: recipe
 hasTitleField: true
 icon: pot-food

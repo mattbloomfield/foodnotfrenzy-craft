@@ -1,5 +1,6 @@
 /.env
 /.idea
+/.claude
 /vendor
 .DS_Store
 /node_modules

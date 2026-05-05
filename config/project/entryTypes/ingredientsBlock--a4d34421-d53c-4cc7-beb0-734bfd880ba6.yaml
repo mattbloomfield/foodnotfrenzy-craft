@@ -10,10 +10,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: d8ea3146-9c3b-484e-bdbf-bd7fab1e6d42 # Ingredients List
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

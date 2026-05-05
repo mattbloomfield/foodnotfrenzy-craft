@@ -1,0 +1,51 @@
+{% extends "_layouts/cp" %}
+
+{% set title = "Recipe Import" %}
+
+{% block content %}
+
+    <div style="max-width: 600px;">
+
+        <div class="field">
+            <div class="heading">
+                <label>Import from URL</label>
+                <div class="instructions"><p>Paste a recipe URL (works with most recipe blogs that use structured data).</p></div>
+            </div>
+            <form method="post" accept-charset="UTF-8">
+                {{ csrfInput() }}
+                {{ actionInput('recipe-helper/import/import-url') }}
+                <div class="flex" style="gap: 8px;">
+                    <div class="flex-grow">
+                        <input type="url" name="url" class="text fullwidth" placeholder="https://www.seriouseats.com/..." required>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn submit">Import URL</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <hr>
+
+        <div class="field">
+            <div class="heading">
+                <label>Import from Image</label>
+                <div class="instructions"><p>Upload a photo of a recipe (cookbook page, handwritten card, etc.). Uses AI to extract the recipe.</p></div>
+            </div>
+            <form method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+                {{ csrfInput() }}
+                {{ actionInput('recipe-helper/import/import-image') }}
+                <div class="flex" style="gap: 8px; align-items: flex-end;">
+                    <div class="flex-grow">
+                        <input type="file" name="recipeImage" accept="image/*" required>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn submit">Import Image</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -7,9 +7,20 @@ settings:
   availableTransforms: ''
   availableVolumes:
     - 4a693010-b1d3-4360-83f6-286e15b1e003 # Images
-  ckeConfig: cdf03fe9-480e-4e08-8a4d-1c98ac6433e9 # Landing Page
-  createButtonLabel: 'New Block'
+  css: null
+  cssFile: null
   defaultTransform: null
+  fullGraphqlData: false
+  headingLevels:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  js: null
+  jsFile: null
+  options: null
   purifierConfig: null
   purifyHtml: true
   showUnpermittedFiles: false
@@ -17,6 +28,21 @@ settings:
   showWordCount: false
   sourceEditingGroups:
     - __ADMINS__
+  toolbar:
+    - heading
+    - bold
+    - italic
+    - bulletedList
+    - numberedList
+    - '|'
+    - insertImage
+    - blockQuote
+    - link
+    - horizontalLine
+    - '|'
+    - createEntry
+    - '|'
+    - sourceEditing
   wordLimit: null
 translationKeyFormat: null
 translationMethod: none

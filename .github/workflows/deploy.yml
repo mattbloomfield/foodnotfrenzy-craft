@@ -16,6 +16,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             set -e
+            git config --global --add safe.directory /var/www/www.foodnotfrenzy.com
             cd /var/www/www.foodnotfrenzy.com
             git pull origin main
             composer install --no-dev --no-interaction --optimize-autoloader

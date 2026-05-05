@@ -12,10 +12,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 9cd023d0-050c-43d7-872c-0f04e40a4ce2 # First Name
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: true
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -28,10 +26,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 53db4810-9435-425e-8a67-19c3a758ac44 # Last Name
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: true
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -44,10 +40,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 435de420-224b-4488-91de-bf647d9fbd87 # Professional Title
             handle: null
-            includeInCards: true
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -60,10 +54,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 39207932-cedb-4c50-adcd-6b0d32a116aa # Headshot
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: true
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -74,6 +66,7 @@ fieldLayouts:
         name: Content
         uid: baf39714-2c38-4040-8d0d-eeab0e66285f
         userCondition: null
+    thumbFieldKey: 'layoutElement:2c5a075b-acdf-476a-a0ac-f72fe9894caa'
 handle: person
 hasTitleField: false
 icon: person
