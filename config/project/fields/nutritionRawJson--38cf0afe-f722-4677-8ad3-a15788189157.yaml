@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: nutritionRawJson
+instructions: 'Raw JSON response from Edamam API (for debugging)'
+name: 'Nutrition Raw JSON'
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: null
+  code: true
+  initialRows: 4
+  multiline: true
+  placeholder: null
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

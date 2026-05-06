@@ -3,6 +3,8 @@
 namespace MattBloomfield\RecipeHelper;
 
 use Craft;
+use craft\elements\Entry;
+use craft\events\DefineHtmlEvent;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\events\RegisterUrlRulesEvent;
@@ -63,6 +65,26 @@ class RecipeHelper extends BaseModule
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function(RegisterUrlRulesEvent $event) {
                 $event->rules['recipe-import'] = 'recipe-helper/import/index';
+                $event->rules['recipe-helper/nutrition/calculate'] = 'recipe-helper/nutrition/calculate';
+            }
+        );
+
+        // Add "Calculate Nutrition" button to recipe entry sidebar
+        Event::on(
+            Entry::class,
+            Entry::EVENT_DEFINE_SIDEBAR_HTML,
+            function(DefineHtmlEvent $event) {
+                /** @var Entry $entry */
+                $entry = $event->sender;
+
+                if ($entry->type->handle !== 'recipe') {
+                    return;
+                }
+
+                $event->html .= Craft::$app->getView()->renderTemplate(
+                    'recipe-helper/nutrition/_calculate-button',
+                    ['entry' => $entry]
+                );
             }
         );
 

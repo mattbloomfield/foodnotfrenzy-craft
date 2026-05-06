@@ -38,6 +38,17 @@
     {% endfor %}
     {% endif %}
     {% endfor %}
-  ]
+  ]{% if entry.nutritionCalories is not null %},
+  "nutrition": {
+    "@type": "NutritionInformation",
+    "calories": "{{ entry.nutritionCalories }} calories"{% if entry.nutritionFat is not null %},
+    "fatContent": "{{ entry.nutritionFat }} g"{% endif %}{% if entry.nutritionSaturatedFat is not null %},
+    "saturatedFatContent": "{{ entry.nutritionSaturatedFat }} g"{% endif %}{% if entry.nutritionCarbs is not null %},
+    "carbohydrateContent": "{{ entry.nutritionCarbs }} g"{% endif %}{% if entry.nutritionFiber is not null %},
+    "fiberContent": "{{ entry.nutritionFiber }} g"{% endif %}{% if entry.nutritionSugar is not null %},
+    "sugarContent": "{{ entry.nutritionSugar }} g"{% endif %}{% if entry.nutritionProtein is not null %},
+    "proteinContent": "{{ entry.nutritionProtein }} g"{% endif %}{% if entry.nutritionSodium is not null %},
+    "sodiumContent": "{{ entry.nutritionSodium }} mg"{% endif %}
+  }{% endif %}
 }
 </script>

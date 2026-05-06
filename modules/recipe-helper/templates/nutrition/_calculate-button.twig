@@ -1,0 +1,15 @@
+<div style="margin-top: 1rem; border-top: 1px solid var(--gray-200); padding-top: 1rem;">
+    <form method="post" action="">
+        {{ csrfInput() }}
+        {{ actionInput('recipe-helper/nutrition/calculate') }}
+        {{ hiddenInput('entryId', entry.id) }}
+        <button type="submit" class="btn">
+            Calculate Nutrition
+        </button>
+        {% if entry.nutritionCalories is defined and entry.nutritionCalories %}
+            <div style="margin-top: 0.5rem; font-size: 0.85em; color: var(--gray-500);">
+                Last calculated: {{ entry.nutritionCalories }} cal/serving
+            </div>
+        {% endif %}
+    </form>
+</div>

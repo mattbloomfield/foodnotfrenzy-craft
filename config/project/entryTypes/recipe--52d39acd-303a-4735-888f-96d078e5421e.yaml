@@ -264,6 +264,147 @@ fieldLayouts:
         name: Content
         uid: 46ac3eac-952c-4019-8311-98803a9e69af
         userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-05-06T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 9fb60ef1-d60b-4ea9-af2f-c49c94492c3f # Calories
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 465a7074-7bb7-47b7-b042-b33a249a9b80
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-05-06T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: a4f8f106-19ee-422e-a3f8-8c0ecf53cfd0 # Protein
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7f02b70c-af05-43da-ad37-c5f6f35a7ddf
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-05-06T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: c87fa7a6-42ec-4a98-b1b0-d955e5a73ab5 # Total Fat
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 79612596-7b8b-49f8-ad0a-900f2b954b53
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-05-06T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: fbf89e7a-332d-4772-ba1a-3528c47d892a # Saturated Fat
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 83e13b16-5325-4edd-a8fc-8c933b66032b
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-05-06T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 8e9669d8-050d-4a66-8fe1-b73f226ec853 # Total Carbohydrates
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6c8a91f5-531f-4f72-a307-56a794048e04
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-05-06T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: c97db27c-29cb-4cae-80fb-d6a85481a156 # Dietary Fiber
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e25b30c5-a1c0-4525-b712-d1b658b00ef4
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-05-06T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 9fbe3552-685e-44aa-af1d-44370e68b9fe # Sugars
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6ec70457-02e2-4e99-bcff-7a788963c419
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-05-06T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 324e13f6-cf05-4b22-807d-3901cfeb1c4d # Sodium
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 52c40a2f-d717-4fd1-9b80-1300a61b6b5e
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2026-05-06T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 38cf0afe-f722-4677-8ad3-a15788189157 # Nutrition Raw JSON
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0602dbdf-6c42-4eba-8132-2b8937ed37e2
+            userCondition: null
+            warning: null
+            width: 100
+        name: Nutrition
+        uid: 1fe490ef-a42d-4cee-aa27-c2f952e609d2
+        userCondition: null
     thumbFieldKey: 'layoutElement:e6760456-53af-4173-8026-3846285f3628'
 handle: recipe
 hasTitleField: true

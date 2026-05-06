@@ -189,4 +189,59 @@
         {% endif %}
     {% endfor %}
 
+    {% if recipe.nutritionCalories is not null %}
+    <section class="recipe-section" style="page-break-inside: avoid;">
+        <h2>Nutrition Facts</h2>
+        <p style="font-size: 9pt; color: var(--text-light); margin-bottom: 10px;">Per serving</p>
+        <table style="width: 100%; border-collapse: collapse; font-size: 10pt;">
+            <tr style="border-bottom: 2px solid var(--text-dark);">
+                <td style="padding: 4px 0; font-weight: bold;">Calories</td>
+                <td style="padding: 4px 0; text-align: right; font-weight: bold;">{{ recipe.nutritionCalories }}</td>
+            </tr>
+            {% if recipe.nutritionFat is not null %}
+            <tr style="border-bottom: 1px solid var(--border-light);">
+                <td style="padding: 4px 0;">Total Fat</td>
+                <td style="padding: 4px 0; text-align: right;">{{ recipe.nutritionFat }}g</td>
+            </tr>
+            {% endif %}
+            {% if recipe.nutritionSaturatedFat is not null %}
+            <tr style="border-bottom: 1px solid var(--border-light);">
+                <td style="padding: 4px 0 4px 16px; font-size: 9pt;">Saturated Fat</td>
+                <td style="padding: 4px 0; text-align: right;">{{ recipe.nutritionSaturatedFat }}g</td>
+            </tr>
+            {% endif %}
+            {% if recipe.nutritionSodium is not null %}
+            <tr style="border-bottom: 1px solid var(--border-light);">
+                <td style="padding: 4px 0;">Sodium</td>
+                <td style="padding: 4px 0; text-align: right;">{{ recipe.nutritionSodium }}mg</td>
+            </tr>
+            {% endif %}
+            {% if recipe.nutritionCarbs is not null %}
+            <tr style="border-bottom: 1px solid var(--border-light);">
+                <td style="padding: 4px 0;">Total Carbohydrate</td>
+                <td style="padding: 4px 0; text-align: right;">{{ recipe.nutritionCarbs }}g</td>
+            </tr>
+            {% endif %}
+            {% if recipe.nutritionFiber is not null %}
+            <tr style="border-bottom: 1px solid var(--border-light);">
+                <td style="padding: 4px 0 4px 16px; font-size: 9pt;">Dietary Fiber</td>
+                <td style="padding: 4px 0; text-align: right;">{{ recipe.nutritionFiber }}g</td>
+            </tr>
+            {% endif %}
+            {% if recipe.nutritionSugar is not null %}
+            <tr style="border-bottom: 1px solid var(--border-light);">
+                <td style="padding: 4px 0 4px 16px; font-size: 9pt;">Sugars</td>
+                <td style="padding: 4px 0; text-align: right;">{{ recipe.nutritionSugar }}g</td>
+            </tr>
+            {% endif %}
+            {% if recipe.nutritionProtein is not null %}
+            <tr style="border-bottom: 2px solid var(--text-dark);">
+                <td style="padding: 4px 0; font-weight: bold;">Protein</td>
+                <td style="padding: 4px 0; text-align: right; font-weight: bold;">{{ recipe.nutritionProtein }}g</td>
+            </tr>
+            {% endif %}
+        </table>
+    </section>
+    {% endif %}
+
 </div>

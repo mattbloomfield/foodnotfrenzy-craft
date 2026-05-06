@@ -1,0 +1,80 @@
+{% if entry.nutritionCalories is defined and entry.nutritionCalories is not null %}
+{% set scale = scale|default(1) %}
+<section class="my-10">
+    <div class="bg-gradient-to-r from-white to-soft-pink/10 rounded-xl shadow-sm border border-soft-pink/20 overflow-hidden max-w-md">
+        {# Header #}
+        <div class="bg-white/80 border-b border-soft-pink/20 px-6 py-4">
+            <h3 class="text-2xl font-serif font-bold text-warm-brown mb-0">Nutrition Facts</h3>
+            {% if entry.servings %}
+                <p class="text-sm text-gray-500 mt-1">Per serving (1 of {{ entry.servings }})</p>
+            {% endif %}
+            {% if scale > 1 %}
+                <p class="text-xs text-deep-rose font-medium mt-1">Scaled {{ scale }}x</p>
+            {% endif %}
+        </div>
+
+        <div class="px-6 py-4">
+            {# Calories - hero row #}
+            <div class="flex justify-between items-baseline pb-3 mb-3 border-b-4 border-warm-brown/20">
+                <span class="text-lg font-serif font-bold text-warm-brown">Calories</span>
+                <span class="text-3xl font-serif font-bold text-gray-800">{{ (entry.nutritionCalories * scale)|round }}</span>
+            </div>
+
+            {# Daily Value header #}
+            <div class="text-xs text-right font-semibold text-warm-brown uppercase tracking-wider mb-2">
+                % Daily Value*
+            </div>
+
+            {# Nutrient rows #}
+            {% macro nutrientRow(label, value, unit, dailyValue, indent) %}
+                <div class="flex justify-between items-baseline py-1.5 border-t border-soft-pink/30 {{ indent ? 'pl-5' : '' }}">
+                    <span class="{{ indent ? 'text-gray-600' : '' }}">
+                        {% if not indent %}<span class="font-semibold text-gray-800">{{ label }}</span>{% else %}{{ label }}{% endif %}
+                        <span class="text-gray-500">{{ value }}{{ unit }}</span>
+                    </span>
+                    {% if dailyValue is not null %}
+                        <span class="font-semibold text-gray-700 ml-4 shrink-0">{{ dailyValue }}%</span>
+                    {% endif %}
+                </div>
+            {% endmacro %}
+
+            {{ _self.nutrientRow('Total Fat', (entry.nutritionFat * scale)|round(1), 'g', ((entry.nutritionFat * scale) / 78 * 100)|round, false) }}
+
+            {% if entry.nutritionSaturatedFat is defined and entry.nutritionSaturatedFat is not null %}
+                {{ _self.nutrientRow('Saturated Fat', (entry.nutritionSaturatedFat * scale)|round(1), 'g', ((entry.nutritionSaturatedFat * scale) / 20 * 100)|round, true) }}
+            {% endif %}
+
+            {% if entry.nutritionSodium is defined and entry.nutritionSodium is not null %}
+                {{ _self.nutrientRow('Sodium', (entry.nutritionSodium * scale)|round, 'mg', ((entry.nutritionSodium * scale) / 2300 * 100)|round, false) }}
+            {% endif %}
+
+            {% if entry.nutritionCarbs is defined and entry.nutritionCarbs is not null %}
+                {{ _self.nutrientRow('Total Carbs', (entry.nutritionCarbs * scale)|round(1), 'g', ((entry.nutritionCarbs * scale) / 275 * 100)|round, false) }}
+            {% endif %}
+
+            {% if entry.nutritionFiber is defined and entry.nutritionFiber is not null %}
+                {{ _self.nutrientRow('Dietary Fiber', (entry.nutritionFiber * scale)|round(1), 'g', ((entry.nutritionFiber * scale) / 28 * 100)|round, true) }}
+            {% endif %}
+
+            {% if entry.nutritionSugar is defined and entry.nutritionSugar is not null %}
+                {{ _self.nutrientRow('Total Sugars', (entry.nutritionSugar * scale)|round(1), 'g', null, true) }}
+            {% endif %}
+
+            {% if entry.nutritionProtein is defined and entry.nutritionProtein is not null %}
+            <div class="flex justify-between items-baseline py-1.5 border-t-2 border-warm-brown/20 mt-1">
+                <span>
+                    <span class="font-semibold text-gray-800">Protein</span>
+                    <span class="text-gray-500">{{ (entry.nutritionProtein * scale)|round(1) }}g</span>
+                </span>
+                <span class="font-semibold text-gray-700 ml-4 shrink-0">{{ ((entry.nutritionProtein * scale) / 50 * 100)|round }}%</span>
+            </div>
+            {% endif %}
+
+            {# Footer #}
+            <p class="text-xs text-gray-400 mt-3 pt-3 border-t border-soft-pink/30 leading-relaxed">
+                * Percent Daily Values are based on a 2,000 calorie diet.
+            </p>
+        </div>
+    </div>
+</section>
+{% endif %}

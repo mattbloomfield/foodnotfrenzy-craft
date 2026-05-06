@@ -90,7 +90,9 @@
 				</section>
 			{% endif %}
 		{% endfor %}
-		{% if entry.notes is not null %}
+		{% include "@block/nutrition-facts" with { entry: entry, scale: scale } only %}
+
+	{% if entry.notes is not null %}
 			<div class="mb-12">
 				<h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Notes</h3>
 				<div class="text-gray-700">
