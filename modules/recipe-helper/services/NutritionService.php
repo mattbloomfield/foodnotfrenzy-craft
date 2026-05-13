@@ -85,99 +85,107 @@ class NutritionService
     }
 
     /**
-     * Calculate nutrition via Spoonacular and save to the entry.
+     * Call the Spoonacular API and set nutrition field values on the entry.
+     * Does NOT save the entry — the caller is responsible for that.
      *
-     * @param bool $force  Skip the ingredient-hash check and always call the API.
+     * @return array{success: bool, message: string}
+     */
+    public function calculate(Entry $entry): array
+    {
+        $apiKey = Craft::parseEnv('$SPOONACULAR_API_KEY');
+
+        if (empty($apiKey)) {
+            return ['success' => false, 'message' => 'SPOONACULAR_API_KEY not configured in .env'];
+        }
+
+        $ingredientStrings = $this->buildIngredientStrings($entry);
+
+        if (empty($ingredientStrings)) {
+            return ['success' => false, 'message' => 'No ingredients found on this recipe'];
+        }
+
+        $servings = max(1, (int)($entry->getFieldValue('servings') ?: 1));
+
+        $payload = [
+            'title'        => $entry->title,
+            'servings'     => $servings,
+            'ingredients'  => $ingredientStrings,
+        ];
+
+        $url = self::API_URL . '?' . http_build_query([
+            'apiKey'           => $apiKey,
+            'includeNutrition' => 'true',
+        ]);
+
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => json_encode($payload),
+            CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 30,
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
+        curl_close($ch);
+
+        if ($error) {
+            return ['success' => false, 'message' => "cURL error: $error"];
+        }
+
+        if ($httpCode !== 200) {
+            $body = json_decode($response, true);
+            $msg = $body['message'] ?? $body['error'] ?? "HTTP $httpCode";
+            return ['success' => false, 'message' => "Spoonacular API error: $msg"];
+        }
+
+        $data = json_decode($response, true);
+
+        $nutrients = $data['nutrition']['nutrients'] ?? null;
+
+        if (!$nutrients) {
+            return ['success' => false, 'message' => 'Unexpected API response — no nutrition data found'];
+        }
+
+        // Index nutrients by name for easy lookup
+        $nutrientsByName = [];
+        foreach ($nutrients as $n) {
+            $nutrientsByName[$n['name']] = $n;
+        }
+
+        foreach (self::NUTRIENT_MAP as $apiName => $config) {
+            $value = isset($nutrientsByName[$apiName])
+                ? round((float)$nutrientsByName[$apiName]['amount'], $config['decimals'])
+                : null;
+            $entry->setFieldValue($config['field'], $value);
+        }
+
+        // Store the API response along with the ingredient hash for change detection
+        $entry->setFieldValue('nutritionRawJson', json_encode([
+            'ingredientHash' => $this->getIngredientHash($entry),
+            'apiResponse'    => $data,
+        ], JSON_PRETTY_PRINT));
+
+        return ['success' => true, 'message' => 'Nutrition data calculated'];
+    }
+
+    /**
+     * Calculate and save — convenience wrapper for CLI use.
+     *
      * @return array{success: bool, message: string}
      */
     public function calculateAndSave(Entry $entry, bool $force = false): array
     {
-        $skippedApi = false;
-
         if (!$force && !$this->needsRecalculation($entry)) {
-            $skippedApi = true;
+            return ['success' => true, 'message' => 'Skipped — ingredients unchanged'];
         }
 
-        if (!$skippedApi) {
-            $apiKey = Craft::parseEnv('$SPOONACULAR_API_KEY');
+        $result = $this->calculate($entry);
 
-            if (empty($apiKey)) {
-                return ['success' => false, 'message' => 'SPOONACULAR_API_KEY not configured in .env'];
-            }
-
-            $ingredientStrings = $this->buildIngredientStrings($entry);
-
-            if (empty($ingredientStrings)) {
-                return ['success' => false, 'message' => 'No ingredients found on this recipe'];
-            }
-
-            $servings = max(1, (int)($entry->getFieldValue('servings') ?: 1));
-
-            $payload = [
-                'title'        => $entry->title,
-                'servings'     => $servings,
-                'ingredients'  => $ingredientStrings,
-            ];
-
-            $url = self::API_URL . '?' . http_build_query([
-                'apiKey'           => $apiKey,
-                'includeNutrition' => 'true',
-            ]);
-
-            $ch = curl_init($url);
-            curl_setopt_array($ch, [
-                CURLOPT_POST           => true,
-                CURLOPT_POSTFIELDS     => json_encode($payload),
-                CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT        => 30,
-            ]);
-
-            $response = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $error = curl_error($ch);
-            curl_close($ch);
-
-            if ($error) {
-                return ['success' => false, 'message' => "cURL error: $error"];
-            }
-
-            if ($httpCode !== 200) {
-                $body = json_decode($response, true);
-                $msg = $body['message'] ?? $body['error'] ?? "HTTP $httpCode";
-                return ['success' => false, 'message' => "Spoonacular API error: $msg"];
-            }
-
-            $data = json_decode($response, true);
-
-            // Spoonacular returns nutrition.nutrients as an array of
-            // { name, amount, unit, percentOfDailyNeeds }
-            $nutrients = $data['nutrition']['nutrients'] ?? null;
-
-            if (!$nutrients) {
-                return ['success' => false, 'message' => 'Unexpected API response — no nutrition data found'];
-            }
-
-            // Index nutrients by name for easy lookup
-            $nutrientsByName = [];
-            foreach ($nutrients as $n) {
-                $nutrientsByName[$n['name']] = $n;
-            }
-
-            // Spoonacular already returns per-serving values when you provide servings,
-            // so no need to divide
-            foreach (self::NUTRIENT_MAP as $apiName => $config) {
-                $value = isset($nutrientsByName[$apiName])
-                    ? round((float)$nutrientsByName[$apiName]['amount'], $config['decimals'])
-                    : null;
-                $entry->setFieldValue($config['field'], $value);
-            }
-
-            // Store the API response along with the ingredient hash for change detection
-            $entry->setFieldValue('nutritionRawJson', json_encode([
-                'ingredientHash' => $this->getIngredientHash($entry),
-                'apiResponse'    => $data,
-            ], JSON_PRETTY_PRINT));
+        if (!$result['success']) {
+            return $result;
         }
 
         if (!Craft::$app->elements->saveElement($entry)) {
@@ -185,11 +193,7 @@ class NutritionService
             return ['success' => false, 'message' => "Failed to save entry: $errors"];
         }
 
-        $message = $skippedApi
-            ? 'Entry saved — nutrition unchanged (ingredients not modified)'
-            : 'Nutrition data calculated and saved';
-
-        return ['success' => true, 'message' => $message];
+        return ['success' => true, 'message' => 'Nutrition data calculated and saved'];
     }
 
     /**

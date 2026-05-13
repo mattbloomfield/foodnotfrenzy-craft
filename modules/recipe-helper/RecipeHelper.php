@@ -5,12 +5,14 @@ namespace MattBloomfield\RecipeHelper;
 use Craft;
 use craft\elements\Entry;
 use craft\events\DefineHtmlEvent;
+use craft\events\ModelEvent;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\web\twig\variables\Cp;
 use craft\web\UrlManager;
 use craft\web\View;
+use MattBloomfield\RecipeHelper\services\NutritionService;
 use MattBloomfield\RecipeHelper\twig\RecipeFractionConverter;
 use yii\base\Event;
 use yii\base\Module as BaseModule;
@@ -65,11 +67,38 @@ class RecipeHelper extends BaseModule
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function(RegisterUrlRulesEvent $event) {
                 $event->rules['recipe-import'] = 'recipe-helper/import/index';
-                $event->rules['recipe-helper/nutrition/calculate'] = 'recipe-helper/nutrition/calculate';
             }
         );
 
-        // Add "Calculate Nutrition" button to recipe entry sidebar
+        // Auto-calculate nutrition on recipe save when ingredients change
+        Event::on(
+            Entry::class,
+            Entry::EVENT_BEFORE_SAVE,
+            function(ModelEvent $event) {
+                /** @var Entry $entry */
+                $entry = $event->sender;
+
+                // Only recipe entries, only canonical saves (not drafts/autosaves)
+                if ($entry->type->handle !== 'recipe' || $entry->getIsDraft() || $entry->propagating || $entry->resaving) {
+                    return;
+                }
+
+                $service = new NutritionService();
+
+                // Check for force flag (set by the sidebar button)
+                $force = !Craft::$app->getRequest()->getIsConsoleRequest()
+                    && Craft::$app->getRequest()->getBodyParam('forceNutrition');
+
+                if ($force || $service->needsRecalculation($entry)) {
+                    $result = $service->calculate($entry);
+                    if (!$result['success']) {
+                        Craft::warning("Nutrition calculation failed: {$result['message']}", __METHOD__);
+                    }
+                }
+            }
+        );
+
+        // Add nutrition info + force recalculate button to recipe entry sidebar
         Event::on(
             Entry::class,
             Entry::EVENT_DEFINE_SIDEBAR_HTML,
@@ -82,7 +111,7 @@ class RecipeHelper extends BaseModule
                 }
 
                 $event->html .= Craft::$app->getView()->renderTemplate(
-                    'recipe-helper/nutrition/_calculate-button',
+                    'recipe-helper/nutrition/_sidebar',
                     ['entry' => $entry]
                 );
             }

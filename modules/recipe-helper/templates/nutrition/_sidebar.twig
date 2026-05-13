@@ -1,0 +1,33 @@
+<div style="margin-top: 1rem; border-top: 1px solid var(--gray-200); padding-top: 1rem;">
+    <h3 class="heading" style="margin-bottom: 0.5rem;">Nutrition</h3>
+    {% if entry.nutritionCalories is defined and entry.nutritionCalories %}
+        <div style="font-size: 0.85em; color: var(--gray-500); margin-bottom: 0.5rem;">
+            {{ entry.nutritionCalories }} cal/serving
+        </div>
+    {% else %}
+        <div style="font-size: 0.85em; color: var(--gray-500); margin-bottom: 0.5rem;">
+            Not yet calculated — save entry to generate.
+        </div>
+    {% endif %}
+    <button type="button" class="btn small" id="force-nutrition-btn">
+        Force Recalculate
+    </button>
+</div>
+
+{% js %}
+document.getElementById('force-nutrition-btn').addEventListener('click', function() {
+    var form = document.getElementById('main-form') || document.querySelector('form#main-form') || this.closest('form');
+    if (!form) {
+        // Craft 5 uses #main-form for the entry edit form
+        form = document.querySelector('#main-form');
+    }
+    if (form) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'forceNutrition';
+        input.value = '1';
+        form.appendChild(input);
+        form.submit();
+    }
+});
+{% endjs %}
