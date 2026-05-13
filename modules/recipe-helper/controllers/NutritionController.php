@@ -23,7 +23,7 @@ class NutritionController extends Controller
         }
 
         $service = new NutritionService();
-        $result = $service->calculateAndSave($entry);
+        $result = $service->calculateAndSave($entry, force: true);
 
         if ($result['success']) {
             Craft::$app->getSession()->setNotice($result['message']);
