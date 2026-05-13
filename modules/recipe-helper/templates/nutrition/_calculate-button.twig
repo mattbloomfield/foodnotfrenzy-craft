@@ -2,7 +2,7 @@
     <form method="post" action="">
         {{ csrfInput() }}
         {{ actionInput('recipe-helper/nutrition/calculate') }}
-        {{ hiddenInput('entryId', entry.id) }}
+        {{ hiddenInput('entryId', entry.canonicalId) }}
         <button type="submit" class="btn">
             Calculate Nutrition
         </button>

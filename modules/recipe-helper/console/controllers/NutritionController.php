@@ -69,15 +69,15 @@ class NutritionController extends Controller
         foreach ($entries as $i => $entry) {
             $num = $i + 1;
 
-            if (!$this->force && $entry->getFieldValue('nutritionCalories')) {
-                $this->stdout("[$num/$total] Skipping \"{$entry->title}\" — already has nutrition data\n");
+            if (!$this->force && !$service->needsRecalculation($entry)) {
+                $this->stdout("[$num/$total] Skipping \"{$entry->title}\" — ingredients unchanged\n");
                 $skipped++;
                 continue;
             }
 
             $this->stdout("[$num/$total] Processing \"{$entry->title}\"... ");
 
-            $result = $service->calculateAndSave($entry);
+            $result = $service->calculateAndSave($entry, $this->force);
 
             if ($result['success']) {
                 $this->stdout("OK\n");

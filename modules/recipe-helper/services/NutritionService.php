@@ -55,12 +55,47 @@ class NutritionService
     ];
 
     /**
+     * Build a hash of the current ingredients + servings so we can detect changes.
+     */
+    public function getIngredientHash(Entry $entry): string
+    {
+        $ingredientStrings = $this->buildIngredientStrings($entry);
+        $servings = max(1, (int)($entry->getFieldValue('servings') ?: 1));
+        return md5(json_encode(['servings' => $servings, 'ingredients' => $ingredientStrings]));
+    }
+
+    /**
+     * Check whether the stored nutrition data is still current.
+     */
+    public function needsRecalculation(Entry $entry): bool
+    {
+        $rawJson = $entry->getFieldValue('nutritionRawJson');
+        if (empty($rawJson)) {
+            return true;
+        }
+
+        $stored = json_decode($rawJson, true);
+        $storedHash = $stored['ingredientHash'] ?? null;
+        if (!$storedHash) {
+            // Legacy data without hash — assume stale
+            return true;
+        }
+
+        return $storedHash !== $this->getIngredientHash($entry);
+    }
+
+    /**
      * Calculate nutrition via Spoonacular and save to the entry.
      *
+     * @param bool $force  Skip the ingredient-hash check and always call the API.
      * @return array{success: bool, message: string}
      */
-    public function calculateAndSave(Entry $entry): array
+    public function calculateAndSave(Entry $entry, bool $force = false): array
     {
+        if (!$force && !$this->needsRecalculation($entry)) {
+            return ['success' => true, 'message' => 'Nutrition is already up to date — ingredients have not changed'];
+        }
+
         $apiKey = Craft::parseEnv('$SPOONACULAR_API_KEY');
 
         if (empty($apiKey)) {
@@ -135,7 +170,11 @@ class NutritionService
             $entry->setFieldValue($config['field'], $value);
         }
 
-        $entry->setFieldValue('nutritionRawJson', json_encode($data, JSON_PRETTY_PRINT));
+        // Store the API response along with the ingredient hash for change detection
+        $entry->setFieldValue('nutritionRawJson', json_encode([
+            'ingredientHash' => $this->getIngredientHash($entry),
+            'apiResponse'    => $data,
+        ], JSON_PRETTY_PRINT));
 
         if (!Craft::$app->elements->saveElement($entry)) {
             $errors = implode(', ', $entry->getFirstErrors());
