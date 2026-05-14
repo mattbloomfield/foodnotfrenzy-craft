@@ -1,0 +1,17 @@
+#!/bin/bash
+
+## Description: Pull production database and import locally
+## Usage: sync
+## Example: ddev sync
+
+set -e
+
+echo "Dumping production database..."
+ssh mlj.one "mysqldump -u fnf -p\"\$(grep CRAFT_DB_PASSWORD /var/www/www.foodnotfrenzy.com/.env | cut -d'\"' -f2)\" fnf_prod" > /tmp/fnf_prod.sql
+
+echo "Importing into local database..."
+ddev import-db --file=/tmp/fnf_prod.sql
+
+rm /tmp/fnf_prod.sql
+
+echo "Done! Production database synced locally."

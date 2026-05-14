@@ -2,13 +2,13 @@
     <nav class="mb-6">
         <ol class="flex flex-wrap items-center text-sm">
             <li class="flex items-center">
-                <a href="/" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">Home</a>
+                <a href="/" class="text-clay hover:text-warm-brown transition-colors duration-200">Home</a>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </li>
             <li class="flex items-center">
-                <a href="/categories" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">Categories</a>
+                <a href="/categories" class="text-clay hover:text-warm-brown transition-colors duration-200">Categories</a>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
@@ -16,7 +16,7 @@
             {% set ancestors = entry.categories.one().getAncestors().all() %}
             {% for ancestor in ancestors %}
                 <li class="flex items-center">
-                    <a href="{{ ancestor.url }}" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">
+                    <a href="{{ ancestor.url }}" class="text-clay hover:text-warm-brown transition-colors duration-200">
                         {{ ancestor.title }}
                     </a>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,7 +26,7 @@
             {% endfor %}
 
             <li class="flex items-center">
-                <a href="{{ entry.categories.one().url }}" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">
+                <a href="{{ entry.categories.one().url }}" class="text-clay hover:text-warm-brown transition-colors duration-200">
                     {{ entry.categories.one().title }}
                 </a>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

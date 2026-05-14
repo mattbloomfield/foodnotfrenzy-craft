@@ -1,22 +1,22 @@
-<header class="bg-white shadow-sm border-b-2 border-soft-pink">
+<header class="bg-espresso print:hidden">
     <div class="container mx-auto px-4 py-5">
         <nav class="flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold text-warm-brown font-serif">{{ siteName }}</a>
+            <a href="/" class="text-2xl font-bold text-white font-serif">{{ siteName }}</a>
 
             <!-- Mobile Menu Button (hamburger) -->
             <button id="mobile-menu-button" class="md:hidden flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-warm-brown" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
 
             <!-- Desktop Navigation -->
             <ul class="hidden md:flex space-x-8">
-                <li><a href="/about" class="text-warm-brown hover:text-deep-rose transition duration-200">About</a></li>
-                <li><a href="/categories" class="text-warm-brown hover:text-deep-rose transition duration-200">Categories</a></li>
-                <li><a href="/feeling-lucky" class="text-warm-brown hover:text-deep-rose transition duration-200">Feeling Lucky</a></li>
-                <li><a href="/search" class="text-warm-brown hover:text-deep-rose transition duration-200 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <li><a href="/about" class="text-sm uppercase tracking-widest text-stone hover:text-white transition duration-200">About</a></li>
+                <li><a href="/categories" class="text-sm uppercase tracking-widest text-stone hover:text-white transition duration-200">Categories</a></li>
+                <li><a href="/feeling-lucky" class="text-sm uppercase tracking-widest text-stone hover:text-white transition duration-200">Feeling Lucky</a></li>
+                <li><a href="/search" class="text-stone hover:text-white transition duration-200 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </a></li>
@@ -24,12 +24,12 @@
         </nav>
 
         <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-white/10 pt-4">
             <ul class="flex flex-col space-y-4">
-                <li><a href="/about" class="block text-warm-brown hover:text-deep-rose transition duration-200">About</a></li>
-                <li><a href="/categories" class="block text-warm-brown hover:text-deep-rose transition duration-200">Categories</a></li>
-                <li><a href="/feeling-lucky" class="block text-warm-brown hover:text-deep-rose transition duration-200">Feeling Lucky</a></li>
-                <li><a href="/search" class="block text-warm-brown hover:text-deep-rose transition duration-200">Search</a></li>
+                <li><a href="/about" class="block text-sm uppercase tracking-widest text-stone hover:text-white transition duration-200">About</a></li>
+                <li><a href="/categories" class="block text-sm uppercase tracking-widest text-stone hover:text-white transition duration-200">Categories</a></li>
+                <li><a href="/feeling-lucky" class="block text-sm uppercase tracking-widest text-stone hover:text-white transition duration-200">Feeling Lucky</a></li>
+                <li><a href="/search" class="block text-sm uppercase tracking-widest text-stone hover:text-white transition duration-200">Search</a></li>
             </ul>
         </div>
     </div>

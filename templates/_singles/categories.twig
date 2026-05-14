@@ -5,7 +5,7 @@
 {% block content %}
     <div class="max-w-6xl mx-auto">
         <header class="mb-10">
-            <h1 class="text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-6 pb-2 border-b-2 border-deep-rose">Recipe Categories</h1>
+            <h1 class="text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-6 pb-2 border-b-2 border-clay">Recipe Categories</h1>
             <p class="text-lg text-gray-700">Explore our delicious recipes by category</p>
         </header>
 
@@ -30,15 +30,15 @@
                 {% set hasChildren = children|length > 0 %}
 
                 <div class="group">
-                    <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-200 h-full border-2 border-deep-rose ">
+                    <div class="bg-cream rounded-lg overflow-hidden h-full">
 
                         {% if category.image is defined and category.image.one() is not null %}
                             <a href="{{ category.url }}" class="block aspect-w-16 aspect-h-9 overflow-hidden">
                                 <img src="{{ category.image.one().url }}" alt="{{ category.title }}"
-                                     class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300">
+                                     class="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500 ease-out">
                             </a>
                         {% else %}
-                            <a href="{{ category.url }}" class="aspect-w-16 aspect-h-9 bg-deep-rose/10 flex items-center justify-center">
+                            <a href="{{ category.url }}" class="aspect-w-16 aspect-h-9 bg-stone/30 flex items-center justify-center">
                                 <span class="text-warm-brown font-serif text-lg">{{ category.title }}</span>
                             </a>
                         {% endif %}
@@ -47,12 +47,12 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <a href="{{ category.url }}">
-                                        <h3 class="text-xl font-bold font-serif text-warm-brown hover:text-deep-rose transition duration-200 text-xl">
+                                        <h3 class="text-xl font-bold font-serif text-warm-brown hover:text-clay transition duration-200 text-xl">
                                             {{ category.title }}
                                         </h3>
                                     </a>
                                 </div>
-                                <span class="inline-block px-3 py-1 bg-deep-rose/10 text-warm-brown rounded-full text-sm">
+                                <span class="text-sm text-sage">
                                     {{ recipeCount }} recipe{% if recipeCount != 1 %}s{% endif %}
                                 </span>
                             </div>
@@ -62,16 +62,16 @@
                             {% endif %}
 
                             {% if hasChildren %}
-                                <div class="mt-4 pt-3 border-t border-soft-pink">
+                                <div class="mt-4 pt-3 border-t border-stone">
                                     <p class="text-sm font-medium text-warm-brown mb-2">Subcategories:</p>
                                     <div class="flex flex-wrap gap-2">
                                         {% for child in children|slice(0, 3) %}
-                                            <a href="{{ child.url }}" class="text-xs px-2 py-1 bg-soft-pink/20 rounded-full transition hover:bg-deep-rose hover:text-white">
+                                            <a href="{{ child.url }}" class="text-xs px-2 py-1 bg-linen rounded-full transition hover:bg-clay hover:text-white">
                                                 {{ child.title }}
                                             </a>
                                         {% endfor %}
                                         {% if children|length > 3 %}
-                                            <span class="text-xs px-2 py-1 bg-soft-pink/20 rounded-full">
+                                            <span class="text-xs px-2 py-1 text-gray-500">
                                                 +{{ children|length - 3 }} more
                                             </span>
                                         {% endif %}
@@ -92,14 +92,14 @@
             .one() %}
 
         {% if randomRecipe %}
-            <div class="mt-16 bg-white rounded-lg shadow-md overflow-hidden border-2 border-soft-pink">
+            <div class="mt-16 bg-cream rounded-lg overflow-hidden">
                 <div class="p-6">
                     <h2 class="text-2xl font-bold font-serif text-warm-brown mb-6">Recipe Inspiration</h2>
 
                     <div class="md:flex">
                         {% if randomRecipe.image.one() %}
                             <div class="md:w-1/3 flex-shrink-0">
-                                <div class="rounded-lg overflow-hidden border-4 border-white shadow-sm">
+                                <div class="rounded-lg overflow-hidden">
                                     <img src="{{ randomRecipe.image.one().url }}" alt="{{ randomRecipe.title }}" class="w-full h-auto object-cover">
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
                                 <p class="mt-3 text-gray-700">{{ randomRecipe.description }}</p>
                             {% endif %}
 
-                            <a href="{{ randomRecipe.url }}" class="mt-4 inline-block px-5 py-2 bg-deep-rose text-white rounded-lg hover:bg-deep-rose/90 transition duration-200">View Recipe</a>
+                            <a href="{{ randomRecipe.url }}" class="mt-4 inline-block px-5 py-2 bg-clay text-white rounded-lg hover:bg-warm-brown transition duration-200">View Recipe</a>
                         </div>
                     </div>
                 </div>

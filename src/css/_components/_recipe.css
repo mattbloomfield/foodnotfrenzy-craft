@@ -1,7 +1,7 @@
 /* Recipe checkbox styling */
 [data-instruction-checkbox],
 [data-ingredient-checkbox] {
-    accent-color: #c86b6b;
+    accent-color: var(--color-clay);
     cursor: pointer;
     height: 1.2rem;
     width: 1.2rem;
@@ -37,9 +37,9 @@ label:last-child input[name="scale"] + span {
 }
 
 input[name="scale"] + span {
-    @apply block px-3 py-1 bg-white text-warm-brown border-t border-b border-r border-soft-pink ;
+    @apply block px-3 py-1 bg-white text-warm-brown border-t border-b border-r border-stone;
 }
 
 input[name="scale"]:checked + span {
-    @apply bg-deep-rose text-white;
+    @apply bg-clay text-white;
 }

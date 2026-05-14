@@ -16,13 +16,13 @@
 		<nav class="mb-6">
 			<ol class="flex flex-wrap items-center text-sm">
 				<li class="flex items-center">
-					<a href="/" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">Home</a>
+					<a href="/" class="text-clay hover:text-warm-brown transition-colors duration-200">Home</a>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewbox="0 0 24 24" stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
 					</svg>
 				</li>
 				<li class="flex items-center">
-					<a href="/categories" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">Categories</a>
+					<a href="/categories" class="text-clay hover:text-warm-brown transition-colors duration-200">Categories</a>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewbox="0 0 24 24" stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
 					</svg>
@@ -31,7 +31,7 @@
 				{% set ancestors = entry.getAncestors().all() %}
 				{% for ancestor in ancestors %}
 					<li class="flex items-center">
-						<a href="{{ ancestor.url }}" class="text-deep-rose hover:text-warm-brown transition-colors duration-200">
+						<a href="{{ ancestor.url }}" class="text-clay hover:text-warm-brown transition-colors duration-200">
 							{{ ancestor.title }}
 						</a>
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewbox="0 0 24 24" stroke="currentColor">
@@ -66,7 +66,7 @@
 					<h2 class="text-lg font-semibold font-serif text-warm-brown mb-3">Related Categories</h2>
 					<div class="flex flex-wrap gap-2">
 						{% for sibling in siblings %}
-							<a href="{{ sibling.url }}" class="px-3 py-2 rounded-lg text-sm {% if sibling.id == entry.id %}bg-deep-rose text-white{% else %}bg-soft-pink/20 text-warm-brown hover:bg-soft-pink/40{% endif %} transition duration-200">
+							<a href="{{ sibling.url }}" class="px-3 py-2 rounded-full text-sm {% if sibling.id == entry.id %}bg-warm-brown text-white{% else %}bg-cream text-warm-brown border border-stone hover:bg-stone/50{% endif %} transition duration-200">
 								{{ sibling.title }}
 							</a>
 						{% endfor %}
@@ -88,15 +88,13 @@
                             .count() %}
 
 						<a href="{{ childCategory.url }}" class="group">
-							<div class="bg-white rounded-lg shadow-sm hover:shadow-md transition duration-200 p-4 border border-soft-pink hover:border-deep-rose h-full">
-								<h3 class="font-bold font-serif text-warm-brown group-hover:text-deep-rose transition duration-200">
+							<div class="bg-cream rounded-lg transition duration-200 p-4 border border-stone hover:border-clay h-full">
+								<h3 class="font-bold font-serif text-warm-brown group-hover:text-clay transition duration-200">
 									{{ childCategory.title }}
 								</h3>
-								<span class="inline-block mt-1 px-2 py-1 bg-soft-pink/20 text-warm-brown rounded-full text-xs">
+								<span class="inline-block mt-1 text-sage text-xs">
 									{{ childRecipeCount }}
-									recipe
-									{% if childRecipeCount != 1 %}s
-									{% endif %}
+									recipe{% if childRecipeCount != 1 %}s{% endif %}
 								</span>
 							</div>
 						</a>
@@ -107,7 +105,7 @@
 
 		<!-- Recipe Grid -->
 		<div class="mt-8">
-			<h2 class="text-xl font-bold font-serif text-warm-brown mb-6 pb-2 border-b border-soft-pink">Recipes in this Category</h2>
+			<h2 class="text-xl font-bold font-serif text-warm-brown mb-6 pb-2 border-b border-stone">Recipes in this Category</h2>
 
 			{% set recipes = craft.entries()
                 .section('recipes')
@@ -140,9 +138,9 @@
                     items: gridItems,
                 } %}
 			{% else %}
-				<div class="bg-white rounded-lg p-8 text-center border border-soft-pink">
+				<div class="bg-cream rounded-lg p-8 text-center">
 					<p class="text-gray-700 mb-4">No recipes found in this category.</p>
-					<a href="/" class="inline-block px-4 py-2 bg-deep-rose text-white rounded-lg hover:bg-deep-rose/90 transition duration-200">
+					<a href="/" class="inline-block px-4 py-2 bg-clay text-white rounded-lg hover:bg-warm-brown transition duration-200">
 						Browse all recipes
 					</a>
 				</div>
@@ -154,23 +152,23 @@
 			<div class="mt-12 flex justify-center">
 				<div class="inline-flex items-center">
 					{% if paginate.prevUrl %}
-						<a href="{{ paginate.prevUrl }}" class="px-4 py-2 text-warm-brown border border-soft-pink rounded-l hover:bg-soft-pink/20 transition duration-200">Previous</a>
+						<a href="{{ paginate.prevUrl }}" class="px-4 py-2 text-warm-brown border border-stone rounded-l hover:bg-stone/30 transition duration-200">Previous</a>
 					{% else %}
 						<span class="px-4 py-2 text-gray-400 border border-gray-200 rounded-l cursor-not-allowed">Previous</span>
 					{% endif %}
 
 					{% for page in paginate.getPaginationInfo(2) %}
 						{% if page.type == 'current' %}
-							<span class="px-4 py-2 text-white bg-deep-rose border border-deep-rose">{{ page.num }}</span>
+							<span class="px-4 py-2 text-white bg-warm-brown border border-warm-brown">{{ page.num }}</span>
 						{% elseif page.type == 'number' %}
-							<a href="{{ page.url }}" class="px-4 py-2 text-warm-brown border border-soft-pink hover:bg-soft-pink/20 transition duration-200">{{ page.num }}</a>
+							<a href="{{ page.url }}" class="px-4 py-2 text-warm-brown border border-stone hover:bg-stone/30 transition duration-200">{{ page.num }}</a>
 						{% else %}
-							<span class="px-4 py-2 text-warm-brown border border-soft-pink">...</span>
+							<span class="px-4 py-2 text-warm-brown border border-stone">...</span>
 						{% endif %}
 					{% endfor %}
 
 					{% if paginate.nextUrl %}
-						<a href="{{ paginate.nextUrl }}" class="px-4 py-2 text-warm-brown border border-soft-pink rounded-r hover:bg-soft-pink/20 transition duration-200">Next</a>
+						<a href="{{ paginate.nextUrl }}" class="px-4 py-2 text-warm-brown border border-stone rounded-r hover:bg-stone/30 transition duration-200">Next</a>
 					{% else %}
 						<span class="px-4 py-2 text-gray-400 border border-gray-200 rounded-r cursor-not-allowed">Next</span>
 					{% endif %}

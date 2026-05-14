@@ -2,12 +2,12 @@
         class="mb-10"
 >
     <h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Ingredients</h3>
-    <ul class="bg-soft-pink/20 rounded-lg p-6 space-y-2 border border-soft-pink" data-ingredients>
+    <ul class="divide-y divide-stone/50" data-ingredients>
         {% for row in ingredientList %}
             {% apply spaceless %}
-                <li class="items-baseline flex {% if row.optional %}text-gray-600{% endif %}" data-ingredient data-behavior="walmartIntegration">
+                <li class="items-baseline flex py-2 {% if row.optional %}text-gray-600{% endif %}" data-ingredient data-behavior="walmartIntegration">
                     <label class="flex items-start cursor-pointer">
-                        <input data-ingredient-checkbox type="checkbox" class="mt-1 mr-3 h-5 w-5 accent-deep-rose">
+                        <input data-ingredient-checkbox type="checkbox" class="mt-1 mr-3 h-5 w-5 accent-clay">
                         <span>
                             {% set quantity = (row.quantity) ? row.quantity : 0 %}
                             {% set result = quantity|niceFractions(scale, row.unit) %}

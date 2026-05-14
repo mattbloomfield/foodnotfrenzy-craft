@@ -17,7 +17,7 @@
     <title>{% block title %}{{ siteName }}{% endblock %}</title>
     <link rel="stylesheet" href="/dist/critical.css">
     {{ craft.vite.script("src/js/app.js", false) }}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap">
     <!-- Preload critical assets -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,21 +29,21 @@
     {% block jsonLd %}{% endblock %}
     {% hook 'seomateMeta' %}
 </head>
-<body class="bg-warm-beige text-gray-800 flex flex-col min-h-screen font-sans">
+<body class="bg-linen text-gray-800 flex flex-col min-h-screen font-sans">
     {% include "@global/nav" %}
 
 <main class="flex-grow container mx-auto px-4 py-8">
     {% if currentUser %}
         <div class="fixed bottom-6 right-6 z-50">
             {% if craft.app.request.segments|length > 0 and entry is defined %}
-                <a href="{{ cpUrl('entries/' ~ entry.section.handle ~ '/' ~ entry.id) }}" class="flex items-center bg-deep-rose hover:bg-warm-brown text-white font-medium rounded-full py-2 px-4 shadow-lg transition duration-200">
+                <a href="{{ cpUrl('entries/' ~ entry.section.handle ~ '/' ~ entry.id) }}" class="flex items-center bg-clay hover:bg-warm-brown text-white font-medium rounded-full py-2 px-4 shadow-lg transition duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                     </svg>
                     Edit
                 </a>
             {% elseif craft.app.request.segments|length > 0 and category is defined %}
-                <a href="{{ cpUrl('categories/' ~ category.group.handle ~ '/' ~ category.id) }}" class="flex items-center bg-deep-rose hover:bg-warm-brown text-white font-medium rounded-full py-2 px-4 shadow-lg transition duration-200">
+                <a href="{{ cpUrl('categories/' ~ category.group.handle ~ '/' ~ category.id) }}" class="flex items-center bg-clay hover:bg-warm-brown text-white font-medium rounded-full py-2 px-4 shadow-lg transition duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                     </svg>

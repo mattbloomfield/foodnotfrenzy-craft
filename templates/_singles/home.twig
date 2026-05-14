@@ -14,22 +14,20 @@
 
 		<!-- Category Selection Block for Home Page -->
 		<section class="mb-12">
-			<div class="bg-white rounded-lg shadow-md p-6 border-2 border-soft-pink">
-				<h2 class="text-2xl font-serif font-bold text-warm-brown mb-4">Browse by Category</h2>
+			<h2 class="text-xs uppercase tracking-widest text-warm-brown mb-4">Browse by Category</h2>
 
-				<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-					{% set topLevelCategories = craft.entries.section('categories').level(1).all() %}
-					{% for category in topLevelCategories %}
-						<a href="{{ category.url }}" class="bg-soft-pink/20 hover:bg-soft-pink/40 transition duration-200 rounded-lg p-3 text-center border border-soft-pink">
-							<span class="font-serif text-warm-brown">{{ category.title }}</span>
-						</a>
-					{% endfor %}
-				</div>
+			<div class="flex flex-wrap gap-2">
+				{% set topLevelCategories = craft.entries.section('categories').level(1).all() %}
+				{% for category in topLevelCategories %}
+					<a href="{{ category.url }}" class="bg-cream hover:bg-stone/50 transition duration-200 rounded-full px-4 py-2 text-sm text-warm-brown border border-stone">
+						{{ category.title }}
+					</a>
+				{% endfor %}
 			</div>
 		</section>
 
 		<!-- Recent Recipes Heading -->
-		<h1 class="text-3xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-deep-rose">All Recipes</h1>
+		<h1 class="text-3xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-clay">All Recipes</h1>
 
 		<!-- Recipe Grid -->
 		{% set recipes = craft.entries.section('recipes').orderBy('title ASC').all() %}
