@@ -4,12 +4,20 @@
 	<header class="mb-8">
 		<div class="flex justify-between items-start">
 			<h1 class="text-3xl md:text-4xl font-bold text-warm-brown mb-4 font-serif">{{ entry.title }}</h1>
-			<a href="/print/recipe?entryId={{ entry.id }}" class="print-link flex items-center text-clay hover:text-warm-brown transition-colors duration-200" title="Print this recipe">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-				</svg>
-				<span class="ml-2">Print</span>
-			</a>
+			<div class="flex items-center gap-4">
+				<button type="button" onclick="navigator.share ? navigator.share({ title: '{{ entry.title|e('js') }}', url: '{{ entry.url }}' }) : navigator.clipboard.writeText('{{ entry.url }}').then(() => alert('Link copied!'))" class="flex items-center text-clay hover:text-warm-brown transition-colors duration-200" title="Share this recipe">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+					</svg>
+					<span class="ml-2">Share</span>
+				</button>
+				<a href="/print/recipe?entryId={{ entry.id }}" class="print-link flex items-center text-clay hover:text-warm-brown transition-colors duration-200" title="Print this recipe">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+					</svg>
+					<span class="ml-2">Print</span>
+				</a>
+			</div>
 		</div>
 
 		{% if entry.description %}
