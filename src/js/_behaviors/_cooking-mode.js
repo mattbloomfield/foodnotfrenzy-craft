@@ -118,7 +118,7 @@ const cookingMode = createBehavior('cookingMode',
          * Handle visibility change for wake lock
          */
         handleVisibilityChange() {
-            if (document.visibilityState === 'visible' && wakeLock === null) {
+            if (document.visibilityState === 'visible' && this.wakeLock === null) {
                 this.preventSleep();
             }
         },

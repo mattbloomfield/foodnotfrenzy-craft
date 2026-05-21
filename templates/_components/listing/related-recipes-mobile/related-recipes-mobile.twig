@@ -6,8 +6,15 @@
             <a href="{{ relatedRecipe.url }}" class="group">
                 <article class="bg-cream rounded-lg overflow-hidden h-full transition duration-200">
                     {% if relatedRecipe.image.one() %}
+                        {% set mobileThumb = {
+                            mode: 'crop',
+                            width: 352,
+                            height: 198,
+                            quality: 75,
+                            position: 'center-center'
+                        } %}
                         <div class="aspect-w-16 aspect-h-9 overflow-hidden">
-                            <img src="{{ relatedRecipe.image.one().url }}" alt="{{ relatedRecipe.title }}" class="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500 ease-out">
+                            <img src="{{ relatedRecipe.image.one().getUrl(mobileThumb) }}" alt="{{ relatedRecipe.title }}" width="352" height="198" loading="lazy" class="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500 ease-out">
                         </div>
                     {% else %}
                         <div class="aspect-w-16 aspect-h-9 bg-stone/20 flex items-center justify-center">

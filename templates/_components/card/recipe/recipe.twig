@@ -9,9 +9,9 @@
                 position: 'center-center'
             } %}
 			{% if image is not null %}
-				<img src="{{ image.getUrl(card) }}" width="{{ image.getWidth(card) }}" height="{{ image.getHeight(card) }}" alt="{{ title }}" class="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500 ease-out">
+				<img src="{{ image.getUrl(card) }}" width="{{ image.getWidth(card) }}" height="{{ image.getHeight(card) }}" alt="{{ title }}" loading="lazy" class="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500 ease-out">
 			{% else %}
-				<img src="/dist/placeholder.jpg" alt="Placeholder Image" class="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500 ease-out" style="width: 352px; height: 264px;">
+				<img src="/dist/placeholder.jpg" alt="Placeholder Image" width="352" height="264" loading="lazy" class="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500 ease-out">
 			{% endif %}
 		</div>
 

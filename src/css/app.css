@@ -15,6 +15,21 @@
     --font-sans: 'Source Sans Pro', sans-serif;
 }
 
+/* Mobile nav popover — override UA top-layer defaults */
+#mobile-menu {
+    margin: 0;
+    border: none;
+    max-width: 100%;
+    max-height: none;
+}
+
+/* Recipe grid cards — defer rendering of off-screen items */
+.grid > article,
+.grid > a {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 300px;
+}
+
 @layer components {
     /* Base content styling */
     .prose {

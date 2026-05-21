@@ -1,24 +1,73 @@
-/* Include in your main.css */
+/* Playfair Display — serif */
 @font-face {
     font-family: 'Playfair Display';
     font-style: normal;
     font-weight: 400;
-    src: url('src/public/fonts/playfair/PlayfairDisplay-Regular.ttf') format('ttf');
+    src: url('fonts/playfair/PlayfairDisplay-Regular.ttf') format('truetype');
     font-display: swap;
 }
-
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-weight: 400;
+    src: url('fonts/playfair/PlayfairDisplay-Italic.ttf') format('truetype');
+    font-display: swap;
+}
 @font-face {
     font-family: 'Playfair Display';
     font-style: normal;
     font-weight: 700;
-    src: url('src/public/fonts/playfair/PlayfairDisplay-Bold.ttf') format('woff2');
+    src: url('fonts/playfair/PlayfairDisplay-Bold.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-weight: 700;
+    src: url('fonts/playfair/PlayfairDisplay-BoldItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 800;
+    src: url('fonts/playfair/PlayfairDisplay-ExtraBold.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 900;
+    src: url('fonts/playfair/PlayfairDisplay-Black.ttf') format('truetype');
     font-display: swap;
 }
 
+/* Source Sans 3 — sans-serif */
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 300;
+    src: url('fonts/source-sans/SourceSans3-Light.ttf') format('truetype');
+    font-display: swap;
+}
 @font-face {
     font-family: 'Source Sans Pro';
     font-style: normal;
     font-weight: 400;
-    src: url('src/public/fonts/source-sans/SourceSans3-Regular.ttf') format('woff2');
+    src: url('fonts/source-sans/SourceSans3-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 600;
+    src: url('fonts/source-sans/SourceSans3-SemiBold.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 700;
+    src: url('fonts/source-sans/SourceSans3-Bold.ttf') format('truetype');
     font-display: swap;
 }

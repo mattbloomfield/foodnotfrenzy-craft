@@ -6,8 +6,15 @@
             <a href="{{ relatedRecipe.url }}" class="group block">
                 <article class="flex flex-col">
                     {% if relatedRecipe.image.one() %}
+                        {% set sidebarThumb = {
+                            mode: 'crop',
+                            width: 400,
+                            height: 128,
+                            quality: 75,
+                            position: 'center-center'
+                        } %}
                         <div class="rounded-lg overflow-hidden mb-3">
-                            <img src="{{ relatedRecipe.image.one().url }}" alt="{{ relatedRecipe.title }}" class="object-cover w-full h-32 group-hover:scale-[1.02] transition-transform duration-500 ease-out">
+                            <img src="{{ relatedRecipe.image.one().getUrl(sidebarThumb) }}" alt="{{ relatedRecipe.title }}" width="400" height="128" loading="lazy" class="object-cover w-full h-32 group-hover:scale-[1.02] transition-transform duration-500 ease-out">
                         </div>
                     {% endif %}
 
