@@ -12,15 +12,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.0.15",
-    "autoprefixer": "^10.4.21",
-    "path": "^0.12.7",
-    "postcss": "^8.5.3",
     "tailwindcss": "^4.0.15",
     "vite": "^6.2.2",
-    "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-restart": "^0.4.2"
+    "vite-plugin-compression": "^0.5.1"
   },
   "dependencies": {
     "@area17/a17-behaviors": "^0.4.5"

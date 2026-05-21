@@ -1,5 +1,4 @@
 import {defineConfig} from 'vite';
-import path from 'path';
 import viteCompression from 'vite-plugin-compression';
 import tailwindcss from "@tailwindcss/vite";
 
