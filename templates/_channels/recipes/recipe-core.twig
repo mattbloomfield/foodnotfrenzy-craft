@@ -63,7 +63,8 @@
 	</div>
 
 	<div class="recipe-content">
-		{% for block in entry.ingredientsAndInstructions %}
+		{% set blocks = entry.ingredientsAndInstructions.all() %}
+		{% for block in blocks %}
 			{% if block.type == "heading" %}
 				<h2 class="text-2xl font-bold text-warm-brown mt-10 mb-6 pb-2 border-b-2 border-clay font-serif">{{ block.title }}</h2>
 
@@ -74,8 +75,11 @@
                 } only %}
 
 			{% elseif block.type == "instructionsBlock" %}
+				{% set afterHeading = not loop.first and blocks[loop.index0 - 1].type == "heading" %}
 				<section class="mb-10">
-					<h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Instructions</h3>
+					{% if not afterHeading %}
+						<h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Instructions</h3>
+					{% endif %}
 					<ol class="space-y-4" data-instructions>
 						{% for row in block.instructions %}
 							<li data-instruction class="ml-8 list-decimal marker:text-clay marker:font-serif">
