@@ -271,7 +271,7 @@ fieldLayouts:
             dateAdded: '2026-05-06T00:00:00+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: 9fb60ef1-d60b-4ea9-af2f-c49c94492c3f # Calories
+            fieldUid: 9fb60ef1-d60b-4ea9-af2f-c49c94492c3f
             handle: null
             instructions: null
             label: null
@@ -286,7 +286,7 @@ fieldLayouts:
             dateAdded: '2026-05-06T00:00:00+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: a4f8f106-19ee-422e-a3f8-8c0ecf53cfd0 # Protein
+            fieldUid: a4f8f106-19ee-422e-a3f8-8c0ecf53cfd0
             handle: null
             instructions: null
             label: null
@@ -301,7 +301,7 @@ fieldLayouts:
             dateAdded: '2026-05-06T00:00:00+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: c87fa7a6-42ec-4a98-b1b0-d955e5a73ab5 # Total Fat
+            fieldUid: c87fa7a6-42ec-4a98-b1b0-d955e5a73ab5
             handle: null
             instructions: null
             label: null
@@ -316,7 +316,7 @@ fieldLayouts:
             dateAdded: '2026-05-06T00:00:00+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: fbf89e7a-332d-4772-ba1a-3528c47d892a # Saturated Fat
+            fieldUid: fbf89e7a-332d-4772-ba1a-3528c47d892a
             handle: null
             instructions: null
             label: null
@@ -331,7 +331,7 @@ fieldLayouts:
             dateAdded: '2026-05-06T00:00:00+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: 8e9669d8-050d-4a66-8fe1-b73f226ec853 # Total Carbohydrates
+            fieldUid: 8e9669d8-050d-4a66-8fe1-b73f226ec853
             handle: null
             instructions: null
             label: null
@@ -346,7 +346,7 @@ fieldLayouts:
             dateAdded: '2026-05-06T00:00:00+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: c97db27c-29cb-4cae-80fb-d6a85481a156 # Dietary Fiber
+            fieldUid: c97db27c-29cb-4cae-80fb-d6a85481a156
             handle: null
             instructions: null
             label: null
@@ -361,7 +361,7 @@ fieldLayouts:
             dateAdded: '2026-05-06T00:00:00+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: 9fbe3552-685e-44aa-af1d-44370e68b9fe # Sugars
+            fieldUid: 9fbe3552-685e-44aa-af1d-44370e68b9fe
             handle: null
             instructions: null
             label: null
@@ -376,7 +376,7 @@ fieldLayouts:
             dateAdded: '2026-05-06T00:00:00+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: 324e13f6-cf05-4b22-807d-3901cfeb1c4d # Sodium
+            fieldUid: 324e13f6-cf05-4b22-807d-3901cfeb1c4d
             handle: null
             instructions: null
             label: null
@@ -391,7 +391,7 @@ fieldLayouts:
             dateAdded: '2026-05-06T00:00:00+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: 38cf0afe-f722-4677-8ad3-a15788189157 # Nutrition Raw JSON
+            fieldUid: 38cf0afe-f722-4677-8ad3-a15788189157
             handle: null
             instructions: null
             label: null

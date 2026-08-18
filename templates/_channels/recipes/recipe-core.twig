@@ -1,4 +1,5 @@
-{% set scale = scale|default(1) %}
+{% set requestedScale = scale ?? craft.app.request.getQueryParam('scale') ?? 1 %}
+{% set scale = (requestedScale ~ '') in ['1', '2', '3', '4'] ? (requestedScale ~ '') * 1 : 1 %}
 
 <article id="Recipe">
 	<header class="mb-8">
@@ -47,26 +48,16 @@
 	</header>
 
 	<!-- Recipe Scaling Control -->
-	<div class="border-y border-stone py-3 mb-4">
+	<div class="border-y border-stone py-3 mb-4" data-behavior="recipeScaler">
 		<div class="flex items-center justify-between">
 			<span class="font-medium text-warm-brown">Scale Recipe:</span>
 			<div class="flex">
-				<label>
-					<input class="hidden" type="radio" name="scale" value="1" data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 1 }) }}" {{ scale == 1 ? 'checked' : '' }}/>
-					<span>1x</span>
-				</label>
-				<label>
-					<input class="hidden" type="radio" name="scale" value="2" data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 2 }) }}" {{ scale == 2 ? 'checked' : '' }}/>
-					<span>2x</span>
-				</label>
-				<label>
-					<input class="hidden" type="radio" name="scale" value="3" data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 3 }) }}" {{ scale == 3 ? 'checked' : '' }}/>
-					<span>3x</span>
-				</label>
-				<label>
-					<input class="hidden" type="radio" name="scale" value="4" data-on-change="{{ datastar.get('_datastar/update-recipe-scale', { entryId: entry.id, scale: 4 }) }}" {{ scale == 4 ? 'checked' : '' }}/>
-					<span>4x</span>
-				</label>
+				{% for option in [1, 2, 3, 4] %}
+					<label>
+						<input class="hidden" type="radio" name="scale" value="{{ option }}" {{ scale == option ? 'checked' }}/>
+						<span>{{ option }}x</span>
+					</label>
+				{% endfor %}
 			</div>
 		</div>
 	</div>

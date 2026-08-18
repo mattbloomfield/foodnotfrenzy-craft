@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56bfe5ae7ed646cae26f0a00096f327d",
+    "content-hash": "9609b2bcfc72cc295179479fa089953f",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4198,90 +4198,6 @@
             "time": "2021-10-29T13:26:27+00:00"
         },
         {
-            "name": "putyourlightson/craft-datastar",
-            "version": "1.0.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/putyourlightson/craft-datastar/zipball/9f7fac2cee49bcc1e6b3e948d1147add1dc9c3f7",
-                "reference": "9f7fac2cee49bcc1e6b3e948d1147add1dc9c3f7",
-                "shasum": ""
-            },
-            "require": {
-                "craftcms/cms": "^5.4",
-                "php": "^8.2",
-                "putyourlightson/craft-datastar-module": "1.0.1"
-            },
-            "type": "craft-plugin",
-            "extra": {
-                "handle": "datastar",
-                "name": "Datastar",
-                "developer": "PutYourLightsOn",
-                "developerUrl": "https://putyourlightson.com/",
-                "documentationUrl": "https://putyourlightson.com/plugins/datastar",
-                "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/craft-datastar/develop/CHANGELOG.md",
-                "class": "putyourlightson\\datastar\\plugin\\Plugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "putyourlightson\\datastar\\plugin\\": "src/"
-                }
-            },
-            "license": [
-                "mit"
-            ],
-            "description": "A reactive hypermedia framework for Craft.",
-            "time": "2026-04-20T14:52:49+00:00"
-        },
-        {
-            "name": "putyourlightson/craft-datastar-module",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/putyourlightson/craft-datastar-module.git",
-                "reference": "b2b9eaad4a5db4555c4eb168adeab8854d036c8a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/putyourlightson/craft-datastar-module/zipball/b2b9eaad4a5db4555c4eb168adeab8854d036c8a",
-                "reference": "b2b9eaad4a5db4555c4eb168adeab8854d036c8a",
-                "shasum": ""
-            },
-            "require": {
-                "craftcms/cms": "^5.4",
-                "php": "^8.2",
-                "starfederation/datastar-php": "^1.0.0"
-            },
-            "require-dev": {
-                "craftcms/ecs": "dev-main",
-                "craftcms/phpstan": "dev-main",
-                "markhuot/craft-pest-core": "^2.0.4",
-                "nystudio107/craft-autocomplete": "^1.12"
-            },
-            "type": "yii-module",
-            "autoload": {
-                "psr-4": {
-                    "putyourlightson\\datastar\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "mit"
-            ],
-            "description": "A template-driven, reactive hypermedia framework for Craft.",
-            "support": {
-                "docs": "https://github.com/putyourlightson/craft-datastar-module",
-                "issues": "https://github.com/putyourlightson/craft-datastar-module/issues",
-                "source": "https://github.com/putyourlightson/craft-datastar-module"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/bencroker",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-04-20T14:57:42+00:00"
-        },
-        {
             "name": "ralouphie/getallheaders",
             "version": "3.0.3",
             "dist": {
@@ -4616,53 +4532,6 @@
                 }
             ],
             "time": "2026-03-23T22:56:56+00:00"
-        },
-        {
-            "name": "starfederation/datastar-php",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/starfederation/datastar-php.git",
-                "reference": "0114ec8e5f38f5ebb4f5c54deed21bf95ea39f11"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/starfederation/datastar-php/zipball/0114ec8e5f38f5ebb4f5c54deed21bf95ea39f11",
-                "reference": "0114ec8e5f38f5ebb4f5c54deed21bf95ea39f11",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1"
-            },
-            "require-dev": {
-                "craftcms/ecs": "dev-main",
-                "craftcms/phpstan": "dev-main",
-                "pestphp/pest": "^3.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "starfederation\\datastar\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "mit"
-            ],
-            "authors": [
-                {
-                    "name": "Ben Croker",
-                    "homepage": "https://putyourlightson.com/",
-                    "role": "Author"
-                }
-            ],
-            "description": "A PHP SDK for working with Datastar.",
-            "support": {
-                "docs": "https://github.com/starfederation/datastar-php",
-                "issues": "https://github.com/starfederation/datastar-php/issues",
-                "source": "https://github.com/starfederation/datastar-php"
-            },
-            "time": "2026-04-16T18:20:32+00:00"
         },
         {
             "name": "symfony/clock",
@@ -8870,10 +8739,10 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }

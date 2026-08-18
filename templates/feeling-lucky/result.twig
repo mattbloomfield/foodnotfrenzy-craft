@@ -1,0 +1,35 @@
+{% set category = craft.app.request.getQueryParam('category') %}
+{% set recipeQuery = craft.entries().section('recipes') %}
+
+{% if category and (category ~ '') matches '/^\\d+$/' %}
+    {% set recipeQuery = recipeQuery.categories(category) %}
+{% endif %}
+
+{% set count = recipeQuery.count() %}
+
+{% if count > 0 %}
+    {% set random = random(0, count - 1) %}
+    {% set entry = recipeQuery.offset(random).one() %}
+{% else %}
+    {% set entry = null %}
+{% endif %}
+
+<div class="max-w-3xl mx-auto mt-20" id="FeelingLuckyResult">
+    <div class="flex flex-col md:flex-row gap-8">
+        {% if entry is not null %}
+            {% set image = entry.image.one() %}
+            {% if image %}
+                <div class="md:w-1/2">
+                    <img src="{{ image.url }}" alt="{{ image.alt }}" class="w-full h-auto rounded-lg shadow-lg">
+                </div>
+            {% endif %}
+            <div class="md:w-1/2">
+                <h2 class="text-2xl font-bold mb-4">{{ entry.title }}</h2>
+                <p class="text-lg text-gray-700 mb-4">{{ entry.description }}</p>
+                <a href="{{ entry.url }}" class="bg-clay hover:bg-warm-brown text-white font-medium rounded-full py-2 px-4 shadow-lg transition duration-200">View Recipe</a>
+            </div>
+        {% else %}
+            <p class="text-lg text-gray-600">No recipes found in this category. Please try again.</p>
+        {% endif %}
+    </div>
+</div>

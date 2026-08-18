@@ -9,13 +9,13 @@
         <div class="mb-10 bg-cream p-6 rounded-lg">
             <h2 class="text-xl font-bold font-serif text-warm-brown mb-4">Choose a Category (Optional)</h2>
 
-            <form data-on-submit="{{ datastar.get('_datastar/feeling-lucky.twig') }}">
+            <form data-behavior="feelingLucky">
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
                     {% set topLevelCategories = craft.entries.section('categories').level(1).all() %}
 
                     <!-- Add "Any Category" option first -->
                     <label class="relative cursor-pointer">
-                        <input type="radio" name="category" value="null" class="absolute opacity-0 peer" checked data-bind-category>
+                        <input type="radio" name="category" value="null" class="absolute opacity-0 peer" checked>
                         <span class="block bg-linen hover:bg-stone/50 transition duration-200 rounded-full p-3 text-center border border-stone peer-checked:bg-warm-brown peer-checked:text-white peer-checked:border-warm-brown">
                             <span class="font-serif">Any Category</span>
                         </span>
@@ -23,7 +23,7 @@
 
                     {% for category in topLevelCategories %}
                         <label class="relative cursor-pointer">
-                            <input type="radio" name="category" value="{{ category.id }}" class="absolute opacity-0 peer" data-bind-category>
+                            <input type="radio" name="category" value="{{ category.id }}" class="absolute opacity-0 peer">
                             <span class="block bg-linen hover:bg-stone/50 transition duration-200 rounded-full p-3 text-center border border-stone peer-checked:bg-warm-brown peer-checked:text-white peer-checked:border-warm-brown">
                                 <span class="font-serif">{{ category.title }}</span>
                             </span>
