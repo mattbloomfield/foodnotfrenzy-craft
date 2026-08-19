@@ -4,7 +4,7 @@
 <article id="Recipe">
 	<header class="mb-8">
 		<div class="flex justify-between items-start">
-			<h1 class="text-3xl md:text-4xl font-bold text-warm-brown mb-4 font-serif">{{ entry.title }}</h1>
+			<h1 class="text-4xl md:text-5xl font-bold text-warm-brown mb-4 font-serif">{{ entry.title }}</h1>
 			<div class="flex items-center gap-4">
 				<button type="button" onclick="navigator.share ? navigator.share({ title: '{{ entry.title|e('js') }}', url: '{{ entry.url }}' }) : navigator.clipboard.writeText('{{ entry.url }}').then(() => alert('Link copied!'))" class="flex items-center text-clay hover:text-warm-brown transition-colors duration-200" title="Share this recipe">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -66,7 +66,7 @@
 		{% set blocks = entry.ingredientsAndInstructions.all() %}
 		{% for block in blocks %}
 			{% if block.type == "heading" %}
-				<h2 class="text-2xl font-bold text-warm-brown mt-10 mb-6 pb-2 border-b-2 border-clay font-serif">{{ block.title }}</h2>
+				<h2 class="text-3xl font-bold text-warm-brown mt-10 mb-6 font-serif rule-wavy">{{ block.title }}</h2>
 
 			{% elseif block.type == "ingredientsBlock" %}
 				{% include "@block/ingredient-list" with {
@@ -78,7 +78,7 @@
 				{% set afterHeading = not loop.first and blocks[loop.index0 - 1].type == "heading" %}
 				<section class="mb-10">
 					{% if not afterHeading %}
-						<h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Instructions</h3>
+						<h3 class="eyebrow text-xl font-semibold text-warm-brown mb-4 font-serif">Instructions</h3>
 					{% endif %}
 					<ol class="space-y-4" data-instructions>
 						{% for row in block.instructions %}
@@ -97,7 +97,7 @@
 
 	{% if entry.notes is not null %}
 			<div class="mb-12">
-				<h3 class="text-xl font-semibold text-warm-brown mb-4 font-serif">Notes</h3>
+				<h3 class="eyebrow text-xl font-semibold text-warm-brown mb-4 font-serif">Notes</h3>
 				<div class="text-gray-700">
 					{{ entry.notes }}
 				</div>

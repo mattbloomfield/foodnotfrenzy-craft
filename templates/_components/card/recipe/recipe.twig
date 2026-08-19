@@ -1,36 +1,39 @@
+{% set large = large|default(false) %}
 <a href="{{ href }}" class="group">
-	<article class="bg-cream rounded-lg overflow-hidden h-full transition duration-200">
-		<div class="aspect-w-16 aspect-h-9 overflow-hidden">
-			{% set card = {
-                mode: 'crop',
-                width: 352,
-                height: 264,
-                quality: 75,
-                position: 'center-center'
-            } %}
-			{% if image is not null %}
-				<img src="{{ image.getUrl(card) }}" width="{{ image.getWidth(card) }}" height="{{ image.getHeight(card) }}" alt="{{ title }}" loading="lazy" class="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500 ease-out">
-			{% else %}
-				<img src="/dist/placeholder.jpg" alt="Placeholder Image" width="352" height="264" loading="lazy" class="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500 ease-out">
-			{% endif %}
+	<article class="bg-cream overflow-hidden h-full">
+		{# Polaroid-style inset image #}
+		<div class="p-2.5 pb-0">
+			<div class="overflow-hidden rounded-[0.65rem] {{ large ? 'aspect-[2/1]' : 'aspect-[4/3]' }}">
+				{% set card = {
+                    mode: 'crop',
+                    width: large ? 736 : 352,
+                    height: large ? 368 : 264,
+                    quality: 75,
+                    position: 'center-center'
+                } %}
+				{% if image is not null %}
+					<img src="{{ image.getUrl(card) }}" width="{{ image.getWidth(card) }}" height="{{ image.getHeight(card) }}" alt="{{ title }}" loading="lazy" class="object-cover w-full h-full group-hover:scale-[1.03] transition-transform duration-500 ease-out">
+				{% else %}
+					<img src="/dist/placeholder.jpg" alt="Placeholder Image" width="352" height="264" loading="lazy" class="object-cover w-full h-full group-hover:scale-[1.03] transition-transform duration-500 ease-out">
+				{% endif %}
+			</div>
 		</div>
 
-		<div class="p-4">
-			<h2 class="text-xl font-bold font-serif text-warm-brown group-hover:text-clay transition duration-200">{{ title }}</h2>
+		<div class="px-4 pt-3 pb-4">
+			<h2 class="{{ large ? 'text-2xl' : 'text-lg' }} font-bold font-serif text-warm-brown leading-snug group-hover:text-clay transition duration-200">{{ title }}</h2>
 
 			{% if description %}
-				<p class="mt-2 text-gray-700 line-clamp-2">{{ description }}</p>
+				<p class="mt-1.5 text-sm text-gray-600 line-clamp-2 leading-relaxed">{{ description }}</p>
 			{% endif %}
 
 			{% if categories|length %}
-				<p class="mt-3 text-sm text-sage">
-					{% for category in categories %}{{ category.title }}{% if not loop.last %} &middot; {% endif %}{% endfor %}
+				<p class="mt-2.5 text-xs uppercase tracking-widest text-sage font-medium">
+					{% for category in categories %}{{ category.title }}{% if not loop.last %} <span class="text-clay">·</span> {% endif %}{% endfor %}
 				</p>
 			{% endif %}
-            {# post date #}
-            {% if date is defined %}
-                <p class="mt-4 text-gray-400 text-xs">Added on {{ date|date('F j, Y') }} at {{ date|date('g:i a') }}</p>
-            {% endif %}
+			{% if date is defined %}
+				<p class="mt-2 text-gray-400 text-[11px] uppercase tracking-wide">{{ date|date('M j, Y') }}</p>
+			{% endif %}
 		</div>
 	</article>
 </a>

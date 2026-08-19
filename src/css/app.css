@@ -60,9 +60,70 @@ body::before {
     color: white;
 }
 
-h1, h2, h3, h4, .font-serif {
-    font-variation-settings: 'opsz' 72;
-    letter-spacing: -0.01em;
+/* Fraunces optical sizing — display sizes get the full "wonk":
+   quirky hand-set letterforms on big headings, calmer at small sizes */
+h3, h4, .font-serif {
+    font-variation-settings: 'opsz' 40, 'SOFT' 25, 'WONK' 0;
+    letter-spacing: -0.005em;
+}
+
+h1.font-serif, h2.font-serif, .prose h1, .prose h2, .display-wonk {
+    font-variation-settings: 'opsz' 100, 'SOFT' 40, 'WONK' 1;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+}
+
+/* Wavy rule — replaces straight border-b under display headings */
+.rule-wavy,
+.prose h1 {
+    position: relative;
+    padding-bottom: 0.45em;
+    border-bottom: none;
+}
+.rule-wavy::after,
+.prose h1::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 7px;
+    background-color: var(--c-accent);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='7' viewBox='0 0 22 7'%3E%3Cpath d='M0 3.5 Q5.5 0.5 11 3.5 T22 3.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    mask-repeat: repeat-x;
+    mask-size: 22px 7px;
+}
+
+/* Eyebrow labels — little spark ornament in the accent color */
+.eyebrow {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5em;
+}
+.eyebrow::before {
+    content: '✳';
+    color: var(--c-accent);
+    font-size: 1.1em;
+    line-height: 1;
+    transform: translateY(1px);
+}
+
+/* Category chips — playful tilt + fill on hover */
+.chip {
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.chip:hover {
+    transform: rotate(-1.5deg) scale(1.04);
+    background-color: var(--c-accent);
+    border-color: var(--c-accent);
+    color: white;
+}
+
+/* Featured first card on landing grids */
+@media (min-width: 768px) {
+    .grid-featured > :first-child {
+        grid-column: span 2;
+    }
 }
 
 /* Mobile nav popover — override UA top-layer defaults */
@@ -92,14 +153,14 @@ h1, h2, h3, h4, .font-serif {
     /* Recipe / listing cards — hairline border, gentle lift on hover */
     .group > article {
         @apply border border-stone shadow-none;
-        border-radius: 1rem;
+        border-radius: 1.25rem;
         transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     }
 
     .group:hover > article {
-        transform: translateY(-3px);
+        transform: translateY(-4px) rotate(-0.4deg);
         border-color: color-mix(in oklab, var(--c-accent) 45%, var(--c-border));
-        box-shadow: 0 12px 32px -16px color-mix(in oklab, var(--c-shell) 45%, transparent);
+        box-shadow: 0 14px 36px -16px color-mix(in oklab, var(--c-shell) 50%, transparent);
     }
 
     /* Base content styling */
@@ -117,7 +178,7 @@ h1, h2, h3, h4, .font-serif {
 
     /* Headings */
     .prose h1 {
-        @apply text-3xl md:text-4xl font-bold font-serif text-warm-brown mb-8 pb-2 border-b-2 border-clay;
+        @apply text-4xl md:text-5xl font-bold font-serif text-warm-brown mb-8;
     }
 
     .prose h2 {
