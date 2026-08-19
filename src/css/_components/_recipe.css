@@ -14,8 +14,8 @@
 /* Styling for checked items */
 [data-instruction-checkbox]:checked + p,
 [data-ingredient-checkbox]:checked + span {
-text-decoration: line-through;
-color: #6b7280;
+    text-decoration: line-through;
+    color: var(--c-ink-faint);
 }
 
 /* Add more space between instruction items */
@@ -37,7 +37,7 @@ label:last-child input[name="scale"] + span {
 }
 
 input[name="scale"] + span {
-    @apply block px-3 py-1 bg-white text-warm-brown border-t border-b border-r border-stone;
+    @apply block px-3 py-1 bg-cream text-warm-brown border-t border-b border-r border-stone;
 }
 
 input[name="scale"]:checked + span {

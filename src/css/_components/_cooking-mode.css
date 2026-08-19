@@ -79,9 +79,8 @@ body.cooking-mode h3 {
 
 body.cooking-mode .ingredients-list,
 body.cooking-mode .instruction-item {
-    /*color: #fff;*/
-    background-color: #222;
-    border-color: #333;
+    background-color: var(--c-surface-2);
+    border-color: var(--c-border);
 }
 
 body.cooking-mode .ingredient-item,

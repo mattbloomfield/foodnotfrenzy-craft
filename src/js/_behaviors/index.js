@@ -2,6 +2,7 @@ import cookingMode from './_cooking-mode.js';
 import feelingLucky from './_feeling-lucky';
 import ingredientChecklist from './_ingredient-checklist';
 import recipeScaler from './_recipe-scaler';
+import themePicker from './_theme-picker';
 import walmartIntegration from './_walmart-integration';
 
 export {
@@ -9,5 +10,6 @@ export {
     feelingLucky,
     ingredientChecklist,
     recipeScaler,
+    themePicker,
     walmartIntegration,
 }

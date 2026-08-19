@@ -14,6 +14,7 @@ use craft\web\UrlManager;
 use craft\web\View;
 use MattBloomfield\RecipeHelper\services\NutritionService;
 use MattBloomfield\RecipeHelper\twig\RecipeFractionConverter;
+use MattBloomfield\RecipeHelper\twig\ThemeExtension;
 use yii\base\Event;
 use yii\base\Module as BaseModule;
 
@@ -43,6 +44,7 @@ class RecipeHelper extends BaseModule
         // after Craft is fully initialized, to avoid conflicts with other plugins/modules
         Craft::$app->onInit(function() {
             Craft::$app->view->registerTwigExtension(new RecipeFractionConverter());
+            Craft::$app->view->registerTwigExtension(new ThemeExtension());
         });
     }
 

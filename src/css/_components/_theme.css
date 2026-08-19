@@ -1,0 +1,108 @@
+/*
+ * Theme tokens — 5 palettes, each defined as light-dark() pairs.
+ *
+ * The active palette comes from <html data-palette="...">, the color
+ * scheme from <html data-theme="light|dark"> (absent = follow system).
+ * Both are server-rendered from cookies, so the first paint is correct.
+ *
+ * Token roles:
+ *   --c-primary    headings, brand strokes        (was warm-brown)
+ *   --c-accent     buttons, links, interactive    (was clay)
+ *   --c-tertiary   category labels, supporting    (was sage)
+ *   --c-surface    page background                (was linen)
+ *   --c-surface-2  cards, callouts                (was cream)
+ *   --c-border     hairlines, dividers            (was stone)
+ *   --c-shell      nav + footer background        (was espresso)
+ *   --c-ink*       text ramp                      (was gray-800..400)
+ */
+
+:root {
+    color-scheme: light dark;
+    --grain-opacity: light-dark(0.35, 0.22);
+
+    /* ── Hearth (default) — espresso, clay, sage ─────────────── */
+    --c-primary:   light-dark(#5C4232, #E2C5A8);
+    --c-accent:    light-dark(#BC6248, #E08D63);
+    --c-tertiary:  light-dark(#71906B, #9DB795);
+    --c-surface:   light-dark(#FAF6F0, #17120E);
+    --c-surface-2: light-dark(#F3EBE0, #211A14);
+    --c-border:    light-dark(#E3D8C8, #3A2F25);
+    --c-shell:     light-dark(#2B211A, #0F0C09);
+    --c-shell-ink: light-dark(#E0D4C2, #C2B29E);
+    --c-ink:       light-dark(#2E241C, #EFE6DB);
+    --c-ink-soft:  light-dark(#4A3D32, #D8CCBE);
+    --c-ink-muted: light-dark(#6E5E50, #B3A495);
+    --c-ink-faint: light-dark(#9C8B7B, #7E6F60);
+}
+
+:root[data-theme='light'] { color-scheme: light; }
+:root[data-theme='dark']  { color-scheme: dark; }
+
+/* Always print the light theme */
+@media print {
+    :root { color-scheme: light !important; }
+}
+
+/* ── Market — basil, tomato, mustard ─────────────────────────── */
+:root[data-palette='market'] {
+    --c-primary:   light-dark(#2F4A34, #AECDA7);
+    --c-accent:    light-dark(#BC4430, #E86A50);
+    --c-tertiary:  light-dark(#9A7D1E, #D2B34A);
+    --c-surface:   light-dark(#F8F8F1, #121610);
+    --c-surface-2: light-dark(#EFF1E3, #1B2218);
+    --c-border:    light-dark(#DDE1CB, #313C2B);
+    --c-shell:     light-dark(#22331F, #0C110A);
+    --c-shell-ink: light-dark(#DBE0C8, #B4C0A5);
+    --c-ink:       light-dark(#232A1F, #E9EEE1);
+    --c-ink-soft:  light-dark(#3C4635, #CBD5C1);
+    --c-ink-muted: light-dark(#5C6852, #A3B197);
+    --c-ink-faint: light-dark(#8B9580, #6F7C64);
+}
+
+/* ── Berry — plum, raspberry, mauve ──────────────────────────── */
+:root[data-palette='berry'] {
+    --c-primary:   light-dark(#4A2B45, #DCB6D2);
+    --c-accent:    light-dark(#AE3A5B, #E06C8B);
+    --c-tertiary:  light-dark(#82688F, #B39FC0);
+    --c-surface:   light-dark(#FBF6F8, #171014);
+    --c-surface-2: light-dark(#F4E9EE, #21171D);
+    --c-border:    light-dark(#E6D4DD, #3C2C35);
+    --c-shell:     light-dark(#33202F, #110A0F);
+    --c-shell-ink: light-dark(#E5D2DC, #C7AFBC);
+    --c-ink:       light-dark(#2C2029, #F0E4EC);
+    --c-ink-soft:  light-dark(#463646, #D6C4D0);
+    --c-ink-muted: light-dark(#665267, #AF9AAC);
+    --c-ink-faint: light-dark(#94809A, #7C6979);
+}
+
+/* ── Citrus — olive, burnt orange, saffron ───────────────────── */
+:root[data-palette='citrus'] {
+    --c-primary:   light-dark(#4A4526, #D8CE96);
+    --c-accent:    light-dark(#C05F1D, #E8934E);
+    --c-tertiary:  light-dark(#93832A, #CDBE55);
+    --c-surface:   light-dark(#FBF8EC, #16150D);
+    --c-surface-2: light-dark(#F4EED8, #201E13);
+    --c-border:    light-dark(#E6DDBD, #3C3822);
+    --c-shell:     light-dark(#33301C, #100F08);
+    --c-shell-ink: light-dark(#E4DBB9, #C6BB93);
+    --c-ink:       light-dark(#2B2A1E, #EFECDC);
+    --c-ink-soft:  light-dark(#454330, #D5D1B8);
+    --c-ink-muted: light-dark(#666347, #ACA787);
+    --c-ink-faint: light-dark(#959072, #787356);
+}
+
+/* ── Tide — deep teal, copper, seafoam ───────────────────────── */
+:root[data-palette='tide'] {
+    --c-primary:   light-dark(#1F4E52, #A4D2D4);
+    --c-accent:    light-dark(#B26749, #DB9270);
+    --c-tertiary:  light-dark(#5F8A93, #8FB7BE);
+    --c-surface:   light-dark(#F4F8F7, #0E1616);
+    --c-surface-2: light-dark(#E8F0EE, #172120);
+    --c-border:    light-dark(#D2E0DC, #2B3B39);
+    --c-shell:     light-dark(#16343A, #091112);
+    --c-shell-ink: light-dark(#CFDEda, #ADC4BF);
+    --c-ink:       light-dark(#1C2A2B, #E3EEEC);
+    --c-ink-soft:  light-dark(#334546, #C2D5D2);
+    --c-ink-muted: light-dark(#52686A, #96AFAC);
+    --c-ink-faint: light-dark(#7F9496, #64797A);
+}

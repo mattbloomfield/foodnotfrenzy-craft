@@ -1,18 +1,68 @@
 @import 'tailwindcss';
+@import './_components/_theme.css';
 @import './_components/_recipe.css';
 @import './_components/_cooking-mode.css';
 
+/*
+ * Every legacy color name maps to a semantic theme token defined in
+ * _theme.css, so the whole site re-themes per palette + light/dark
+ * without touching templates. Gray utilities map to adaptive ink
+ * tokens so text stays readable in dark mode.
+ */
 @theme {
-    --color-linen: #FAF7F2;
-    --color-stone: #E8E2D9;
-    --color-warm-brown: #6B4F3E;
-    --color-clay: #C2775E;
-    --color-sage: #8FA888;
-    --color-cream: #F5F0E8;
-    --color-espresso: #3D2B1F;
+    --color-warm-brown: var(--c-primary);
+    --color-clay: var(--c-accent);
+    --color-sage: var(--c-tertiary);
+    --color-linen: var(--c-surface);
+    --color-cream: var(--c-surface-2);
+    --color-stone: var(--c-border);
+    --color-espresso: var(--c-shell);
+    --color-shell-ink: var(--c-shell-ink);
 
-    --font-serif: 'Playfair Display', serif;
-    --font-sans: 'Source Sans Pro', sans-serif;
+    --color-gray-800: var(--c-ink);
+    --color-gray-700: var(--c-ink-soft);
+    --color-gray-600: var(--c-ink-muted);
+    --color-gray-500: var(--c-ink-faint);
+    --color-gray-400: var(--c-ink-faint);
+    --color-gray-300: var(--c-border);
+    --color-gray-200: var(--c-border);
+    --color-slate-300: var(--c-ink-faint);
+    --color-slate-500: var(--c-ink-muted);
+
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-sans: 'Karla', system-ui, sans-serif;
+}
+
+/* Global atmosphere */
+html {
+    accent-color: var(--c-accent);
+    scrollbar-color: var(--c-border) transparent;
+}
+
+body {
+    font-optical-sizing: auto;
+    position: relative;
+}
+
+/* Paper grain — a whisper of texture over the page surface */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: var(--grain-opacity, 0.35);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+    background-color: var(--c-accent);
+    color: white;
+}
+
+h1, h2, h3, h4, .font-serif {
+    font-variation-settings: 'opsz' 72;
+    letter-spacing: -0.01em;
 }
 
 /* Mobile nav popover — override UA top-layer defaults */
@@ -23,6 +73,14 @@
     max-height: none;
 }
 
+/* Theme picker popover — pinned under the header, right-aligned */
+#theme-menu {
+    position: fixed;
+    inset: 4.5rem 1rem auto auto;
+    margin: 0;
+    border: 1px solid var(--c-border);
+}
+
 /* Recipe grid cards — defer rendering of off-screen items */
 .grid > article,
 .grid > a {
@@ -31,6 +89,19 @@
 }
 
 @layer components {
+    /* Recipe / listing cards — hairline border, gentle lift on hover */
+    .group > article {
+        @apply border border-stone shadow-none;
+        border-radius: 1rem;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .group:hover > article {
+        transform: translateY(-3px);
+        border-color: color-mix(in oklab, var(--c-accent) 45%, var(--c-border));
+        box-shadow: 0 12px 32px -16px color-mix(in oklab, var(--c-shell) 45%, transparent);
+    }
+
     /* Base content styling */
     .prose {
         @apply max-w-none text-gray-800;
@@ -67,7 +138,6 @@
     }
 
     /* Images */
-
     .prose .image {
         @apply my-8;
     }
@@ -108,11 +178,6 @@
 
     .prose .team-image {
         @apply w-24 h-24 mx-auto rounded-full overflow-hidden mb-4;
-    }
-
-    /* Emphasis */
-    .prose .accent {
-        /*@apply font-serif text-clay text-xl;*/
     }
 
     /* Dividers */
