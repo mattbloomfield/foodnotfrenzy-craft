@@ -108,15 +108,33 @@ h1.font-serif, h2.font-serif, .prose h1, .prose h2, .display-wonk {
     transform: translateY(1px);
 }
 
-/* Category chips — playful tilt + fill on hover */
+/* Category chips — hand-cut labels: wobbly outlines, italic serif,
+   scattered tilts, tints cycling through the palette */
 .chip {
+    --chip-tint: var(--c-accent);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 560;
+    font-variation-settings: 'opsz' 24, 'SOFT' 70, 'WONK' 1;
+    letter-spacing: 0.01em;
+    color: color-mix(in oklab, var(--chip-tint) 72%, var(--c-ink));
+    background-color: color-mix(in oklab, var(--chip-tint) 9%, var(--c-surface-2));
+    border: 1.5px solid color-mix(in oklab, var(--chip-tint) 50%, var(--c-border));
+    border-radius: 1.1rem 0.5rem 1rem 0.6rem / 0.6rem 1rem 0.5rem 1.1rem;
+    transform: rotate(-1deg);
     transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
+.chip:nth-child(2n) {
+    border-radius: 0.5rem 1.1rem 0.6rem 1rem / 1rem 0.6rem 1.1rem 0.5rem;
+    transform: rotate(1deg);
+}
+.chip:nth-child(3n)   { --chip-tint: var(--c-tertiary); }
+.chip:nth-child(3n+2) { --chip-tint: var(--c-primary); }
 .chip:hover {
-    transform: rotate(-1.5deg) scale(1.04);
-    background-color: var(--c-accent);
-    border-color: var(--c-accent);
-    color: white;
+    transform: rotate(0deg) scale(1.06);
+    background-color: var(--chip-tint);
+    border-color: var(--chip-tint);
+    color: var(--c-surface);
 }
 
 /* Featured first card on landing grids */
