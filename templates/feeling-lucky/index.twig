@@ -16,17 +16,13 @@
                     <!-- Add "Any Category" option first -->
                     <label class="relative cursor-pointer">
                         <input type="radio" name="category" value="null" class="absolute opacity-0 peer" checked>
-                        <span class="block bg-linen hover:bg-stone/50 transition duration-200 rounded-full p-3 text-center border border-stone peer-checked:bg-warm-brown peer-checked:text-white peer-checked:border-warm-brown">
-                            <span class="font-serif">Any Category</span>
-                        </span>
+                        <span class="chip block p-3 text-center">Any Category</span>
                     </label>
 
                     {% for category in topLevelCategories %}
                         <label class="relative cursor-pointer">
                             <input type="radio" name="category" value="{{ category.id }}" class="absolute opacity-0 peer">
-                            <span class="block bg-linen hover:bg-stone/50 transition duration-200 rounded-full p-3 text-center border border-stone peer-checked:bg-warm-brown peer-checked:text-white peer-checked:border-warm-brown">
-                                <span class="font-serif">{{ category.title }}</span>
-                            </span>
+                            <span class="chip block p-3 text-center">{{ category.title }}</span>
                         </label>
                     {% endfor %}
                 </div>

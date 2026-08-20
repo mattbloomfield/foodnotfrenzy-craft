@@ -73,7 +73,7 @@
                                     <p class="text-sm font-medium text-warm-brown mb-2">Subcategories:</p>
                                     <div class="flex flex-wrap gap-2">
                                         {% for child in children|slice(0, 3) %}
-                                            <a href="{{ child.url }}" class="text-xs px-2 py-1 bg-linen rounded-full transition hover:bg-clay hover:text-white">
+                                            <a href="{{ child.url }}" class="chip text-xs px-2.5 py-1">
                                                 {{ child.title }}
                                             </a>
                                         {% endfor %}

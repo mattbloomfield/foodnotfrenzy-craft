@@ -124,14 +124,24 @@ h1.font-serif, h2.font-serif, .prose h1, .prose h2, .display-wonk {
     transform: rotate(-1deg);
     transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-.chip:nth-child(2n) {
+/* Cycling tilts + tints. Chips nested in radio <label>s cycle by the
+   label's position instead of their own (the input is sibling #1). */
+.chip:not(label > *):nth-child(2n),
+label:nth-child(2n) > .chip {
     border-radius: 0.5rem 1.1rem 0.6rem 1rem / 1rem 0.6rem 1.1rem 0.5rem;
     transform: rotate(1deg);
 }
-.chip:nth-child(3n)   { --chip-tint: var(--c-tertiary); }
-.chip:nth-child(3n+2) { --chip-tint: var(--c-primary); }
-.chip:hover {
+.chip:not(label > *):nth-child(3n),   label:nth-child(3n) > .chip   { --chip-tint: var(--c-tertiary); }
+.chip:not(label > *):nth-child(3n+2), label:nth-child(3n+2) > .chip { --chip-tint: var(--c-primary); }
+.chip:hover,
+label:hover > .chip {
     transform: rotate(0deg) scale(1.06);
+    background-color: var(--chip-tint);
+    border-color: var(--chip-tint);
+    color: var(--c-surface);
+}
+input:checked + .chip {
+    transform: rotate(0deg);
     background-color: var(--chip-tint);
     border-color: var(--chip-tint);
     color: var(--c-surface);
