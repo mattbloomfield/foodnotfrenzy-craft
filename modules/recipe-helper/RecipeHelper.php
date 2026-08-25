@@ -72,6 +72,20 @@ class RecipeHelper extends BaseModule
             }
         );
 
+        // Register public JSON API URL rules
+        Event::on(
+            UrlManager::class,
+            UrlManager::EVENT_REGISTER_SITE_URL_RULES,
+            function(RegisterUrlRulesEvent $event) {
+                $event->rules['GET api/recipes'] = 'recipe-helper/api/recipes';
+                $event->rules['GET api/recipes/<slug:[^\/]+>'] = 'recipe-helper/api/recipe';
+                $event->rules['GET api/categories'] = 'recipe-helper/api/categories';
+                $event->rules['GET api/openapi.json'] = 'recipe-helper/api/openapi';
+                // Allow CORS preflight on any api/* path.
+                $event->rules['OPTIONS api/<rest:.*>'] = 'recipe-helper/api/recipes';
+            }
+        );
+
         // Auto-calculate nutrition on recipe save when ingredients change
         Event::on(
             Entry::class,
