@@ -4,9 +4,14 @@ namespace MattBloomfield\RecipeHelper\services;
 
 use Craft;
 use craft\elements\Entry;
+use craft\elements\db\EntryQuery;
 
 /**
- * Read-only recipe query + serialization service backing the public JSON API.
+ * Read-only recipe query + serialization service.
+ *
+ * Backs both the public JSON API (ApiController) and the on-site advanced
+ * search page (templates/recipes/search.twig, via the `craft.recipes` Twig
+ * variable). Both entry points share the same filter logic in buildQuery().
  *
  * DB-level filters (nutrition ranges, prep/cook time, difficulty, category,
  * full-text) are pushed into the element query. Filters that can't be expressed
@@ -55,96 +60,40 @@ class RecipeApiService
     ];
 
     /**
-     * Search recipes.
+     * Search recipes and return serialized summaries (JSON API shape).
      *
      * @param array $params Raw request query params.
      * @return array{total:int, limit:int, offset:int, results:array}
      */
     public function search(array $params): array
     {
-        $limit  = $this->clampInt($params['limit'] ?? null, self::DEFAULT_LIMIT, 1, self::MAX_LIMIT);
-        $offset = max(0, (int)($params['offset'] ?? 0));
-
-        $query = Entry::find()
-            ->section(self::SECTION)
-            ->status('enabled');
-
-        // --- Nutrition range filters (DB level) ---
-        foreach (self::NUTRIENT_FIELDS as $key => $handle) {
-            $min = $this->numOrNull($params['min' . ucfirst($key)] ?? null);
-            $max = $this->numOrNull($params['max' . ucfirst($key)] ?? null);
-            $condition = $this->rangeCondition($min, $max);
-            if ($condition !== null) {
-                $query->{$handle}($condition);
-            }
-        }
-
-        // --- Time filters (DB level, minutes) ---
-        if (($maxPrep = $this->numOrNull($params['maxPrepTime'] ?? null)) !== null) {
-            $query->prepTime("<= $maxPrep");
-        }
-        if (($maxCook = $this->numOrNull($params['maxCookTime'] ?? null)) !== null) {
-            $query->cookTime("<= $maxCook");
-        }
-
-        // --- Difficulty (Dropdown value) ---
-        if (!empty($params['difficulty'])) {
-            $query->difficulty((string)$params['difficulty']);
-        }
-
-        // --- Category (by slug) ---
-        if (!empty($params['category'])) {
-            $category = Entry::find()
-                ->section(self::CATEGORY_SECTION)
-                ->slug((string)$params['category'])
-                ->status('enabled')
-                ->one();
-
-            if (!$category) {
-                // Unknown category → no matches, but still a valid response.
-                return ['total' => 0, 'limit' => $limit, 'offset' => $offset, 'results' => []];
-            }
-            $query->relatedTo(['targetElement' => $category, 'field' => 'categories']);
-        }
-
-        // --- Full-text search (title/description/etc.) ---
-        if (!empty($params['q'])) {
-            $query->search((string)$params['q']);
-        }
-
-        $query->orderBy($this->orderBy($params['sort'] ?? null));
-
-        // Post-query filters that can't be expressed as query params.
-        $ingredient  = isset($params['ingredient']) ? trim((string)$params['ingredient']) : '';
-        $maxTotal    = $this->numOrNull($params['maxTotalTime'] ?? null);
-        $needsPost   = $ingredient !== '' || $maxTotal !== null;
-
-        if (!$needsPost) {
-            $total   = (int)$query->count();
-            $entries = $query->offset($offset)->limit($limit)->all();
-        } else {
-            $all = $query->all();
-            $all = array_values(array_filter($all, function(Entry $entry) use ($ingredient, $maxTotal) {
-                if ($maxTotal !== null) {
-                    $total = (int)($entry->prepTime ?? 0) + (int)($entry->cookTime ?? 0);
-                    if ($total > $maxTotal) {
-                        return false;
-                    }
-                }
-                if ($ingredient !== '' && !$this->recipeHasIngredient($entry, $ingredient)) {
-                    return false;
-                }
-                return true;
-            }));
-            $total   = count($all);
-            $entries = array_slice($all, $offset, $limit);
-        }
+        $built = $this->buildQuery($params);
+        $run = $this->runQuery($built);
 
         return [
-            'total'   => $total,
-            'limit'   => $limit,
-            'offset'  => $offset,
-            'results' => array_map(fn(Entry $e) => $this->serializeSummary($e), $entries),
+            'total'   => $run['total'],
+            'limit'   => $built['limit'],
+            'offset'  => $built['offset'],
+            'results' => array_map(fn(Entry $e) => $this->serializeSummary($e), $run['entries']),
+        ];
+    }
+
+    /**
+     * Search recipes and return the matching Entry elements (for Twig rendering).
+     *
+     * @param array $params Raw request query params.
+     * @return array{total:int, limit:int, offset:int, entries:Entry[]}
+     */
+    public function queryEntries(array $params): array
+    {
+        $built = $this->buildQuery($params);
+        $run = $this->runQuery($built);
+
+        return [
+            'total'   => $run['total'],
+            'limit'   => $built['limit'],
+            'offset'  => $built['offset'],
+            'entries' => $run['entries'],
         ];
     }
 
@@ -164,6 +113,8 @@ class RecipeApiService
 
     /**
      * List all recipe categories (valid values for the `category` filter).
+     *
+     * @return array<array{title:string, slug:string}>
      */
     public function getCategories(): array
     {
@@ -177,6 +128,125 @@ class RecipeApiService
             'title' => $c->title,
             'slug'  => $c->slug,
         ], $categories);
+    }
+
+    // --- Query building -----------------------------------------------------
+
+    /**
+     * Translate request params into a configured element query plus an optional
+     * PHP post-filter and pagination bounds.
+     *
+     * @return array{query:EntryQuery, postFilter:?callable, limit:int, offset:int, noResults:bool}
+     */
+    private function buildQuery(array $params): array
+    {
+        $limit  = $this->clampInt($params['limit'] ?? null, self::DEFAULT_LIMIT, 1, self::MAX_LIMIT);
+        $offset = max(0, (int)($params['offset'] ?? 0));
+
+        $query = Entry::find()
+            ->section(self::SECTION)
+            ->status('enabled');
+
+        // Nutrition range filters (DB level).
+        foreach (self::NUTRIENT_FIELDS as $key => $handle) {
+            $min = $this->numOrNull($params['min' . ucfirst($key)] ?? null);
+            $max = $this->numOrNull($params['max' . ucfirst($key)] ?? null);
+            $condition = $this->rangeCondition($min, $max);
+            if ($condition !== null) {
+                $query->{$handle}($condition);
+            }
+        }
+
+        // Time filters (DB level, minutes).
+        if (($maxPrep = $this->numOrNull($params['maxPrepTime'] ?? null)) !== null) {
+            $query->prepTime("<= $maxPrep");
+        }
+        if (($maxCook = $this->numOrNull($params['maxCookTime'] ?? null)) !== null) {
+            $query->cookTime("<= $maxCook");
+        }
+
+        // Difficulty (Dropdown value).
+        if (!empty($params['difficulty'])) {
+            $query->difficulty((string)$params['difficulty']);
+        }
+
+        // Category (by slug).
+        if (!empty($params['category'])) {
+            $category = Entry::find()
+                ->section(self::CATEGORY_SECTION)
+                ->slug((string)$params['category'])
+                ->status('enabled')
+                ->one();
+
+            if (!$category) {
+                return ['query' => $query, 'postFilter' => null, 'limit' => $limit, 'offset' => $offset, 'noResults' => true];
+            }
+            $query->relatedTo(['targetElement' => $category, 'field' => 'categories']);
+        }
+
+        // Full-text search (title/description/etc.).
+        if (!empty($params['q'])) {
+            $query->search((string)$params['q']);
+        }
+
+        $query->orderBy($this->orderBy($params['sort'] ?? null));
+
+        // Post-query filters that can't be expressed as query params.
+        $ingredient = isset($params['ingredient']) ? trim((string)$params['ingredient']) : '';
+        $maxTotal   = $this->numOrNull($params['maxTotalTime'] ?? null);
+
+        $postFilter = null;
+        if ($ingredient !== '' || $maxTotal !== null) {
+            $postFilter = function(Entry $entry) use ($ingredient, $maxTotal) {
+                if ($maxTotal !== null) {
+                    $total = (int)($entry->prepTime ?? 0) + (int)($entry->cookTime ?? 0);
+                    if ($total > $maxTotal) {
+                        return false;
+                    }
+                }
+                if ($ingredient !== '' && !$this->recipeHasIngredient($entry, $ingredient)) {
+                    return false;
+                }
+                return true;
+            };
+        }
+
+        return [
+            'query'      => $query,
+            'postFilter' => $postFilter,
+            'limit'      => $limit,
+            'offset'     => $offset,
+            'noResults'  => false,
+        ];
+    }
+
+    /**
+     * Execute a built query, applying the post-filter and pagination.
+     *
+     * @param array{query:EntryQuery, postFilter:?callable, limit:int, offset:int, noResults:bool} $built
+     * @return array{total:int, entries:Entry[]}
+     */
+    private function runQuery(array $built): array
+    {
+        if ($built['noResults']) {
+            return ['total' => 0, 'entries' => []];
+        }
+
+        /** @var EntryQuery $query */
+        $query  = $built['query'];
+        $limit  = $built['limit'];
+        $offset = $built['offset'];
+
+        if ($built['postFilter'] === null) {
+            $total   = (int)$query->count();
+            $entries = $query->offset($offset)->limit($limit)->all();
+        } else {
+            $all     = array_values(array_filter($query->all(), $built['postFilter']));
+            $total   = count($all);
+            $entries = array_slice($all, $offset, $limit);
+        }
+
+        return ['total' => $total, 'entries' => $entries];
     }
 
     // --- Serialization ------------------------------------------------------
@@ -211,7 +281,7 @@ class RecipeApiService
     }
 
     /**
-     * Nutrition facts, per serving. Null values omitted-as-null so consumers
+     * Nutrition facts, per serving. Null values kept as null so consumers
      * can distinguish "not calculated" from zero.
      */
     private function nutrition(Entry $entry): array

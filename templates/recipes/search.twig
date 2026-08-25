@@ -1,0 +1,231 @@
+{% extends "_layout/base.twig" %}
+
+{% block title %}Advanced Recipe Search | {{ siteName }}{% endblock %}
+
+{% block headExtras %}
+	<meta name="description" content="Search {{ siteName }} recipes by ingredient, category, cook time, and nutrition — protein, calories, carbs, and more.">
+{% endblock %}
+
+{# --- min/max number pair for a nutrient --- #}
+{% macro nutrientRange(req, key, label, unit) %}
+	{% set minName = 'min' ~ key|capitalize %}
+	{% set maxName = 'max' ~ key|capitalize %}
+	{% set cls = 'w-full min-w-0 rounded-md border border-stone bg-linen px-2 py-1.5 text-sm focus:border-clay focus:outline-none focus:ring-1 focus:ring-clay' %}
+	<div>
+		<div class="flex items-baseline justify-between mb-1">
+			<span class="text-sm text-gray-700">{{ label }}</span>
+			{% if unit %}<span class="text-xs text-gray-400">{{ unit }}</span>{% endif %}
+		</div>
+		<div class="grid grid-cols-2 gap-2">
+			<input type="number" inputmode="decimal" min="0" step="any" name="{{ minName }}"
+				value="{{ req.getQueryParam(minName) }}" placeholder="min" aria-label="{{ label }} minimum" class="{{ cls }}">
+			<input type="number" inputmode="decimal" min="0" step="any" name="{{ maxName }}"
+				value="{{ req.getQueryParam(maxName) }}" placeholder="max" aria-label="{{ label }} maximum" class="{{ cls }}">
+		</div>
+	</div>
+{% endmacro %}
+
+{% import _self as f %}
+
+{% block content %}
+	{% set req = craft.app.request %}
+	{% set params = req.getQueryParams() %}
+	{% set result = craft.recipes.queryEntries(params) %}
+
+	{% set inputClass = 'w-full rounded-md border border-stone bg-linen px-3 py-2 text-sm focus:border-clay focus:outline-none focus:ring-1 focus:ring-clay' %}
+
+	<div class="max-w-6xl mx-auto">
+		<header class="mb-8">
+			<p class="eyebrow text-sage">Find your next meal</p>
+			<h1 class="text-3xl md:text-4xl font-bold font-serif text-warm-brown rule-wavy">Advanced Recipe Search</h1>
+			<p class="mt-3 text-gray-600 max-w-2xl">Filter by ingredient, category, time, and nutrition. Chasing a goal? Try <strong>20g+ protein</strong> under <strong>500 calories</strong>.</p>
+		</header>
+
+		<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+			{# ---------------- Filters ---------------- #}
+			<aside class="md:col-span-1">
+				<form data-behavior="recipeSearch" method="get" action="/recipes/search"
+					class="bg-cream rounded-lg p-5 md:sticky md:top-6 space-y-6">
+
+					{# Keyword #}
+					<div>
+						<label class="block text-sm font-bold font-serif text-warm-brown mb-1.5" for="q">Keyword</label>
+						<input id="q" type="search" name="q" value="{{ req.getQueryParam('q') }}"
+							placeholder="e.g. curry, tacos" class="{{ inputClass }}">
+					</div>
+
+					{# Ingredient #}
+					<div>
+						<label class="block text-sm font-bold font-serif text-warm-brown mb-1.5" for="ingredient">Ingredient</label>
+						<input id="ingredient" type="search" name="ingredient" value="{{ req.getQueryParam('ingredient') }}"
+							placeholder="e.g. chicken, spinach" class="{{ inputClass }}">
+					</div>
+
+					{# Category #}
+					{% set topCategories = craft.entries.section('categories').level(1).orderBy('title asc').all() %}
+					{% if topCategories|length %}
+						{% set selectedCat = req.getQueryParam('category') %}
+						<div>
+							<span class="block text-sm font-bold font-serif text-warm-brown mb-2">Category</span>
+							<div class="flex flex-wrap gap-2">
+								<label class="relative cursor-pointer">
+									<input type="radio" name="category" value="" class="absolute opacity-0 peer" {{ selectedCat ? '' : 'checked' }}>
+									<span class="chip block px-3 py-1.5 text-sm">All</span>
+								</label>
+								{% for category in topCategories %}
+									<label class="relative cursor-pointer">
+										<input type="radio" name="category" value="{{ category.slug }}" class="absolute opacity-0 peer" {{ selectedCat == category.slug ? 'checked' }}>
+										<span class="chip block px-3 py-1.5 text-sm">{{ category.title }}</span>
+									</label>
+								{% endfor %}
+							</div>
+						</div>
+					{% endif %}
+
+					{# Difficulty #}
+					{% set selectedDiff = req.getQueryParam('difficulty') %}
+					<div>
+						<span class="block text-sm font-bold font-serif text-warm-brown mb-2">Difficulty</span>
+						<div class="flex flex-wrap gap-2">
+							{% set difficulties = { '': 'Any', 'child': 'Kids', 'beginner': 'Beginner', 'average': 'Average', 'difficult': 'Difficult' } %}
+							{% for value, label in difficulties %}
+								<label class="relative cursor-pointer">
+									<input type="radio" name="difficulty" value="{{ value }}" class="absolute opacity-0 peer" {{ selectedDiff == value or (not selectedDiff and value == '') ? 'checked' }}>
+									<span class="chip block px-3 py-1.5 text-sm">{{ label }}</span>
+								</label>
+							{% endfor %}
+						</div>
+					</div>
+
+					{# Nutrition (per serving) #}
+					<div>
+						<span class="block text-sm font-bold font-serif text-warm-brown mb-2">Nutrition <span class="font-sans font-normal text-xs text-gray-400">per serving</span></span>
+						<div class="space-y-3">
+							{{ f.nutrientRange(req, 'protein', 'Protein', 'g') }}
+							{{ f.nutrientRange(req, 'calories', 'Calories', 'kcal') }}
+							{{ f.nutrientRange(req, 'carbs', 'Carbs', 'g') }}
+							{{ f.nutrientRange(req, 'fat', 'Fat', 'g') }}
+						</div>
+						<details class="mt-3 group">
+							<summary class="cursor-pointer text-sm text-clay hover:text-warm-brown select-none">More nutrients</summary>
+							<div class="mt-3 space-y-3">
+								{{ f.nutrientRange(req, 'fiber', 'Fiber', 'g') }}
+								{{ f.nutrientRange(req, 'sugar', 'Sugar', 'g') }}
+								{{ f.nutrientRange(req, 'saturatedFat', 'Sat. Fat', 'g') }}
+								{{ f.nutrientRange(req, 'sodium', 'Sodium', 'mg') }}
+							</div>
+						</details>
+					</div>
+
+					{# Time #}
+					<div>
+						<span class="block text-sm font-bold font-serif text-warm-brown mb-2">Max Time <span class="font-sans font-normal text-xs text-gray-400">minutes</span></span>
+						<div class="space-y-2">
+							<div class="flex items-center gap-2">
+								<span class="w-24 shrink-0 text-sm text-gray-700">Total</span>
+								<input type="number" min="0" name="maxTotalTime" value="{{ req.getQueryParam('maxTotalTime') }}" placeholder="any" class="{{ inputClass }}">
+							</div>
+							<div class="flex items-center gap-2">
+								<span class="w-24 shrink-0 text-sm text-gray-700">Prep</span>
+								<input type="number" min="0" name="maxPrepTime" value="{{ req.getQueryParam('maxPrepTime') }}" placeholder="any" class="{{ inputClass }}">
+							</div>
+							<div class="flex items-center gap-2">
+								<span class="w-24 shrink-0 text-sm text-gray-700">Cook</span>
+								<input type="number" min="0" name="maxCookTime" value="{{ req.getQueryParam('maxCookTime') }}" placeholder="any" class="{{ inputClass }}">
+							</div>
+						</div>
+					</div>
+
+					{# Sort #}
+					{% set selectedSort = req.getQueryParam('sort') ?: 'date:desc' %}
+					<div>
+						<label class="block text-sm font-bold font-serif text-warm-brown mb-1.5" for="sort">Sort by</label>
+						{% set sortOptions = {
+							'date:desc': 'Newest',
+							'protein:desc': 'Protein — high to low',
+							'protein:asc': 'Protein — low to high',
+							'calories:asc': 'Calories — low to high',
+							'calories:desc': 'Calories — high to low',
+							'carbs:asc': 'Carbs — low to high',
+							'title:asc': 'Title — A to Z'
+						} %}
+						<select id="sort" name="sort" class="{{ inputClass }}">
+							{% for value, label in sortOptions %}
+								<option value="{{ value }}" {{ selectedSort == value ? 'selected' }}>{{ label }}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<div class="flex items-center gap-3 pt-1">
+						<button type="submit" class="bg-clay hover:bg-warm-brown text-white font-medium rounded-full py-2 px-6 transition duration-200">Search</button>
+						<a href="/recipes/search" class="text-sm text-gray-500 hover:text-clay transition">Reset</a>
+					</div>
+					<noscript>
+						<p class="text-xs text-gray-400 mt-2">Tip: enable JavaScript for instant results as you type.</p>
+					</noscript>
+				</form>
+			</aside>
+
+			{# ---------------- Results ---------------- #}
+			<div class="md:col-span-3" id="SearchResults">
+				{% set total = result.total %}
+				{% set limit = result.limit %}
+				{% set offset = result.offset %}
+				{% set showingTo = min(offset + limit, total) %}
+
+				{% if total %}
+					<p class="text-gray-600 text-sm mb-5">
+						Showing <strong class="text-warm-brown">{{ offset + 1 }}–{{ showingTo }}</strong> of
+						<strong class="text-warm-brown">{{ total }}</strong> {{ total == 1 ? 'recipe' : 'recipes' }}
+					</p>
+
+					{% set gridItems = [] %}
+					{% for recipe in result.entries %}
+						{% set categories = [] %}
+						{% for category in recipe.categories.all() %}
+							{% set categories = categories|merge([{ title: category.title, href: category.url }]) %}
+						{% endfor %}
+						{% set gridItems = gridItems|merge([{
+							type: '@card/recipe',
+							data: {
+								title: recipe.title,
+								href: recipe.url,
+								image: recipe.image.one() ? recipe.image.one() : null,
+								description: recipe.description,
+								categories: categories,
+							},
+						}]) %}
+					{% endfor %}
+					{% include "@listing/grid" with { items: gridItems } %}
+
+					{# Pagination #}
+					{% if total > limit %}
+						{% set prevOffset = max(0, offset - limit) %}
+						{% set nextOffset = offset + limit %}
+						<nav class="flex items-center justify-between mt-10">
+							{% if offset > 0 %}
+								<a href="?{{ params|merge({ offset: prevOffset })|url_encode }}" class="px-4 py-2 bg-warm-brown text-white rounded-lg hover:bg-espresso transition">← Previous</a>
+							{% else %}
+								<span></span>
+							{% endif %}
+							{% if nextOffset < total %}
+								<a href="?{{ params|merge({ offset: nextOffset })|url_encode }}" class="px-4 py-2 bg-warm-brown text-white rounded-lg hover:bg-espresso transition">Next →</a>
+							{% else %}
+								<span></span>
+							{% endif %}
+						</nav>
+					{% endif %}
+				{% else %}
+					<div class="text-center py-16 bg-cream rounded-lg">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-stone mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+						</svg>
+						<h2 class="text-xl font-serif font-bold text-warm-brown mb-3">No recipes match those filters</h2>
+						<p class="text-gray-700 mb-6">Try loosening a nutrition range or clearing a filter.</p>
+						<a href="/recipes/search" class="px-4 py-2 bg-clay text-white rounded-lg hover:bg-warm-brown transition duration-200">Reset filters</a>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

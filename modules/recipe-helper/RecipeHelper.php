@@ -10,9 +10,11 @@ use craft\events\RegisterCpNavItemsEvent;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\web\twig\variables\Cp;
+use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 use craft\web\View;
 use MattBloomfield\RecipeHelper\services\NutritionService;
+use MattBloomfield\RecipeHelper\services\RecipeApiService;
 use MattBloomfield\RecipeHelper\twig\RecipeFractionConverter;
 use MattBloomfield\RecipeHelper\twig\ThemeExtension;
 use yii\base\Event;
@@ -130,6 +132,17 @@ class RecipeHelper extends BaseModule
                     'recipe-helper/nutrition/_sidebar',
                     ['entry' => $entry]
                 );
+            }
+        );
+
+        // Expose the recipe query service to Twig as `craft.recipes`
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            function(Event $event) {
+                /** @var CraftVariable $variable */
+                $variable = $event->sender;
+                $variable->set('recipes', RecipeApiService::class);
             }
         );
 
