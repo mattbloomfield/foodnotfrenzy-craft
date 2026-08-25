@@ -85,6 +85,11 @@ class RecipeHelper extends BaseModule
                 $event->rules['GET api/openapi.json'] = 'recipe-helper/api/openapi';
                 // Allow CORS preflight on any api/* path.
                 $event->rules['OPTIONS api/<rest:.*>'] = 'recipe-helper/api/recipes';
+
+                // Fallback 301s for old category URLs after the taxonomy was
+                // re-faceted. Only fires when no category element matches the
+                // URI (Craft resolves element URIs first).
+                $event->rules['categories/<catUri:.+>'] = 'recipe-helper/category-redirect/redirect';
             }
         );
 

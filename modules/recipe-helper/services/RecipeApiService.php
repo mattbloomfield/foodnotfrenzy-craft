@@ -170,18 +170,25 @@ class RecipeApiService
             $query->difficulty((string)$params['difficulty']);
         }
 
-        // Category (by slug).
-        if (!empty($params['category'])) {
-            $category = Entry::find()
-                ->section(self::CATEGORY_SECTION)
-                ->slug((string)$params['category'])
-                ->status('enabled')
-                ->one();
+        // Category (by slug). Accepts one slug, a repeated `category` param, or a
+        // comma-separated list; multiple categories are AND-ed together so a
+        // recipe must match every selected facet (e.g. Mexican AND Chicken).
+        $catSlugs = $this->normalizeList($params['category'] ?? null);
+        if ($catSlugs) {
+            $relatedTo = ['and'];
+            foreach ($catSlugs as $slug) {
+                $category = Entry::find()
+                    ->section(self::CATEGORY_SECTION)
+                    ->slug($slug)
+                    ->status('enabled')
+                    ->one();
 
-            if (!$category) {
-                return ['query' => $query, 'postFilter' => null, 'limit' => $limit, 'offset' => $offset, 'noResults' => true];
+                if (!$category) {
+                    return ['query' => $query, 'postFilter' => null, 'limit' => $limit, 'offset' => $offset, 'noResults' => true];
+                }
+                $relatedTo[] = ['targetElement' => $category, 'field' => 'categories'];
             }
-            $query->relatedTo(['targetElement' => $category, 'field' => 'categories']);
+            $query->relatedTo($relatedTo);
         }
 
         // Full-text search (title/description/etc.).
@@ -439,6 +446,22 @@ class RecipeApiService
             return $default;
         }
         return max($min, min($max, (int)$value));
+    }
+
+    /**
+     * Normalize a param that may be a single value, an array, or a
+     * comma-separated string into a clean list of non-empty strings.
+     *
+     * @return string[]
+     */
+    private function normalizeList($value): array
+    {
+        if ($value === null || $value === '') {
+            return [];
+        }
+        $items = is_array($value) ? $value : explode(',', (string)$value);
+        $items = array_map(fn($v) => trim((string)$v), $items);
+        return array_values(array_filter($items, fn($v) => $v !== ''));
     }
 
     private function numOrNull($value): ?float

@@ -61,22 +61,29 @@
 							placeholder="e.g. chicken, spinach" class="{{ inputClass }}">
 					</div>
 
-					{# Category #}
-					{% set topCategories = craft.entries.section('categories').level(1).orderBy('title asc').all() %}
-					{% if topCategories|length %}
-						{% set selectedCat = req.getQueryParam('category') %}
+					{# Categories — grouped by facet, multi-select (AND across choices) #}
+					{% set facets = craft.entries.section('categories').level(1).orderBy('lft asc').all() %}
+					{% set selectedCats = req.getQueryParam('category') %}
+					{% set selectedCats = selectedCats is iterable ? selectedCats : (selectedCats ? [selectedCats] : []) %}
+					{% if facets|length %}
 						<div>
-							<span class="block text-sm font-bold font-serif text-warm-brown mb-2">Category</span>
-							<div class="flex flex-wrap gap-2">
-								<label class="relative cursor-pointer">
-									<input type="radio" name="category" value="" class="absolute opacity-0 peer" {{ selectedCat ? '' : 'checked' }}>
-									<span class="chip block px-3 py-1.5 text-sm">All</span>
-								</label>
-								{% for category in topCategories %}
-									<label class="relative cursor-pointer">
-										<input type="radio" name="category" value="{{ category.slug }}" class="absolute opacity-0 peer" {{ selectedCat == category.slug ? 'checked' }}>
-										<span class="chip block px-3 py-1.5 text-sm">{{ category.title }}</span>
-									</label>
+							<span class="block text-sm font-bold font-serif text-warm-brown mb-2">Categories</span>
+							<div class="space-y-3">
+								{% for facet in facets %}
+									{% set leaves = craft.entries.section('categories').descendantOf(facet).orderBy('lft asc').all() %}
+									{% if leaves|length %}
+										<div>
+											<p class="text-[11px] uppercase tracking-widest text-sage mb-1.5">{{ facet.title }}</p>
+											<div class="flex flex-wrap gap-1.5">
+												{% for leaf in leaves %}
+													<label class="relative cursor-pointer">
+														<input type="checkbox" name="category[]" value="{{ leaf.slug }}" class="absolute opacity-0 peer" {{ leaf.slug in selectedCats ? 'checked' }}>
+														<span class="chip block px-2.5 py-1 text-xs">{{ leaf.title }}</span>
+													</label>
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
 								{% endfor %}
 							</div>
 						</div>

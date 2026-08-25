@@ -107,11 +107,15 @@
 		<div class="mt-8">
 			<h2 class="text-xl font-bold font-serif text-warm-brown mb-6 pb-2 border-b border-stone">Recipes in this Category</h2>
 
-			{% set recipes = craft.entries()
+			{# Roll up recipes from this category and all its descendants, so a
+			   facet parent (e.g. Course) or a parent category (e.g. Dessert)
+			   surfaces everything beneath it. #}
+			{% set catIds = entry.getDescendants().ids()|merge([entry.id]) %}
+			{% set recipeQuery = craft.entries()
                 .section('recipes')
-                .relatedTo(entry)
-                .orderBy('title ASC')
-                .all() %}
+                .relatedTo(catIds)
+                .orderBy('title ASC') %}
+			{% paginate recipeQuery.limit(24) as paginate, recipes %}
 
 			{% if recipes|length %}
 				{% set gridItems = [] %}
@@ -157,13 +161,11 @@
 						<span class="px-4 py-2 text-gray-400 border border-gray-200 rounded-l cursor-not-allowed">Previous</span>
 					{% endif %}
 
-					{% for page in paginate.getPaginationInfo(2) %}
-						{% if page.type == 'current' %}
-							<span class="px-4 py-2 text-white bg-warm-brown border border-warm-brown">{{ page.num }}</span>
-						{% elseif page.type == 'number' %}
-							<a href="{{ page.url }}" class="px-4 py-2 text-warm-brown border border-stone hover:bg-stone/30 transition duration-200">{{ page.num }}</a>
+					{% for pageNum, url in paginate.getDynamicRangeUrls(5) %}
+						{% if pageNum == paginate.currentPage %}
+							<span class="px-4 py-2 text-white bg-warm-brown border border-warm-brown">{{ pageNum }}</span>
 						{% else %}
-							<span class="px-4 py-2 text-warm-brown border border-stone">...</span>
+							<a href="{{ url }}" class="px-4 py-2 text-warm-brown border border-stone hover:bg-stone/30 transition duration-200">{{ pageNum }}</a>
 						{% endif %}
 					{% endfor %}
 
