@@ -43,10 +43,13 @@ class CategorizeController extends Controller
     /** @var bool Re-tag recipes that already have categories (default skips fully-tagged only when they have 3+). */
     public bool $force = false;
 
+    /** @var int Only process recipes with at most this many existing categories (-1 = no filter). */
+    public int $maxExisting = -1;
+
     public function options($actionID): array
     {
         $options = parent::options($actionID);
-        return array_merge($options, ['dryRun', 'entryId', 'limit', 'delay', 'model', 'replace', 'force']);
+        return array_merge($options, ['dryRun', 'entryId', 'limit', 'delay', 'model', 'replace', 'force', 'maxExisting']);
     }
 
     public function actionRun(): int
@@ -88,6 +91,11 @@ class CategorizeController extends Controller
         $failed = 0;
 
         foreach ($recipes as $i => $recipe) {
+            $existingCount = count($recipe->getFieldValue('categories')->all());
+            if ($this->maxExisting >= 0 && $existingCount > $this->maxExisting) {
+                continue; // already sufficiently tagged — skip without an API call
+            }
+
             $this->stdout(sprintf("[%d/%d] %s\n", $i + 1, $total, $recipe->title));
 
             $result = $service->categorize($recipe, $this->model);

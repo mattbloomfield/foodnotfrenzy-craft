@@ -173,6 +173,9 @@ class RecipeApiService
         // Category (by slug). Accepts one slug, a repeated `category` param, or a
         // comma-separated list; multiple categories are AND-ed together so a
         // recipe must match every selected facet (e.g. Mexican AND Chicken).
+        // Selecting a category also matches recipes tagged with any of its
+        // descendants — so picking "Dessert" includes recipes tagged only
+        // "Cake", and picking a facet parent rolls up everything beneath it.
         $catSlugs = $this->normalizeList($params['category'] ?? null);
         if ($catSlugs) {
             $relatedTo = ['and'];
@@ -186,7 +189,12 @@ class RecipeApiService
                 if (!$category) {
                     return ['query' => $query, 'postFilter' => null, 'limit' => $limit, 'offset' => $offset, 'noResults' => true];
                 }
-                $relatedTo[] = ['targetElement' => $category, 'field' => 'categories'];
+                // The category itself plus all of its descendants (OR within the group).
+                $targets = array_merge(
+                    [$category],
+                    $category->getDescendants()->section(self::CATEGORY_SECTION)->status('enabled')->all()
+                );
+                $relatedTo[] = ['targetElement' => $targets, 'field' => 'categories'];
             }
             $query->relatedTo($relatedTo);
         }
