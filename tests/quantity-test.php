@@ -4,11 +4,13 @@
  * No dependencies — run with: php tests/quantity-test.php (or ddev php ...)
  */
 
+require __DIR__ . '/../modules/recipe-helper/quantity/QuantityNormalizer.php';
 require __DIR__ . '/../modules/recipe-helper/quantity/Rational.php';
 require __DIR__ . '/../modules/recipe-helper/quantity/UnitRegistry.php';
 require __DIR__ . '/../modules/recipe-helper/quantity/QuantityFormatter.php';
 
 use MattBloomfield\RecipeHelper\quantity\QuantityFormatter;
+use MattBloomfield\RecipeHelper\quantity\QuantityNormalizer;
 
 $converter = new QuantityFormatter();
 $failures = 0;
@@ -32,6 +34,18 @@ check('1/3 x 3 is exactly 1', $converter->format('1/3', 3), '1');
 check('1/3 x 2 renders glyph', $converter->format('1/3', 2), '⅔');
 check('decimal input', $converter->format('1.5', 2), '3');
 check('mixed number glyph', $converter->format('3/4', 3), '2 ¼');
+check('unicode half scales', $converter->format('½', 2), '1');
+check('unicode mixed number scales', $converter->format('1 ½', 2), '3');
+check('unicode range scales', $converter->format('¼-½', 2), '½-1');
+check('unicode third remains exact', $converter->format('⅓', 3), '1');
+
+// --- Storage normalization ---
+check('unicode half normalizes to decimal', QuantityNormalizer::normalize('½'), '0.5');
+check('unicode mixed half normalizes to decimal', QuantityNormalizer::normalize('1½'), '1.5');
+check('unicode range normalizes', QuantityNormalizer::normalize('¼-¾'), '0.25-0.75');
+check('unicode third normalizes without rounding', QuantityNormalizer::normalize('1 ⅓'), '1 1/3');
+check('unicode seventh normalizes without rounding', QuantityNormalizer::normalize('⅐'), '1/7');
+check('plain decimal is unchanged', QuantityNormalizer::normalize('1.25'), '1.25');
 
 // --- Empty / zero quantities ---
 check('empty quantity, no unit', $converter->format('', 1), '');

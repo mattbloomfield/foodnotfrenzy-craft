@@ -13,6 +13,7 @@ use craft\web\twig\variables\Cp;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 use craft\web\View;
+use MattBloomfield\RecipeHelper\quantity\QuantityNormalizer;
 use MattBloomfield\RecipeHelper\services\NutritionService;
 use MattBloomfield\RecipeHelper\services\RecipeApiService;
 use MattBloomfield\RecipeHelper\twig\RecipeFractionConverter;
@@ -101,9 +102,25 @@ class RecipeHelper extends BaseModule
                 /** @var Entry $entry */
                 $entry = $event->sender;
 
-                // Only recipe entries, only canonical saves (not drafts/autosaves)
-                if ($entry->type->handle !== 'recipe' || $entry->getIsDraft() || $entry->propagating || $entry->resaving) {
+                // Matrix blocks are entries in Craft 5. Normalize their table
+                // rows immediately before persistence, regardless of whether
+                // they are being saved via a recipe or on their own.
+                if ($entry->type?->handle === 'ingredientsBlock') {
+                    $this->normalizeIngredientBlock($entry);
                     return;
+                }
+
+                // Only recipe entries, only canonical saves (not drafts/autosaves)
+                if ($entry->type?->handle !== 'recipe' || $entry->getIsDraft() || $entry->propagating || $entry->resaving) {
+                    return;
+                }
+
+                // Normalize loaded blocks before nutrition reads them. The
+                // block-level hook above is the final persistence backstop.
+                foreach ($entry->getFieldValue('ingredientsAndInstructions')->all() as $block) {
+                    if ($block->type?->handle === 'ingredientsBlock') {
+                        $this->normalizeIngredientBlock($block);
+                    }
                 }
 
                 $service = new NutritionService();
@@ -159,5 +176,37 @@ class RecipeHelper extends BaseModule
                 $event->roots['recipe-helper'] = __DIR__ . '/templates';
             }
         );
+    }
+
+    private function normalizeIngredientBlock(Entry $block): void
+    {
+        $rows = $block->getFieldValue('ingredientsList');
+        if (!is_array($rows)) {
+            return;
+        }
+
+        $normalizedRows = $rows;
+        $changed = false;
+
+        foreach ($normalizedRows as &$row) {
+            if (!is_array($row)) {
+                continue;
+            }
+
+            $storedQuantity = $row['quantity'] ?? $row['col1'] ?? '';
+            $quantity = QuantityNormalizer::normalize($storedQuantity);
+            if ($quantity !== $storedQuantity) {
+                // Table values expose both the column ID and handle. Keep both
+                // in sync because database serialization reads the column ID.
+                $row['col1'] = $quantity;
+                $row['quantity'] = $quantity;
+                $changed = true;
+            }
+        }
+        unset($row);
+
+        if ($changed) {
+            $block->setFieldValue('ingredientsList', $normalizedRows);
+        }
     }
 }

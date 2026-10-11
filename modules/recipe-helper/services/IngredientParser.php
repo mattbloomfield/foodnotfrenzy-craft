@@ -2,6 +2,8 @@
 
 namespace MattBloomfield\RecipeHelper\services;
 
+use MattBloomfield\RecipeHelper\quantity\QuantityNormalizer;
+
 class IngredientParser
 {
     /**
@@ -95,27 +97,6 @@ class IngredientParser
     ];
 
     /**
-     * Unicode fraction map
-     */
-    private const UNICODE_FRACTIONS = [
-        '½' => '1/2',
-        '⅓' => '1/3',
-        '⅔' => '2/3',
-        '¼' => '1/4',
-        '¾' => '3/4',
-        '⅛' => '1/8',
-        '⅜' => '3/8',
-        '⅝' => '5/8',
-        '⅞' => '7/8',
-        '⅕' => '1/5',
-        '⅖' => '2/5',
-        '⅗' => '3/5',
-        '⅘' => '4/5',
-        '⅙' => '1/6',
-        '⅚' => '5/6',
-    ];
-
-    /**
      * Parse an ingredient string like "2 cups all-purpose flour" into components.
      *
      * @return array{quantity: string, unit: string, ingredientName: string, notes: string}
@@ -124,10 +105,7 @@ class IngredientParser
     {
         $ingredient = trim($ingredient);
 
-        // Replace unicode fractions with ASCII
-        foreach (self::UNICODE_FRACTIONS as $unicode => $ascii) {
-            $ingredient = str_replace($unicode, $ascii, $ingredient);
-        }
+        $ingredient = QuantityNormalizer::normalize($ingredient);
 
         // Clean up whitespace
         $ingredient = preg_replace('/\s+/', ' ', $ingredient);

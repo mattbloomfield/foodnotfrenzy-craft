@@ -4,6 +4,7 @@ namespace MattBloomfield\RecipeHelper\services;
 
 use Craft;
 use craft\elements\Entry;
+use MattBloomfield\RecipeHelper\quantity\QuantityNormalizer;
 
 class NutritionService
 {
@@ -245,7 +246,7 @@ class NutritionService
      */
     public function fractionToDecimal(string $value): float
     {
-        $value = trim($value);
+        $value = QuantityNormalizer::normalize($value);
 
         if ($value === '' || $value === '0') {
             return 0.0;

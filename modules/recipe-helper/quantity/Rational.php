@@ -37,12 +37,12 @@ final class Rational
     }
 
     /**
-     * Parse "2", "1.5", "1/2", or "1 1/2". Returns null if the string
-     * isn't a recognizable quantity.
+     * Parse "2", "1.5", "1/2", "1 1/2", or Unicode fractions such as
+     * "½" and "1 ½". Returns null if the string isn't recognizable.
      */
     public static function fromString(string $value): ?self
     {
-        $value = trim($value);
+        $value = QuantityNormalizer::normalize($value);
 
         // Decimal or whole number — use the decimal digits directly so "1.5" is exactly 3/2
         if (preg_match('/^(\d+)(?:\.(\d+))?$/', $value, $m)) {
