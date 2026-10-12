@@ -166,6 +166,7 @@ class NutritionService
         // Store the API response along with the ingredient hash for change detection
         $entry->setFieldValue('nutritionRawJson', json_encode([
             'ingredientHash' => $this->getIngredientHash($entry),
+            'request'        => $payload,
             'apiResponse'    => $data,
         ], JSON_PRETTY_PRINT));
 
@@ -242,14 +243,31 @@ class NutritionService
     }
 
     /**
-     * Convert fraction strings like "1/2", "1 1/2" to float.
+     * Convert quantities such as "1/2", "1 1/2", and "7-9" to a float.
+     * Ranges use their midpoint so the nutrition API receives one deterministic
+     * quantity rather than silently dropping the amount.
      */
     public function fractionToDecimal(string $value): float
     {
         $value = QuantityNormalizer::normalize($value);
 
-        if ($value === '' || $value === '0') {
-            return 0.0;
+        $range = preg_split('/\s*[-–—]\s*/u', $value);
+        if (count($range) === 2) {
+            $minimum = $this->parseQuantity($range[0]);
+            $maximum = $this->parseQuantity($range[1]);
+
+            if ($minimum !== null && $maximum !== null) {
+                return ($minimum + $maximum) / 2;
+            }
+        }
+
+        return $this->parseQuantity($value) ?? 0.0;
+    }
+
+    private function parseQuantity(string $value): ?float
+    {
+        if ($value === '') {
+            return null;
         }
 
         if (is_numeric($value)) {
@@ -257,15 +275,15 @@ class NutritionService
         }
 
         // Mixed number: "1 1/2"
-        if (preg_match('/^(\d+)\s+(\d+)\/(\d+)$/', $value, $m)) {
+        if (preg_match('/^(\d+)\s+(\d+)\/(\d+)$/', $value, $m) && (int)$m[3] !== 0) {
             return (float)$m[1] + ((float)$m[2] / (float)$m[3]);
         }
 
         // Simple fraction: "1/2"
-        if (preg_match('/^(\d+)\/(\d+)$/', $value, $m)) {
+        if (preg_match('/^(\d+)\/(\d+)$/', $value, $m) && (int)$m[2] !== 0) {
             return (float)$m[1] / (float)$m[2];
         }
 
-        return 0.0;
+        return null;
     }
 }

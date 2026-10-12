@@ -8,11 +8,14 @@ require __DIR__ . '/../modules/recipe-helper/quantity/QuantityNormalizer.php';
 require __DIR__ . '/../modules/recipe-helper/quantity/Rational.php';
 require __DIR__ . '/../modules/recipe-helper/quantity/UnitRegistry.php';
 require __DIR__ . '/../modules/recipe-helper/quantity/QuantityFormatter.php';
+require __DIR__ . '/../modules/recipe-helper/services/NutritionService.php';
 
 use MattBloomfield\RecipeHelper\quantity\QuantityFormatter;
 use MattBloomfield\RecipeHelper\quantity\QuantityNormalizer;
+use MattBloomfield\RecipeHelper\services\NutritionService;
 
 $converter = new QuantityFormatter();
+$nutrition = new NutritionService();
 $failures = 0;
 $passes = 0;
 
@@ -93,6 +96,12 @@ check('range keeps its unit (no promotion)', $converter->format('4-6', 1, 'Tbsp'
 // --- Unparseable input passes through ---
 check('text quantity passes through', $converter->format('a few', 2, 'C'), ['value' => 'a few', 'unit' => 'cups']);
 check('text quantity without unit', $converter->format('to taste', 2), 'to taste');
+
+// --- Nutrition quantity parsing ---
+check('nutrition parses whole-number range midpoint', $nutrition->fractionToDecimal('7-9'), 8.0);
+check('nutrition parses decimal range midpoint', $nutrition->fractionToDecimal('1.5-2.5'), 2.0);
+check('nutrition parses unicode fraction range midpoint', $nutrition->fractionToDecimal('¼-¾'), 0.5);
+check('nutrition rejects a zero denominator', $nutrition->fractionToDecimal('1/0'), 0.0);
 
 // --- formatMinutes ---
 check('0 minutes', $converter->formatMinutes(0), '0 min');
