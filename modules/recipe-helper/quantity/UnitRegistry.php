@@ -39,6 +39,10 @@ final class UnitRegistry
         'gal' => ['singular' => 'gallon', 'plural' => 'gallons', 'aliases' => ['gallon', 'gallons']],
 
         // Weight
+        'g' => [
+            'singular' => 'gram', 'plural' => 'grams',
+            'aliases' => ['gram', 'grams'],
+        ],
         'oz' => [
             'singular' => 'ounce', 'plural' => 'ounces',
             'aliases' => ['ounce', 'ounces'],

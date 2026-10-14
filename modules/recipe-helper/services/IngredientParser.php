@@ -47,6 +47,11 @@ class IngredientParser
         'fl oz' => 'fl oz',
         'fl. oz' => 'fl oz',
         'fl. oz.' => 'fl oz',
+        // gram
+        'gram' => 'g',
+        'grams' => 'g',
+        'g' => 'g',
+        'g.' => 'g',
         // pinch
         'pinch' => 'pn',
         'pinches' => 'pn',

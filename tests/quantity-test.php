@@ -8,13 +8,16 @@ require __DIR__ . '/../modules/recipe-helper/quantity/QuantityNormalizer.php';
 require __DIR__ . '/../modules/recipe-helper/quantity/Rational.php';
 require __DIR__ . '/../modules/recipe-helper/quantity/UnitRegistry.php';
 require __DIR__ . '/../modules/recipe-helper/quantity/QuantityFormatter.php';
+require __DIR__ . '/../modules/recipe-helper/services/IngredientParser.php';
 require __DIR__ . '/../modules/recipe-helper/services/NutritionService.php';
 
 use MattBloomfield\RecipeHelper\quantity\QuantityFormatter;
 use MattBloomfield\RecipeHelper\quantity\QuantityNormalizer;
+use MattBloomfield\RecipeHelper\services\IngredientParser;
 use MattBloomfield\RecipeHelper\services\NutritionService;
 
 $converter = new QuantityFormatter();
+$ingredientParser = new IngredientParser();
 $nutrition = new NutritionService();
 $failures = 0;
 $passes = 0;
@@ -65,8 +68,18 @@ check('pinch pluralizes properly', $converter->format('2', 1, 'pn'), ['value' =>
 check('box pluralizes properly', $converter->format('2', 1, 'box'), ['value' => '2', 'unit' => 'boxes']);
 check('inch pluralizes properly', $converter->format('3', 1, 'inch'), ['value' => '3', 'unit' => 'inches']);
 check('gallon spelled out', $converter->format('2', 1, 'gal'), ['value' => '2', 'unit' => 'gallons']);
+check('1 gram singular', $converter->format('1', 1, 'g'), ['value' => '1', 'unit' => 'gram']);
+check('2 grams plural', $converter->format('2', 1, 'g'), ['value' => '2', 'unit' => 'grams']);
 check('large is invariant', $converter->format('2', 1, 'large'), ['value' => '2', 'unit' => 'large']);
 check('unknown unit passes through un-pluralized', $converter->format('2', 1, 'sprig'), ['value' => '2', 'unit' => 'sprig']);
+
+// --- Ingredient parsing ---
+check('grams parse to stored unit', $ingredientParser->parse('200 grams flour'), [
+    'quantity' => '200',
+    'unit' => 'g',
+    'ingredientName' => 'flour',
+    'notes' => '',
+]);
 
 // --- Unit promotion ---
 check('3 tsp promotes to 1 tablespoon (singular)', $converter->format('1', 3, 'tsp'), ['value' => '1', 'unit' => 'tablespoon']);

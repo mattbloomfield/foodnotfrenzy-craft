@@ -24,6 +24,7 @@ class NutritionService
         'dr'      => 'drop',
         'fl oz'   => 'fl oz',
         'gal'     => 'gallon',
+        'g'       => 'gram',
         'inch'    => 'inch',
         'large'   => 'large',
         'medium'  => 'medium',

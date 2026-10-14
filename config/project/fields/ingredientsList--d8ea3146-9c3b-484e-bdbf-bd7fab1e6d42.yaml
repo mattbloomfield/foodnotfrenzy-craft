@@ -145,6 +145,17 @@ settings:
                   __assoc__:
                     -
                       - label
+                      - gram
+                    -
+                      - value
+                      - g
+                    -
+                      - default
+                      - false
+                -
+                  __assoc__:
+                    -
+                      - label
                       - inch
                     -
                       - value
