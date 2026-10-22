@@ -3,13 +3,13 @@
   "prefer-stable": true,
   "require": {
     "craftcms/ckeditor": "^5.5.0",
-    "craftcms/cms": "5.9.22",
+    "craftcms/cms": "^5.11.5",
     "madebyraygun/craft-component-library": "1.1.0",
     "mmikkel/cp-field-inspect": "2.0.4",
-    "nystudio107/craft-vite": "5.0.1",
+    "nystudio107/craft-vite": "^5.0.2",
     "topshelfcraft/environment-label": "5.0.0",
-    "vaersaagod/seomate": "3.3.0",
-    "verbb/expanded-singles": "3.0.3",
+    "vaersaagod/seomate": "^3.3.1",
+    "verbb/expanded-singles": "^3.0.10",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {
