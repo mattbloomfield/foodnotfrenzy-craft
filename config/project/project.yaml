@@ -1,4 +1,4 @@
-dateModified: 1787079396
+dateModified: 1792696920
 elementSources:
   craft\elements\Entry:
     -
@@ -154,7 +154,7 @@ plugins:
   ckeditor:
     edition: standard
     enabled: true
-    schemaVersion: 5.0.0.1
+    schemaVersion: 5.6.0.0
   component-library:
     edition: standard
     enabled: true
@@ -191,7 +191,7 @@ system:
   edition: solo
   live: true
   name: 'Food Not Frenzy'
-  schemaVersion: 5.9.0.8
+  schemaVersion: 5.11.0.2
   timeZone: America/Los_Angeles
 users:
   allowPublicRegistration: false

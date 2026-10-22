@@ -5,19 +5,13 @@ entryTypes:
     uid: 891b58b4-599f-490c-8dcd-7d080f86a696 # Source
 handle: sources
 maxAuthors: 1
+minAuthors: 1
 name: Sources
 previewTargets:
   -
-    __assoc__:
-      -
-        - label
-        - 'Primary entry page'
-      -
-        - urlFormat
-        - '{url}'
-      -
-        - refresh
-        - '1'
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
 propagationMethod: all
 siteSettings:
   b2ead43b-fee4-4670-92fb-5937a95908d9: # Food Not Frenzy
