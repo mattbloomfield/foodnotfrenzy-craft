@@ -12,12 +12,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.15",
-    "tailwindcss": "^4.0.15",
-    "vite": "^6.2.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.5",
     "vite-plugin-compression": "^0.5.1"
   },
   "dependencies": {
-    "@area17/a17-behaviors": "^0.4.5"
+    "@area17/a17-behaviors": "^0.5.3"
   }
 }
