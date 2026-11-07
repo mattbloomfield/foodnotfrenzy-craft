@@ -1,4 +1,4 @@
-dateModified: 1792696920
+dateModified: 1794069633
 elementSources:
   craft\elements\Entry:
     -
@@ -159,10 +159,6 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
-  copy:
-    edition: standard
-    enabled: true
-    schemaVersion: 1.0.0
   cp-field-inspect:
     edition: standard
     enabled: true
@@ -175,10 +171,6 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
-  fortrabbit-object-storage:
-    edition: standard
-    enabled: true
-    schemaVersion: '2.0'
   seomate:
     edition: standard
     enabled: true
@@ -191,7 +183,7 @@ system:
   edition: solo
   live: true
   name: 'Food Not Frenzy'
-  schemaVersion: 5.11.0.2
+  schemaVersion: 5.12.0.1
   timeZone: America/Los_Angeles
 users:
   allowPublicRegistration: false
