@@ -18,7 +18,7 @@
 			{% set recipes = craft.entries()
                 .section('recipes')
                 .search(q)
-                .orderBy('score DESC')
+                .orderBy('score', 'desc')
                 .all() %}
 
 			{% if recipes|length %}

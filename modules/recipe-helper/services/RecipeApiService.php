@@ -121,7 +121,7 @@ class RecipeApiService
         $categories = Entry::find()
             ->section(self::CATEGORY_SECTION)
             ->status('enabled')
-            ->orderBy('title asc')
+            ->orderBy('title')
             ->all();
 
         return array_map(fn(Entry $c) => [
@@ -204,7 +204,7 @@ class RecipeApiService
             $query->search((string)$params['q']);
         }
 
-        $query->orderBy($this->orderBy($params['sort'] ?? null));
+        $query->orderBy(...$this->orderBy($params['sort'] ?? null));
 
         // Post-query filters that can't be expressed as query params.
         $ingredient = isset($params['ingredient']) ? trim((string)$params['ingredient']) : '';
@@ -430,22 +430,23 @@ class RecipeApiService
         return null;
     }
 
+    /** @return array{0: string, 1: 'asc'|'desc'} column and direction for EntryQuery::orderBy() */
     private function orderBy(?string $sort): array
     {
-        $default = ['postDate' => SORT_DESC];
+        $default = ['postDate', 'desc'];
         if (!$sort) {
             return $default;
         }
 
         [$field, $dir] = array_pad(explode(':', $sort, 2), 2, 'asc');
         $field = trim($field);
-        $dir   = strtolower(trim($dir)) === 'desc' ? SORT_DESC : SORT_ASC;
+        $dir   = strtolower(trim($dir)) === 'desc' ? 'desc' : 'asc';
 
         if (!isset(self::SORTABLE[$field])) {
             return $default;
         }
 
-        return [self::SORTABLE[$field] => $dir];
+        return [self::SORTABLE[$field], $dir];
     }
 
     private function clampInt($value, int $default, int $min, int $max): int

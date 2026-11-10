@@ -16,7 +16,7 @@
         <h1 class="text-3xl font-bold font-serif text-warm-brown mb-8 rule-wavy">Latest Recipes</h1>
 
         <!-- Recipe Grid -->
-        {% set recipes = craft.entries.section('recipes').orderBy('postDate DESC').all() %}
+        {% set recipes = craft.entries.section('recipes').orderBy('postDate', 'desc').all() %}
         {% set gridItems = [] %}
         {% for recipe in recipes %}
             {% set categories = [] %}

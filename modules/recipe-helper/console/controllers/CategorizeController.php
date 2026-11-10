@@ -56,7 +56,7 @@ class CategorizeController extends Controller
     {
         $service = new CategorizationService();
 
-        $query = Entry::find()->section('recipes')->status(null)->orderBy('title asc');
+        $query = Entry::find()->section('recipes')->status(null)->orderBy('title');
         if ($this->entryId) {
             $query->id($this->entryId);
         }

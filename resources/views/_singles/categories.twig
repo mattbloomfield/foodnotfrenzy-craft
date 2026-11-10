@@ -41,7 +41,7 @@
                                 position: 'center-center'
                             } %}
                             <a href="{{ category.url }}" class="block aspect-w-16 aspect-h-9 overflow-hidden">
-                                <img src="{{ category.image.one().getUrl(catThumb) }}" alt="{{ category.title }}" width="400" height="225" loading="lazy"
+                                <img src="{{ (category.image.one()|transformUrl(catThumb)) ?: '/dist/placeholder.jpg' }}" alt="{{ category.title }}" width="400" height="225" loading="lazy"
                                      class="object-cover w-full h-full group-hover:scale-[1.02] transition-transform duration-500 ease-out">
                             </a>
                         {% else %}
@@ -114,7 +114,7 @@
                             } %}
                             <div class="md:w-1/3 flex-shrink-0">
                                 <div class="rounded-lg overflow-hidden">
-                                    <img src="{{ randomRecipe.image.one().getUrl(inspirationThumb) }}" alt="{{ randomRecipe.title }}" width="400" height="300" loading="lazy" class="w-full h-auto object-cover">
+                                    <img src="{{ (randomRecipe.image.one()|transformUrl(inspirationThumb)) ?: '/dist/placeholder.jpg' }}" alt="{{ randomRecipe.title }}" width="400" height="300" loading="lazy" class="w-full h-auto object-cover">
                                 </div>
                             </div>
                         {% endif %}

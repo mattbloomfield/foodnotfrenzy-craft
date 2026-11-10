@@ -32,9 +32,9 @@
     {%- endfor -%}
 {%- endif -%}
 {%- set imageUrl = metaImage ? {
-    'image': metaImage.getUrl({ width: 1200, height: 675, format: 'jpg' }),
-    'og:image': metaImage.getUrl({ width: 1200, height: 630, format: 'jpg' }),
-    'twitter:image': metaImage.getUrl({ width: 1200, height: 600, format: 'jpg' }),
+    'image': (metaImage|transformUrl({ width: 1200, height: 675, format: 'jpg' })),
+    'og:image': (metaImage|transformUrl({ width: 1200, height: 630, format: 'jpg' })),
+    'twitter:image': (metaImage|transformUrl({ width: 1200, height: 600, format: 'jpg' })),
 } : {} -%}
 
 {#- SEOmate escaped with htmlspecialchars(…, double_encode: false), so entities

@@ -62,7 +62,7 @@
 					</div>
 
 					{# Categories — grouped by facet, multi-select (AND across choices) #}
-					{% set facets = craft.entries.section('categories').level(1).orderBy('lft asc').all() %}
+					{% set facets = craft.entries.section('categories').level(1).orderBy('lft').all() %}
 					{% set selectedCats = req.getQueryParam('category') %}
 					{% set selectedCats = selectedCats is iterable ? selectedCats : (selectedCats ? [selectedCats] : []) %}
 					{% if facets|length %}
@@ -70,7 +70,7 @@
 							<span class="block text-sm font-bold font-serif text-warm-brown mb-2">Categories</span>
 							<div class="space-y-3">
 								{% for facet in facets %}
-									{% set leaves = craft.entries.section('categories').descendantOf(facet).orderBy('lft asc').all() %}
+									{% set leaves = craft.entries.section('categories').descendantOf(facet).orderBy('lft').all() %}
 									{% if leaves|length %}
 										<div>
 											<p class="text-[11px] uppercase tracking-widest text-sage mb-1.5">{{ facet.title }}</p>

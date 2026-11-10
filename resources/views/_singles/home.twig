@@ -30,7 +30,7 @@
 		<h1 class="text-4xl md:text-5xl font-bold font-serif text-warm-brown mb-10 rule-wavy">All Recipes</h1>
 
 		<!-- Recipe Grid -->
-		{% set recipes = craft.entries.section('recipes').orderBy('title ASC').all() %}
+		{% set recipes = craft.entries.section('recipes').orderBy('title').all() %}
 		{% set gridItems = [] %}
 		{% for recipe in recipes %}
 			{% set categories = [] %}

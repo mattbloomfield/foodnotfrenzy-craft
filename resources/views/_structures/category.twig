@@ -114,7 +114,7 @@
 			{% set recipeQuery = craft.entries()
                 .section('recipes')
                 .relatedTo(catIds)
-                .orderBy('title ASC') %}
+                .orderBy('title') %}
 			{% paginate recipeQuery.limit(24) as paginate, recipes %}
 
 			{% if recipes|length %}

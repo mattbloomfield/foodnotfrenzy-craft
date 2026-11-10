@@ -230,7 +230,7 @@ PROMPT;
         $facets = Entry::find()
             ->section(self::CATEGORY_SECTION)
             ->level(1)
-            ->orderBy('lft asc')
+            ->orderBy('lft')
             ->all();
 
         $lines = [];
@@ -241,7 +241,7 @@ PROMPT;
                 ->section(self::CATEGORY_SECTION)
                 ->descendantOf($facet)
                 ->status('enabled')
-                ->orderBy('lft asc')
+                ->orderBy('lft')
                 ->all();
 
             foreach ($leaves as $leaf) {
