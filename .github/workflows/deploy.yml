@@ -19,8 +19,9 @@ jobs:
             git config --global --add safe.directory /var/www/www.foodnotfrenzy.com
             cd /var/www/www.foodnotfrenzy.com
             git pull origin main
+            # Runs `artisan package:discover` + `craft:setup:publish` via post-autoload-dump.
             composer install --no-dev --no-interaction --optimize-autoloader
-            php craft migrate/all --interactive=0
-            php craft clear-caches/all
-            php craft project-config/apply --force
+            # Craft 6: `up` runs core migrations, applies project config, then
+            # content migrations. (`migrate/all --interactive=0` no longer parses.)
+            php craft up --no-interaction
             php craft clear-caches/all
