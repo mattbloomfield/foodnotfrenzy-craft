@@ -1,4 +1,4 @@
-{% set entryId = craft.app.request.getQueryParam('entryId') %}
+{% set entryId = Request.query('entryId') %}
 {% if not entryId %}
     {% exit 404 %}
 {% endif %}

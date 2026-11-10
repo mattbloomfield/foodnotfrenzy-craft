@@ -18,9 +18,9 @@
 		</div>
 		<div class="grid grid-cols-2 gap-2">
 			<input type="number" inputmode="decimal" min="0" step="any" name="{{ minName }}"
-				value="{{ req.getQueryParam(minName) }}" placeholder="min" aria-label="{{ label }} minimum" class="{{ cls }}">
+				value="{{ req.query(minName) }}" placeholder="min" aria-label="{{ label }} minimum" class="{{ cls }}">
 			<input type="number" inputmode="decimal" min="0" step="any" name="{{ maxName }}"
-				value="{{ req.getQueryParam(maxName) }}" placeholder="max" aria-label="{{ label }} maximum" class="{{ cls }}">
+				value="{{ req.query(maxName) }}" placeholder="max" aria-label="{{ label }} maximum" class="{{ cls }}">
 		</div>
 	</div>
 {% endmacro %}
@@ -28,8 +28,8 @@
 {% import _self as f %}
 
 {% block content %}
-	{% set req = craft.app.request %}
-	{% set params = req.getQueryParams() %}
+	{% set req = Request %}
+	{% set params = req.query() %}
 	{% set result = craft.recipes.queryEntries(params) %}
 
 	{% set inputClass = 'w-full rounded-md border border-stone bg-linen px-3 py-2 text-sm focus:border-clay focus:outline-none focus:ring-1 focus:ring-clay' %}
@@ -50,20 +50,20 @@
 					{# Keyword #}
 					<div>
 						<label class="block text-sm font-bold font-serif text-warm-brown mb-1.5" for="q">Keyword</label>
-						<input id="q" type="search" name="q" value="{{ req.getQueryParam('q') }}"
+						<input id="q" type="search" name="q" value="{{ req.query('q') }}"
 							placeholder="e.g. curry, tacos" class="{{ inputClass }}">
 					</div>
 
 					{# Ingredient #}
 					<div>
 						<label class="block text-sm font-bold font-serif text-warm-brown mb-1.5" for="ingredient">Ingredient</label>
-						<input id="ingredient" type="search" name="ingredient" value="{{ req.getQueryParam('ingredient') }}"
+						<input id="ingredient" type="search" name="ingredient" value="{{ req.query('ingredient') }}"
 							placeholder="e.g. chicken, spinach" class="{{ inputClass }}">
 					</div>
 
 					{# Categories — grouped by facet, multi-select (AND across choices) #}
 					{% set facets = craft.entries.section('categories').level(1).orderBy('lft').all() %}
-					{% set selectedCats = req.getQueryParam('category') %}
+					{% set selectedCats = req.query('category') %}
 					{% set selectedCats = selectedCats is iterable ? selectedCats : (selectedCats ? [selectedCats] : []) %}
 					{% if facets|length %}
 						<div>
@@ -90,7 +90,7 @@
 					{% endif %}
 
 					{# Difficulty #}
-					{% set selectedDiff = req.getQueryParam('difficulty') %}
+					{% set selectedDiff = req.query('difficulty') %}
 					<div>
 						<span class="block text-sm font-bold font-serif text-warm-brown mb-2">Difficulty</span>
 						<div class="flex flex-wrap gap-2">
@@ -130,21 +130,21 @@
 						<div class="space-y-2">
 							<div class="flex items-center gap-2">
 								<span class="w-24 shrink-0 text-sm text-gray-700">Total</span>
-								<input type="number" min="0" name="maxTotalTime" value="{{ req.getQueryParam('maxTotalTime') }}" placeholder="any" class="{{ inputClass }}">
+								<input type="number" min="0" name="maxTotalTime" value="{{ req.query('maxTotalTime') }}" placeholder="any" class="{{ inputClass }}">
 							</div>
 							<div class="flex items-center gap-2">
 								<span class="w-24 shrink-0 text-sm text-gray-700">Prep</span>
-								<input type="number" min="0" name="maxPrepTime" value="{{ req.getQueryParam('maxPrepTime') }}" placeholder="any" class="{{ inputClass }}">
+								<input type="number" min="0" name="maxPrepTime" value="{{ req.query('maxPrepTime') }}" placeholder="any" class="{{ inputClass }}">
 							</div>
 							<div class="flex items-center gap-2">
 								<span class="w-24 shrink-0 text-sm text-gray-700">Cook</span>
-								<input type="number" min="0" name="maxCookTime" value="{{ req.getQueryParam('maxCookTime') }}" placeholder="any" class="{{ inputClass }}">
+								<input type="number" min="0" name="maxCookTime" value="{{ req.query('maxCookTime') }}" placeholder="any" class="{{ inputClass }}">
 							</div>
 						</div>
 					</div>
 
 					{# Sort #}
-					{% set selectedSort = req.getQueryParam('sort') ?: 'date:desc' %}
+					{% set selectedSort = req.query('sort') ?: 'date:desc' %}
 					<div>
 						<label class="block text-sm font-bold font-serif text-warm-brown mb-1.5" for="sort">Sort by</label>
 						{% set sortOptions = {

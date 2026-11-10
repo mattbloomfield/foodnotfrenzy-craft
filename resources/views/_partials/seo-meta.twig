@@ -12,7 +12,7 @@
     handles: only recipe, category and about entries have `description`, and
     only recipe and category entries have `image`.
 -#}
-{%- set element = craft.app.urlManager.getMatchedElement() ?: null -%}
+{%- set element = matchedElement() ?: null -%}
 {%- set typeHandle = element ? element.type.handle : null -%}
 {%- set siteLabel = currentSite.name -%}
 
@@ -44,7 +44,7 @@
 
 {#- Craft 6 returns the homepage URL without its trailing slash; SEOmate's was siteUrl. -#}
 {%- set canonicalUrl = element and element.uri == '__home__' ? siteUrl
-    : (element and element.url ? element.url : url(craft.app.request.pathInfo)) %}
+    : (element and element.url ? element.url : url(Request.craftPath())) %}
 <link rel="home" href="{{ siteUrl }}">
 <link rel="canonical" href="{{ canonicalUrl }}">
 <meta property="og:url" content="{{ canonicalUrl }}">

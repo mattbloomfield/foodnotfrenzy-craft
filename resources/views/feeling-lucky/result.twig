@@ -1,4 +1,4 @@
-{% set category = craft.app.request.getQueryParam('category') %}
+{% set category = Request.query('category') %}
 {% set recipeQuery = craft.entries().section('recipes') %}
 
 {% if category and (category ~ '') matches '/^\\d+$/' %}

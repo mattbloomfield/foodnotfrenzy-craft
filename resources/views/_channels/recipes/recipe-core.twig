@@ -1,4 +1,4 @@
-{% set requestedScale = scale ?? craft.app.request.getQueryParam('scale') ?? 1 %}
+{% set requestedScale = scale ?? Request.query('scale') ?? 1 %}
 {% set scale = (requestedScale ~ '') in ['1', '2', '3', '4'] ? (requestedScale ~ '') * 1 : 1 %}
 
 <article id="Recipe">

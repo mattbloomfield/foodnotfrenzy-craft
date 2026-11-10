@@ -1,4 +1,4 @@
-{% set q = craft.app.request.getQueryParam('q') %}
+{% set q = Request.query('q') %}
 
 <form action="/search" method="get" class="mb-8">
     <div class="flex border border-stone rounded-lg overflow-hidden">

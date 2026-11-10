@@ -12,7 +12,7 @@
 
 		{% include "_components/search" %}
 
-		{% set q = craft.app.request.getQueryParam('q') %}
+		{% set q = Request.query('q') %}
 		{% if q %}
 			{# Craft 6 sorts a plain orderBy('score') ascending (least relevant first). #}
 			{% set recipes = craft.entries()
