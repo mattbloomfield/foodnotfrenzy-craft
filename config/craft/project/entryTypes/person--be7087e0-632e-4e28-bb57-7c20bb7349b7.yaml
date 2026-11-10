@@ -1,0 +1,75 @@
+color: cyan
+fieldLayouts:
+  15cb0047-5ed9-4e75-a459-a8c9f433abb5:
+    cardView:
+      - 'layoutElement:a7e2dfc9-5ac5-432d-af63-3b437886952e'
+    tabs:
+      - elementCondition: null
+        elements:
+          - dateAdded: '2025-03-22T13:34:48+00:00'
+            elementCondition: null
+            fieldUid: 9cd023d0-050c-43d7-872c-0f04e40a4ce2 # First Name
+            handle: null
+            instructions: null
+            label: null
+            required: true
+            tip: null
+            type: CraftCms\Cms\FieldLayout\LayoutElements\CustomField
+            uid: 299c1a14-5f18-4289-9450-a463670996c6
+            userCondition: null
+            warning: null
+            width: 100
+          - dateAdded: '2025-03-22T13:34:48+00:00'
+            elementCondition: null
+            fieldUid: 53db4810-9435-425e-8a67-19c3a758ac44 # Last Name
+            handle: null
+            instructions: null
+            label: null
+            required: true
+            tip: null
+            type: CraftCms\Cms\FieldLayout\LayoutElements\CustomField
+            uid: f62d8161-b69f-49dd-a338-c7667f07cc17
+            userCondition: null
+            warning: null
+            width: 100
+          - dateAdded: '2025-03-22T13:34:48+00:00'
+            elementCondition: null
+            fieldUid: 435de420-224b-4488-91de-bf647d9fbd87 # Professional Title
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: CraftCms\Cms\FieldLayout\LayoutElements\CustomField
+            uid: a7e2dfc9-5ac5-432d-af63-3b437886952e
+            userCondition: null
+            warning: null
+            width: 100
+          - dateAdded: '2025-03-22T13:34:48+00:00'
+            elementCondition: null
+            fieldUid: 39207932-cedb-4c50-adcd-6b0d32a116aa # Headshot
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: CraftCms\Cms\FieldLayout\LayoutElements\CustomField
+            uid: 2c5a075b-acdf-476a-a0ac-f72fe9894caa
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: baf39714-2c38-4040-8d0d-eeab0e66285f
+        userCondition: null
+    thumbFieldKey: 'layoutElement:2c5a075b-acdf-476a-a0ac-f72fe9894caa'
+handle: person
+hasTitleField: false
+icon: person
+name: Person
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: '{firstName} {lastName}'
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

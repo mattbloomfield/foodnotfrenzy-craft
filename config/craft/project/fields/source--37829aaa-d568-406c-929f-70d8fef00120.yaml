@@ -1,0 +1,22 @@
+columnSuffix: null
+handle: source
+instructions: null
+name: Source
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  maintainHierarchy: false
+  maxRelations: 1
+  minRelations: 0
+  selectionLabel: 'Choose a source'
+  showCardsInGrid: false
+  showSiteMenu: false
+  sources:
+    - 'section:ea405781-a163-45a6-b02d-389df79ed6bd' # Sources
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list
+translationKeyFormat: null
+translationMethod: none
+type: CraftCms\Cms\Field\Entries

@@ -1,0 +1,49 @@
+columnSuffix: null
+handle: landingPageBuilder
+instructions: null
+name: 'Landing Page Builder'
+searchable: false
+settings:
+  availableTransforms: ''
+  availableVolumes:
+    - 4a693010-b1d3-4360-83f6-286e15b1e003 # Images
+  css: null
+  cssFile: null
+  defaultTransform: null
+  fullGraphqlData: false
+  headingLevels:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  js: null
+  jsFile: null
+  options: null
+  purifierConfig: null
+  purifyHtml: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  showWordCount: false
+  sourceEditingGroups:
+    - __ADMINS__
+  toolbar:
+    - heading
+    - bold
+    - italic
+    - bulletedList
+    - numberedList
+    - '|'
+    - insertImage
+    - blockQuote
+    - link
+    - horizontalLine
+    - '|'
+    - createEntry
+    - '|'
+    - sourceEditing
+  wordLimit: null
+translationKeyFormat: null
+translationMethod: none
+type: CraftCms\Ckeditor\Field

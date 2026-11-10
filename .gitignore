@@ -8,3 +8,6 @@
 
 # Prevent to .sql files (added by fortrabbit/craft-copy)
 *.sql
+/public/hot
+/public/vendor
+/public/storage

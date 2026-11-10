@@ -1,37 +1,34 @@
 {
-  "minimum-stability": "dev",
+  "minimum-stability": "beta",
   "prefer-stable": true,
   "require": {
-    "craftcms/ckeditor": "^5.5.0",
-    "craftcms/cms": "^5.11.5",
-    "madebyraygun/craft-component-library": "1.1.0",
-    "mmikkel/cp-field-inspect": "2.0.4",
-    "nystudio107/craft-vite": "^5.0.2",
-    "topshelfcraft/environment-label": "5.0.0",
-    "vaersaagod/seomate": "^3.3.1",
-    "verbb/expanded-singles": "^3.0.10",
-    "vlucas/phpdotenv": "^5.4.0"
+    "craftcms/ckeditor": "6.0.0-beta.1",
+    "craftcms/cms": "6.0.0-beta.1",
+    "craftcms/yii2-adapter": "6.0.0-beta.1"
   },
   "require-dev": {
-    "craftcms/generator": "^2.1",
-    "yiisoft/yii2-shell": "^2.0.3"
+    "craftcms/generator": "3.x-dev"
   },
   "config": {
     "allow-plugins": {
       "craftcms/plugin-installer": true,
-      "fortrabbit/craft-auto-migrate": true,
       "php-http/discovery": true,
       "yiisoft/yii2-composer": true
     },
     "sort-packages": true,
     "optimize-autoloader": true,
     "platform": {
-      "php": "8.3.6"
+      "php": "8.5.0"
     }
   },
   "scripts": {
     "post-root-package-install": [
       "@php -r \"file_exists('.env') || copy('.env.example.dev', '.env');\""
+    ],
+    "post-autoload-dump": [
+      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+      "@php artisan package:discover --ansi",
+      "@php artisan craft:setup:publish --ansi"
     ]
   },
   "repositories": [

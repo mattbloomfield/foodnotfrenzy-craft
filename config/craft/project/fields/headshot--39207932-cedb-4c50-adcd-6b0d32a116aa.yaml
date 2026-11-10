@@ -1,0 +1,40 @@
+columnSuffix: null
+handle: headshot
+instructions: null
+name: Headshot
+searchable: false
+settings:
+  allowSelfRelations: false
+  allowSubfolders: false
+  allowUploads: true
+  branchLimit: null
+  defaultUploadLocationSource: 'volume:4a693010-b1d3-4360-83f6-286e15b1e003' # Images
+  defaultUploadLocationSubpath: people
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  previewMode: full
+  restrictLocation: false
+  restrictedDefaultUploadSubpath: null
+  restrictedLocationSource: 'volume:4a693010-b1d3-4360-83f6-286e15b1e003' # Images
+  restrictedLocationSubpath: null
+  selectionCondition:
+    class: CraftCms\Cms\Asset\Conditions\AssetCondition
+    conditionRules:
+      operator: and
+      rules:
+        - class: CraftCms\Cms\Asset\Conditions\ViewableConditionRule
+          uid: c2fa71af-4525-4643-99a8-b45190491649
+          value: true
+  selectionLabel: 'Choose a headshot'
+  showCardsInGrid: false
+  showSiteMenu: false
+  showUnpermittedVolumes: false
+  sources:
+    - 'volume:4a693010-b1d3-4360-83f6-286e15b1e003' # Images
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: large
+translationKeyFormat: null
+translationMethod: none
+type: CraftCms\Cms\Field\Assets
