@@ -2,10 +2,12 @@
 
 namespace MattBloomfield\RecipeHelper\controllers;
 
-use Craft;
-use craft\web\Controller;
+use CraftCms\Cms\Support\Env;
+use CraftCms\Cms\Support\Facades\Sites;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use MattBloomfield\RecipeHelper\services\RecipeApiService;
-use yii\web\Response;
 
 /**
  * Public read-only JSON API for querying recipes.
@@ -13,83 +15,73 @@ use yii\web\Response;
  * Auth: every request must present the shared secret from the RECIPES_API_KEY
  * env var, either as an `X-API-Key` header or an `apiKey` query param.
  *
- * Routes (registered in RecipeHelper::attachEventHandlers):
- *   GET /api/recipes            → actionRecipes  (search/filter)
- *   GET /api/recipes/<slug>     → actionRecipe   (single recipe)
- *   GET /api/categories         → actionCategories
- *   GET /api/openapi.json       → actionOpenapi  (spec; no auth)
+ * Routes (registered in RecipeHelperServiceProvider::registerRoutes):
+ *   GET /api/recipes            → recipes     (search/filter)
+ *   GET /api/recipes/<slug>     → recipe      (single recipe)
+ *   GET /api/categories         → categories
+ *   GET /api/openapi.json       → openapi     (spec; no auth)
+ *   OPTIONS /api/*              → preflight
  */
-class ApiController extends Controller
+class ApiController
 {
-    protected array|int|bool $allowAnonymous = true;
-
-    public $enableCsrfValidation = false;
-
-    public function beforeAction($action): bool
-    {
-        // Always answer CORS preflight and let the spec be fetched without a key.
-        $this->response->getHeaders()
-            ->set('Access-Control-Allow-Origin', '*')
-            ->set('Access-Control-Allow-Methods', 'GET, OPTIONS')
-            ->set('Access-Control-Allow-Headers', 'X-API-Key, Content-Type');
-
-        if (Craft::$app->getRequest()->getIsOptions()) {
-            Craft::$app->getResponse()->format = Response::FORMAT_RAW;
-            Craft::$app->end();
-        }
-
-        if (!parent::beforeAction($action)) {
-            return false;
-        }
-
-        // The OpenAPI spec is public so agents can discover the API before auth.
-        if ($action->id === 'openapi') {
-            return true;
-        }
-
-        $this->requireApiKey();
-
-        return true;
-    }
+    private const CORS_HEADERS = [
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+        'Access-Control-Allow-Headers' => 'X-API-Key, Content-Type',
+    ];
 
     /**
      * GET /api/recipes — search & filter.
      */
-    public function actionRecipes(): Response
+    public function recipes(Request $request): JsonResponse
     {
-        $params = Craft::$app->getRequest()->getQueryParams();
-        return $this->asJson($this->service()->search($params));
+        return $this->requireApiKey($request)
+            ?? $this->json($this->service()->search($request->query()));
     }
 
     /**
      * GET /api/recipes/<slug> — full recipe detail.
      */
-    public function actionRecipe(string $slug): Response
+    public function recipe(Request $request, string $slug): JsonResponse
     {
+        if ($denied = $this->requireApiKey($request)) {
+            return $denied;
+        }
+
         $recipe = $this->service()->getRecipeBySlug($slug);
 
         if ($recipe === null) {
-            $this->response->setStatusCode(404);
-            return $this->asJson(['error' => 'Recipe not found', 'slug' => $slug]);
+            return $this->json(['error' => 'Recipe not found', 'slug' => $slug], 404);
         }
 
-        return $this->asJson($recipe);
+        return $this->json($recipe);
     }
 
     /**
      * GET /api/categories — valid values for the `category` filter.
      */
-    public function actionCategories(): Response
+    public function categories(Request $request): JsonResponse
     {
-        return $this->asJson(['results' => $this->service()->getCategories()]);
+        return $this->requireApiKey($request)
+            ?? $this->json(['results' => $this->service()->getCategories()]);
     }
 
     /**
      * GET /api/openapi.json — machine-readable spec for agents/tool-calling.
+     * Public, so agents can discover the API before auth.
      */
-    public function actionOpenapi(): Response
+    public function openapi(): JsonResponse
     {
-        return $this->asJson($this->openApiSpec());
+        return $this->json($this->openApiSpec());
+    }
+
+    /**
+     * OPTIONS /api/* — CORS preflight. (Preflights that carry an Origin are
+     * answered earlier by Laravel's CORS middleware; see config/cors.php.)
+     */
+    public function preflight(): Response
+    {
+        return new Response('', 200, self::CORS_HEADERS);
     }
 
     // --- Internals ----------------------------------------------------------
@@ -99,32 +91,41 @@ class ApiController extends Controller
         return new RecipeApiService();
     }
 
-    private function requireApiKey(): void
+    /**
+     * JSON encoded the way the Craft 5 API encoded it (unescaped slashes and unicode).
+     */
+    private function json(array $data, int $status = 200): JsonResponse
     {
-        $expected = Craft::parseEnv('$RECIPES_API_KEY');
+        return new JsonResponse($data, $status, [
+            ...self::CORS_HEADERS,
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * Returns an error response if the request doesn’t carry the API key.
+     */
+    private function requireApiKey(Request $request): ?JsonResponse
+    {
+        $expected = Env::parse('$RECIPES_API_KEY');
 
         if (empty($expected)) {
-            $this->response->setStatusCode(503);
-            Craft::$app->getResponse()->data = ['error' => 'API not configured (RECIPES_API_KEY unset)'];
-            Craft::$app->getResponse()->format = Response::FORMAT_JSON;
-            Craft::$app->end();
+            return $this->json(['error' => 'API not configured (RECIPES_API_KEY unset)'], 503);
         }
 
-        $request = Craft::$app->getRequest();
-        $provided = $request->getHeaders()->get('X-API-Key')
-            ?: $request->getQueryParam('apiKey', '');
+        $provided = $request->headers->get('X-API-Key')
+            ?: $request->query('apiKey', '');
 
         if (!is_string($provided) || !hash_equals((string)$expected, $provided)) {
-            $this->response->setStatusCode(401);
-            Craft::$app->getResponse()->data = ['error' => 'Invalid or missing API key'];
-            Craft::$app->getResponse()->format = Response::FORMAT_JSON;
-            Craft::$app->end();
+            return $this->json(['error' => 'Invalid or missing API key'], 401);
         }
+
+        return null;
     }
 
     private function openApiSpec(): array
     {
-        $base = rtrim(Craft::$app->getSites()->getPrimarySite()->getBaseUrl() ?? '/', '/');
+        $base = rtrim(Sites::getPrimarySite()->getBaseUrl() ?? '/', '/');
 
         $nutrientParams = [];
         foreach (['calories', 'protein', 'carbs', 'fat', 'saturatedFat', 'fiber', 'sugar', 'sodium'] as $n) {

@@ -2,8 +2,8 @@
 
 namespace MattBloomfield\RecipeHelper\services;
 
-use Craft;
-use craft\elements\Entry;
+use CraftCms\Cms\Entry\Elements\Entry;
+use CraftCms\Cms\Support\Env;
 
 /**
  * Classifies a recipe against the faceted category taxonomy using an LLM.
@@ -60,7 +60,7 @@ class CategorizationService
      */
     private function viaGemini(string $model, string $system, string $userText, array $allowed): array
     {
-        $apiKey = Craft::parseEnv('$GEMINI_API_KEY');
+        $apiKey = Env::parse('$GEMINI_API_KEY');
         if (empty($apiKey)) {
             return ['success' => false, 'message' => 'GEMINI_API_KEY not configured in .env', 'slugs' => []];
         }
@@ -113,7 +113,7 @@ class CategorizationService
      */
     private function viaAnthropic(string $model, string $system, string $userText, array $allowed): array
     {
-        $apiKey = Craft::parseEnv('$ANTHROPIC_API_KEY');
+        $apiKey = Env::parse('$ANTHROPIC_API_KEY');
         if (empty($apiKey)) {
             return ['success' => false, 'message' => 'ANTHROPIC_API_KEY not configured in .env', 'slugs' => []];
         }

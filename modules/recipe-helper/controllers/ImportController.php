@@ -2,32 +2,29 @@
 
 namespace MattBloomfield\RecipeHelper\controllers;
 
-use Craft;
-use craft\web\Controller;
-use craft\web\UploadedFile;
+use CraftCms\Cms\Support\Flash;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use MattBloomfield\RecipeHelper\services\ImageParser;
 use MattBloomfield\RecipeHelper\services\RecipeImportService;
 use MattBloomfield\RecipeHelper\services\UrlParser;
-use yii\web\Response;
 
-class ImportController extends Controller
+use function CraftCms\Cms\cp_url;
+
+/**
+ * Control panel recipe import (Recipe Import nav item). The form lives at
+ * templates/import/index.twig and is served by the `recipe-import` CP route.
+ */
+class ImportController
 {
-    /**
-     * Render the import form.
-     */
-    public function actionIndex(): Response
-    {
-        return $this->renderTemplate('recipe-helper/import/index');
-    }
-
     /**
      * Handle URL import submission.
      */
-    public function actionImportUrl(): Response
+    public function importUrl(Request $request): RedirectResponse
     {
-        $this->requirePostRequest();
-
-        $url = Craft::$app->getRequest()->getRequiredBodyParam('url');
+        // Like Craft 5's getRequiredBodyParam(): a missing param is a 400.
+        abort_unless($request->request->has('url'), 400, 'Request missing required body param');
+        $url = $request->request->get('url');
 
         try {
             $parser = new UrlParser();
@@ -36,41 +33,39 @@ class ImportController extends Controller
             $service = new RecipeImportService();
             $entry = $service->createRecipe($data);
 
-            Craft::$app->getSession()->setNotice('Recipe imported! Review the draft and add categories before enabling.');
+            Flash::notice('Recipe imported! Review the draft and add categories before enabling.');
 
-            return $this->redirect($entry->getCpEditUrl());
+            return redirect($entry->getCpEditUrl());
         } catch (\Throwable $e) {
-            Craft::$app->getSession()->setError('Import failed: ' . $e->getMessage());
-            return $this->redirect('recipe-import');
+            Flash::error('Import failed: ' . $e->getMessage());
+            return redirect(cp_url('recipe-import'));
         }
     }
 
     /**
      * Handle image upload import.
      */
-    public function actionImportImage(): Response
+    public function importImage(Request $request): RedirectResponse
     {
-        $this->requirePostRequest();
-
-        $file = UploadedFile::getInstanceByName('recipeImage');
-        if (!$file) {
-            Craft::$app->getSession()->setError('No image file uploaded.');
-            return $this->redirect('recipe-import');
+        $file = $request->file('recipeImage');
+        if (!$file || !$file->isValid()) {
+            Flash::error('No image file uploaded.');
+            return redirect(cp_url('recipe-import'));
         }
 
         try {
             $parser = new ImageParser();
-            $data = $parser->parse($file->tempName);
+            $data = $parser->parse($file->getRealPath());
 
             $service = new RecipeImportService();
             $entry = $service->createRecipe($data);
 
-            Craft::$app->getSession()->setNotice('Recipe imported from image! Review the draft and add categories before enabling.');
+            Flash::notice('Recipe imported from image! Review the draft and add categories before enabling.');
 
-            return $this->redirect($entry->getCpEditUrl());
+            return redirect($entry->getCpEditUrl());
         } catch (\Throwable $e) {
-            Craft::$app->getSession()->setError('Import failed: ' . $e->getMessage());
-            return $this->redirect('recipe-import');
+            Flash::error('Import failed: ' . $e->getMessage());
+            return redirect(cp_url('recipe-import'));
         }
     }
 }

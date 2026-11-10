@@ -2,10 +2,18 @@
 
 namespace MattBloomfield\RecipeHelper\services;
 
-use Craft;
-use craft\elements\Asset;
-use craft\elements\Entry;
-use craft\helpers\Assets as AssetsHelper;
+use CraftCms\Cms\Asset\AssetsHelper;
+use CraftCms\Cms\Asset\Elements\Asset;
+use CraftCms\Cms\Asset\Validation\AssetRules;
+use CraftCms\Cms\Element\Validation\ElementRules;
+use CraftCms\Cms\Entry\Elements\Entry;
+use CraftCms\Cms\Support\Facades\Elements;
+use CraftCms\Cms\Support\Facades\Folders;
+use CraftCms\Cms\Support\Facades\Path;
+use CraftCms\Cms\Support\Facades\Sections;
+use CraftCms\Cms\Support\Facades\Volumes;
+use Illuminate\Support\Facades\Log;
+use MattBloomfield\RecipeHelper\support\HttpClient;
 
 class RecipeImportService
 {
@@ -18,7 +26,7 @@ class RecipeImportService
      */
     public function createRecipe(array $data): Entry
     {
-        $section = Craft::$app->getEntries()->getSectionByHandle('recipes');
+        $section = Sections::getSectionByHandle('recipes');
         $recipeType = null;
         foreach ($section->getEntryTypes() as $et) {
             if ($et->handle === 'recipe') {
@@ -32,7 +40,7 @@ class RecipeImportService
         $entry->typeId = $recipeType->id;
         $entry->title = $data['title'];
         $entry->enabled = false;
-        $entry->setScenario(Entry::SCENARIO_ESSENTIALS);
+        $entry->ruleset->useScenario(ElementRules::SCENARIO_ESSENTIALS);
 
         $fieldValues = [
             'description' => $data['description'] ?? '',
@@ -78,8 +86,8 @@ class RecipeImportService
             }
         }
 
-        if (!Craft::$app->getElements()->saveElement($entry)) {
-            $errors = $entry->getErrors();
+        if (!Elements::saveElement($entry)) {
+            $errors = $entry->errors()->toArray();
             throw new \Exception('Could not save recipe: ' . json_encode($errors));
         }
 
@@ -219,7 +227,7 @@ class RecipeImportService
         }
 
         // Create new source entry
-        $section = Craft::$app->getEntries()->getSectionByHandle('sources');
+        $section = Sections::getSectionByHandle('sources');
         $sourceType = null;
         foreach ($section->getEntryTypes() as $et) {
             if ($et->handle === 'source') {
@@ -234,8 +242,8 @@ class RecipeImportService
         $source->title = $domain;
         $source->setFieldValue('linkUrl', $url);
 
-        if (!Craft::$app->getElements()->saveElement($source)) {
-            Craft::warning('Could not create source entry: ' . json_encode($source->getErrors()), __METHOD__);
+        if (!Elements::saveElement($source)) {
+            Log::warning('Could not create source entry: ' . json_encode($source->errors()->toArray()));
             return null;
         }
 
@@ -248,7 +256,7 @@ class RecipeImportService
     private function downloadAndCreateAsset(string $imageUrl, string $recipeTitle): ?Asset
     {
         try {
-            $client = Craft::createGuzzleClient(['timeout' => 15]);
+            $client = HttpClient::create(['timeout' => 15]);
             $response = $client->get($imageUrl);
             $imageData = (string) $response->getBody();
 
@@ -264,7 +272,7 @@ class RecipeImportService
             }
 
             // Save to temp file
-            $tempDir = Craft::$app->getPath()->getTempPath();
+            $tempDir = Path::temp();
             $filename = AssetsHelper::prepareAssetName(
                 preg_replace('/[^a-zA-Z0-9\s-]/', '', $recipeTitle) . '.' . $ext
             );
@@ -272,11 +280,11 @@ class RecipeImportService
             file_put_contents($tempPath, $imageData);
 
             // Find volume and root folder
-            $volume = Craft::$app->getVolumes()->getVolumeByHandle('images');
+            $volume = Volumes::getVolumeByHandle('images');
             if (!$volume) {
                 return null;
             }
-            $folder = Craft::$app->getAssets()->getRootFolder($volume->id);
+            $folder = Folders::getRootFolderByVolumeId($volume->id);
 
             $asset = new Asset();
             $asset->tempFilePath = $tempPath;
@@ -285,16 +293,16 @@ class RecipeImportService
             $asset->filename = $filename;
             $asset->title = $recipeTitle;
             $asset->avoidFilenameConflicts = true;
-            $asset->setScenario(Asset::SCENARIO_CREATE);
+            $asset->ruleset->useScenario(AssetRules::SCENARIO_CREATE);
 
-            if (!Craft::$app->getElements()->saveElement($asset)) {
-                Craft::warning('Could not save image asset: ' . json_encode($asset->getErrors()), __METHOD__);
+            if (!Elements::saveElement($asset)) {
+                Log::warning('Could not save image asset: ' . json_encode($asset->errors()->toArray()));
                 return null;
             }
 
             return $asset;
         } catch (\Throwable $e) {
-            Craft::warning('Failed to download recipe image: ' . $e->getMessage(), __METHOD__);
+            Log::warning('Failed to download recipe image: ' . $e->getMessage());
             return null;
         }
     }

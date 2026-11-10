@@ -2,8 +2,8 @@
 
 namespace MattBloomfield\RecipeHelper\services;
 
-use Craft;
-use craft\helpers\App;
+use CraftCms\Cms\Support\Env;
+use MattBloomfield\RecipeHelper\support\HttpClient;
 use GuzzleHttp\Client;
 
 class ImageParser
@@ -24,7 +24,7 @@ class ImageParser
      */
     public function parse(string $filePath): array
     {
-        $apiKey = App::env('ANTHROPIC_API_KEY');
+        $apiKey = Env::get('ANTHROPIC_API_KEY');
         if (empty($apiKey)) {
             throw new \Exception('ANTHROPIC_API_KEY is not set in .env');
         }
@@ -32,7 +32,7 @@ class ImageParser
         $imageData = base64_encode(file_get_contents($filePath));
         $mimeType = mime_content_type($filePath) ?: 'image/jpeg';
 
-        $client = Craft::createGuzzleClient(['timeout' => 60]);
+        $client = HttpClient::create(['timeout' => 60]);
 
         $response = $client->post('https://api.anthropic.com/v1/messages', [
             'headers' => [

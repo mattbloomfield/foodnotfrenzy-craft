@@ -1,12 +1,13 @@
 <?php
 
-namespace MattBloomfield\RecipeHelper\console\controllers;
+namespace MattBloomfield\RecipeHelper\console\commands;
 
-use Craft;
-use craft\console\Controller;
-use craft\elements\Entry;
-use craft\helpers\ArrayHelper;
-use yii\console\ExitCode;
+use CraftCms\Cms\Console\CraftCommand;
+use CraftCms\Cms\Entry\Elements\Entry;
+use CraftCms\Cms\Support\Facades\ElementCaches;
+use CraftCms\Cms\Support\Facades\Elements;
+use CraftCms\Cms\Support\Facades\Sections;
+use CraftCms\Cms\Support\Facades\Structures;
 
 /**
  * Reorganizes the flat `categories` structure into a faceted taxonomy:
@@ -21,10 +22,18 @@ use yii\console\ExitCode;
  *   php craft recipe-helper/taxonomy/migrate --dry-run
  *   php craft recipe-helper/taxonomy/migrate
  */
-class TaxonomyController extends Controller
+class TaxonomyCommand extends RecipeHelperCommand
 {
+    use CraftCommand;
+
+    protected $signature = 'recipe-helper:taxonomy:migrate';
+
+    protected $description = 'Reorganize the categories section into the faceted taxonomy.';
+
+    protected $aliases = ['recipe-helper/taxonomy/migrate'];
+
     /** @var bool Print the plan without changing anything. */
-    public bool $dryRun = false;
+    private bool $dryRun = false;
 
     private const CATEGORY_FIELD_HANDLE = 'categories';
     private const CATEGORY_SECTION = 'categories';
@@ -37,11 +46,9 @@ class TaxonomyController extends Controller
     private int $merged = 0;
     private int $deleted = 0;
 
-    public function options($actionID): array
+    protected function defineOptions(): void
     {
-        $options = parent::options($actionID);
-        $options[] = 'dryRun';
-        return $options;
+        $this->flag('dry-run', 'Print the plan without changing anything.');
     }
 
     /**
@@ -111,12 +118,14 @@ class TaxonomyController extends Controller
         return ['tarts', 'donuts'];
     }
 
-    public function actionMigrate(): int
+    public function handle(): int
     {
-        $section = Craft::$app->getEntries()->getSectionByHandle(self::CATEGORY_SECTION);
+        $this->dryRun = $this->flagValue('dry-run');
+
+        $section = Sections::getSectionByHandle(self::CATEGORY_SECTION);
         if (!$section) {
             $this->stderr("Categories section not found.\n");
-            return ExitCode::UNSPECIFIED_ERROR;
+            return self::FAILURE;
         }
         $this->structureId = $section->structureId;
         $this->sectionId = $section->id;
@@ -125,7 +134,7 @@ class TaxonomyController extends Controller
         $this->loadExisting();
 
         if ($this->dryRun) {
-            $this->stdout("DRY RUN — no changes will be saved.\n\n", \yii\helpers\Console::FG_YELLOW);
+            $this->stdout("DRY RUN — no changes will be saved.\n\n", 'yellow');
         }
 
         // Build the tree, top-down so parents exist before children.
@@ -143,17 +152,17 @@ class TaxonomyController extends Controller
         if (!$this->dryRun) {
             $this->stdout("\nResaving categories to refresh URIs…\n");
             foreach (Entry::find()->section(self::CATEGORY_SECTION)->status(null)->all() as $cat) {
-                Craft::$app->getElements()->saveElement($cat, true, true, true);
+                Elements::saveElement($cat, true, true, true);
             }
-            Craft::$app->getElements()->invalidateCachesForElementType(Entry::class);
+            ElementCaches::invalidateForElementType(Entry::class);
         }
 
         $this->stdout(sprintf(
             "\nDone. created=%d moved=%d merged(recipes)=%d deleted=%d\n",
             $this->created, $this->moved, $this->merged, $this->deleted
-        ), \yii\helpers\Console::FG_GREEN);
+        ), 'green');
 
-        return ExitCode::OK;
+        return self::SUCCESS;
     }
 
     private int $structureId = 0;
@@ -206,7 +215,7 @@ class TaxonomyController extends Controller
             if (!$this->dryRun && $changed) {
                 $existing->title = $node['title'];
                 $existing->slug = $node['slug'];
-                Craft::$app->getElements()->saveElement($existing);
+                Elements::saveElement($existing);
             }
             // Keep the lookup coherent under the new slug.
             $existing->title = $node['title'];
@@ -226,7 +235,7 @@ class TaxonomyController extends Controller
         $entry->enabled = true;
 
         if (!$this->dryRun) {
-            Craft::$app->getElements()->saveElement($entry);
+            Elements::saveElement($entry);
         }
         $this->bySlug[$node['slug']] = $entry;
         return $entry;
@@ -237,11 +246,10 @@ class TaxonomyController extends Controller
         if ($this->dryRun) {
             return;
         }
-        $structures = Craft::$app->getStructures();
         if ($parent === null) {
-            $structures->appendToRoot($this->structureId, $entry);
+            Structures::appendToRoot($this->structureId, $entry);
         } else {
-            $structures->append($this->structureId, $entry, $parent);
+            Structures::append($this->structureId, $entry, $parent);
         }
         $this->moved++;
     }
@@ -268,13 +276,13 @@ class TaxonomyController extends Controller
 
         if (!$this->dryRun) {
             foreach ($recipes as $recipe) {
-                $ids = ArrayHelper::getColumn($recipe->getFieldValue(self::CATEGORY_FIELD_HANDLE)->all(), 'id');
+                $ids = array_map(fn(Entry $category) => $category->id, $recipe->getFieldValue(self::CATEGORY_FIELD_HANDLE)->all());
                 $ids = array_values(array_unique(array_map(
                     fn($id) => (int)$id === (int)$source->id ? (int)$target->id : (int)$id,
                     $ids
                 )));
                 $recipe->setFieldValue(self::CATEGORY_FIELD_HANDLE, $ids);
-                Craft::$app->getElements()->saveElement($recipe);
+                Elements::saveElement($recipe);
                 $this->merged++;
             }
         } else {
@@ -313,7 +321,7 @@ class TaxonomyController extends Controller
         $this->stdout(sprintf("  delete  %s [%s] (%s)\n", $entry->title ?: '(untitled)', $entry->slug, $reason));
         $this->deleted++;
         if (!$this->dryRun) {
-            Craft::$app->getElements()->deleteElement($entry);
+            Elements::deleteElement($entry);
         }
     }
 }

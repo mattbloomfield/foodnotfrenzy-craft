@@ -1,0 +1,13 @@
+{# Nutrition summary for the entry editor sidebar (the full-page editor). See _sidebar.twig for slideouts. #}
+<div style="border-top: 1px solid var(--gray-200); padding-top: 1rem;">
+    <h3 class="heading" style="margin-bottom: 0.5rem;">Nutrition</h3>
+    {% if entry.nutritionCalories is defined and entry.nutritionCalories %}
+        <div style="font-size: 0.85em; color: var(--gray-500);">
+            {{ entry.nutritionCalories }} cal/serving
+        </div>
+    {% else %}
+        <div style="font-size: 0.85em; color: var(--gray-500);">
+            Not yet calculated — save entry to generate.
+        </div>
+    {% endif %}
+</div>

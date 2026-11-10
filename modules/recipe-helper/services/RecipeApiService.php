@@ -2,9 +2,9 @@
 
 namespace MattBloomfield\RecipeHelper\services;
 
-use Craft;
-use craft\elements\Entry;
-use craft\elements\db\EntryQuery;
+use CraftCms\Cms\Element\Queries\EntryQuery;
+use CraftCms\Cms\Entry\Elements\Entry;
+use CraftCms\Cms\Field\Data\SingleOptionFieldData;
 
 /**
  * Read-only recipe query + serialization service.
@@ -319,7 +319,7 @@ class RecipeApiService
         $out = [];
 
         foreach ($entry->getFieldValue('ingredientsAndInstructions')->all() as $block) {
-            if ($block->type->handle !== 'ingredientsBlock') {
+            if ($block->getType()->handle !== 'ingredientsBlock') {
                 continue;
             }
             $rows = $block->getFieldValue('ingredientsList');
@@ -349,7 +349,7 @@ class RecipeApiService
         $out = [];
 
         foreach ($entry->getFieldValue('ingredientsAndInstructions')->all() as $block) {
-            if ($block->type->handle !== 'instructionsBlock') {
+            if ($block->getType()->handle !== 'instructionsBlock') {
                 continue;
             }
             $rows = $block->getFieldValue('instructions');
@@ -397,7 +397,7 @@ class RecipeApiService
     private function difficultyValue(Entry $entry): ?string
     {
         $value = $entry->difficulty;
-        if ($value instanceof \craft\fields\data\SingleOptionFieldData) {
+        if ($value instanceof SingleOptionFieldData) {
             return $value->value ?: null;
         }
         return $value ? (string)$value : null;

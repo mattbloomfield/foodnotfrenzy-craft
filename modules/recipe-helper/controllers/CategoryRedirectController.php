@@ -2,24 +2,24 @@
 
 namespace MattBloomfield\RecipeHelper\controllers;
 
-use Craft;
-use craft\elements\Entry;
-use craft\web\Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use yii\web\Response;
+use CraftCms\Cms\Entry\Elements\Entry;
+use CraftCms\Cms\Http\Controllers\SiteRouteController;
+use CraftCms\Cms\Support\Facades\Elements;
+use CraftCms\Cms\Support\Facades\Sites;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Fallback for old category URLs after the taxonomy was re-faceted (parents
  * changed, so URIs moved, e.g. /categories/desserts → /categories/course/desserts).
  *
- * Only reached when no category element matches the requested URI — Craft
- * resolves element URIs before custom URL rules — so valid pages never hit this.
- * We look the category up by its final slug segment and 301 to its real URL.
+ * Registered as the `categories/{catUri}` site route. Craft routes element URIs
+ * before custom routes, so a URI that belongs to an element (a real category
+ * page) is handed straight back to Craft’s element routing. Otherwise we look
+ * the category up by its final slug segment and 301 to its real URL.
  */
-class CategoryRedirectController extends Controller
+class CategoryRedirectController
 {
-    protected array|int|bool $allowAnonymous = true;
-
     /**
      * Old category slugs that were renamed/merged during the taxonomy migration,
      * mapped to the slug that replaced them.
@@ -39,8 +39,16 @@ class CategoryRedirectController extends Controller
         'donuts'        => 'desserts',
     ];
 
-    public function actionRedirect(string $catUri): Response
+    public function __invoke(Request $request, string $catUri): Response
     {
+        $requestPath = Sites::getRequestPath($request);
+
+        if (Elements::getElementByUri($requestPath, Sites::getCurrentSite()->id, true)) {
+            $request->route()?->forgetParameter('catUri');
+
+            return app(SiteRouteController::class)($request);
+        }
+
         $segments = array_filter(explode('/', trim($catUri, '/')));
         $slug = end($segments);
         $slug = self::SLUG_ALIASES[$slug] ?? $slug;
@@ -53,17 +61,18 @@ class CategoryRedirectController extends Controller
 
         if ($category) {
             $target = $category->getUrl();
-            $requestPath = trim(Craft::$app->getRequest()->getPathInfo(), '/');
             $targetPath = trim((string)parse_url($target, PHP_URL_PATH), '/');
 
             // Guard against redirecting a URL to itself (would loop).
-            if ($target && $requestPath !== $targetPath) {
-                return $this->redirect($target, 301);
+            if ($target && trim($requestPath, '/') !== $targetPath) {
+                // An empty 301, as Craft 5 sent (no HTML meta-refresh body).
+                return new Response('', 301, [
+                    'Location' => $target,
+                    'Content-Type' => 'text/html; charset=UTF-8',
+                ]);
             }
         }
 
-        // Craft 6 turns Yii's NotFoundHttpException into a 500 here; Laravel
-        // renders Symfony's as a 404.
-        throw new NotFoundHttpException('Category not found');
+        abort(404, 'Category not found');
     }
 }

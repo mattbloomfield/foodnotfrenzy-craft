@@ -2,8 +2,9 @@
 
 namespace MattBloomfield\RecipeHelper\services;
 
-use Craft;
-use craft\elements\Entry;
+use CraftCms\Cms\Entry\Elements\Entry;
+use CraftCms\Cms\Support\Env;
+use CraftCms\Cms\Support\Facades\Elements;
 use MattBloomfield\RecipeHelper\quantity\QuantityNormalizer;
 
 class NutritionService
@@ -94,7 +95,7 @@ class NutritionService
      */
     public function calculate(Entry $entry): array
     {
-        $apiKey = Craft::parseEnv('$SPOONACULAR_API_KEY');
+        $apiKey = Env::parse('$SPOONACULAR_API_KEY');
 
         if (empty($apiKey)) {
             return ['success' => false, 'message' => 'SPOONACULAR_API_KEY not configured in .env'];
@@ -191,7 +192,7 @@ class NutritionService
             return $result;
         }
 
-        if (!Craft::$app->elements->saveElement($entry)) {
+        if (!Elements::saveElement($entry)) {
             $errors = implode(', ', $entry->getFirstErrors());
             return ['success' => false, 'message' => "Failed to save entry: $errors"];
         }
@@ -208,7 +209,7 @@ class NutritionService
         $strings = [];
 
         foreach ($entry->getFieldValue('ingredientsAndInstructions')->all() as $block) {
-            if ($block->type->handle !== 'ingredientsBlock') {
+            if ($block->getType()->handle !== 'ingredientsBlock') {
                 continue;
             }
 

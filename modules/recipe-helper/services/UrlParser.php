@@ -2,7 +2,7 @@
 
 namespace MattBloomfield\RecipeHelper\services;
 
-use Craft;
+use MattBloomfield\RecipeHelper\support\HttpClient;
 use GuzzleHttp\Client;
 
 class UrlParser
@@ -22,7 +22,7 @@ class UrlParser
      */
     public function parse(string $url): array
     {
-        $client = Craft::createGuzzleClient([
+        $client = HttpClient::create([
             'timeout' => 15,
             'headers' => [
                 'User-Agent' => 'Mozilla/5.0 (compatible; RecipeImporter/1.0)',
