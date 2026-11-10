@@ -1,54 +1,71 @@
+{#
+    schema.org Recipe structured data (Google recipe rich results).
+
+    Built as a Twig hash and output with json_encode, so commas, quotes and
+    line breaks are always valid JSON. Text is decoded to plain text first:
+    some imported recipe text is stored with HTML entities. Prep/cook times are whole minutes in the
+    CMS; schema.org wants ISO 8601 durations ("PT15M"), and empty values are
+    left out rather than sent as "".
+#}
+{% set image = entry.image.one() %}
+
+{% set ingredients = [] %}
+{% set instructions = [] %}
+{% for block in entry.ingredientsAndInstructions.all() %}
+    {% if block.type == 'ingredientsBlock' %}
+        {% for row in block.ingredientsList %}
+            {% set result = (row.quantity ?: 0)|niceFractions(1, row.unit) %}
+            {% set formattedQuantity = result is iterable ? result.value : result %}
+            {% set formattedUnit = result is iterable ? result.unit : (row.unit != 'none' ? row.unit : '') %}
+            {% set line = formattedQuantity ~ ' ' ~ formattedUnit ~ ' ' ~ row.ingredientName ~ (row.notes is not empty ? ', ' ~ row.notes : '') %}
+            {% set ingredients = ingredients|merge([line|striptags|decodeEntities|replace('/\\s+/u', ' ')|trim]) %}
+        {% endfor %}
+    {% elseif block.type == 'instructionsBlock' %}
+        {% for row in block.instructions %}
+            {% set instructions = instructions|merge([{ '@type': 'HowToStep', text: row.instruction|striptags|decodeEntities|trim }]) %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+
+{% set data = {
+    '@context': 'https://schema.org/',
+    '@type': 'Recipe',
+    name: entry.title|decodeEntities,
+    image: image ? image.url : '',
+    description: (entry.description ?? '')|striptags|decodeEntities|trim,
+    author: { '@type': 'Person', name: siteName },
+} %}
+
+{% set prep = entry.prepTime ?: 0 %}
+{% set cook = entry.cookTime ?: 0 %}
+{% if prep %}{% set data = data|merge({ prepTime: 'PT' ~ prep ~ 'M' }) %}{% endif %}
+{% if cook %}{% set data = data|merge({ cookTime: 'PT' ~ cook ~ 'M' }) %}{% endif %}
+{% if prep or cook %}{% set data = data|merge({ totalTime: 'PT' ~ (prep + cook) ~ 'M' }) %}{% endif %}
+{% if entry.servings %}{% set data = data|merge({ recipeYield: entry.servings ~ '' }) %}{% endif %}
+
+{% set data = data|merge({
+    recipeCategory: entry.categories.all()|map(c => c.title)|join(', '),
+    recipeIngredient: ingredients,
+    recipeInstructions: instructions,
+}) %}
+
+{% if entry.nutritionCalories is not null %}
+    {% set nutrition = { '@type': 'NutritionInformation', calories: entry.nutritionCalories ~ ' calories' } %}
+    {% for handle, spec in {
+        nutritionFat: ['fatContent', 'g'],
+        nutritionSaturatedFat: ['saturatedFatContent', 'g'],
+        nutritionCarbs: ['carbohydrateContent', 'g'],
+        nutritionFiber: ['fiberContent', 'g'],
+        nutritionSugar: ['sugarContent', 'g'],
+        nutritionProtein: ['proteinContent', 'g'],
+        nutritionSodium: ['sodiumContent', 'mg'],
+    } %}
+        {% set value = attribute(entry, handle) %}
+        {% if value is not null %}{% set nutrition = nutrition|merge({ (spec[0]): value ~ ' ' ~ spec[1] }) %}{% endif %}
+    {% endfor %}
+    {% set data = data|merge({ nutrition: nutrition }) %}
+{% endif %}
+
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org/",
-  "@type": "Recipe",
-  "name": "{{ entry.title }}",
-  "image": "{{ entry.image.one() ? entry.image.one().url : '' }}",
-  "description": "{{ entry.description }}",
-  "author": {
-    "@type": "Person",
-    "name": "{{ siteName }}"
-  },
-  "prepTime": "{{ entry.prepTime }}",
-  "cookTime": "{{ entry.cookTime }}",
-  "totalTime": "{{ entry.cookTime|default(0) + entry.prepTime|default(0) }}",
-  "recipeYield": "{{ entry.servings }}",
-  "recipeCategory": "{% for category in entry.categories.all() %}{{ category.title }}{% if not loop.last %}, {% endif %}{% endfor %}",
-  "recipeIngredient": [
-    {% for block in entry.ingredientsAndInstructions %}
-    {% if block.type == "ingredientsBlock" %}
-    {% for row in block.ingredientsList %}
-    {% set quantity = (row.quantity) ? row.quantity : 0 %}
-    {% set result = quantity|niceFractions(1, row.unit) %}
-    {% set formattedQuantity = result is iterable ? result.value : result %}
-    {% set formattedUnit = result is iterable ? result.unit : (row.unit != 'none' ? row.unit : '') %}
-          "{{ formattedQuantity }} {{ formattedUnit }} {{ row.ingredientName }}{{ row.notes is not empty ? ', ' ~ row.notes : '' }}"{% if not loop.last %},{% endif %}
-    {% endfor %}
-    {% endif %}
-    {% endfor %}
-  ],
-  "recipeInstructions": [
-    {% for block in entry.ingredientsAndInstructions %}
-    {% if block.type == "instructionsBlock" %}
-    {% for row in block.instructions %}
-          {
-            "@type": "HowToStep",
-            "text": "{{ row.instruction }}"
-          }{% if not loop.last %},{% endif %}
-    {% endfor %}
-    {% endif %}
-    {% endfor %}
-  ]{% if entry.nutritionCalories is not null %},
-  "nutrition": {
-    "@type": "NutritionInformation",
-    "calories": "{{ entry.nutritionCalories }} calories"{% if entry.nutritionFat is not null %},
-    "fatContent": "{{ entry.nutritionFat }} g"{% endif %}{% if entry.nutritionSaturatedFat is not null %},
-    "saturatedFatContent": "{{ entry.nutritionSaturatedFat }} g"{% endif %}{% if entry.nutritionCarbs is not null %},
-    "carbohydrateContent": "{{ entry.nutritionCarbs }} g"{% endif %}{% if entry.nutritionFiber is not null %},
-    "fiberContent": "{{ entry.nutritionFiber }} g"{% endif %}{% if entry.nutritionSugar is not null %},
-    "sugarContent": "{{ entry.nutritionSugar }} g"{% endif %}{% if entry.nutritionProtein is not null %},
-    "proteinContent": "{{ entry.nutritionProtein }} g"{% endif %}{% if entry.nutritionSodium is not null %},
-    "sodiumContent": "{{ entry.nutritionSodium }} mg"{% endif %}
-  }{% endif %}
-}
+{{ data|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG'))|raw }}
 </script>

@@ -27,12 +27,22 @@ class RecipeFractionConverter extends AbstractExtension
         return [
             new TwigFilter('niceFractions', [$this, 'niceFractions']),
             new TwigFilter('formatMinutes', [$this, 'formatMinutes']),
+            new TwigFilter('decodeEntities', [$this, 'decodeEntities']),
         ];
     }
 
     public function niceFractions(mixed $value, float $scale, ?string $unit = null): array|string
     {
         return $this->formatter->format($value, $scale, $unit);
+    }
+
+    /**
+     * Plain text for structured data: some imported recipe text is stored with
+     * HTML entities (e.g. 9x13&#39;&#39;), which must not reach JSON-LD encoded.
+     */
+    public function decodeEntities(mixed $value): string
+    {
+        return html_entity_decode((string)$value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 
     public function formatMinutes($minutes): string
