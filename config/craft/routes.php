@@ -2,14 +2,8 @@
 /**
  * Site URL Rules
  *
- * You can define custom site URL rules here, which Craft will check in addition
- * to routes defined in Settings → Routes.
- *
- * Read all about Craft’s routing behavior, here:
- * https://craftcms.com/docs/4.x/routing.html
+ * Craft 6 doesn’t read this file. Site routes are Laravel routes: see
+ * routes/web.php (and the Recipe Helper module’s service provider).
  */
 
-return [
-    // Replaces SEOmate's sitemap (see resources/views/_sitemap.twig).
-    'sitemap.xml' => ['template' => '_sitemap'],
-];
+return [];
