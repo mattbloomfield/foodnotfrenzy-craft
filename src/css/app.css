@@ -3,6 +3,12 @@
 @import './_components/_recipe.css';
 @import './_components/_cooking-mode.css';
 
+/* Keep class scanning to project sources even when .gitignore isn't
+   honored (e.g. builds from a git worktree inside a container). */
+@source not '../../vendor';
+@source not '../../storage';
+@source not '../../public';
+
 /*
  * Every legacy color name maps to a semantic theme token defined in
  * _theme.css, so the whole site re-themes per palette + light/dark

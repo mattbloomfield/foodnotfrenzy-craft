@@ -9,4 +9,7 @@
  * https://craftcms.com/docs/4.x/routing.html
  */
 
-return [];
+return [
+    // Replaces SEOmate's sitemap (see resources/views/_sitemap.twig).
+    'sitemap.xml' => ['template' => '_sitemap'],
+];

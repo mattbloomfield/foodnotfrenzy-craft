@@ -21,14 +21,14 @@
     <meta name="color-scheme" content="{{ scheme == 'auto' ? 'light dark' : scheme }}">
     <title>{% block title %}{{ siteName }}{% endblock %}</title>
     <link rel="stylesheet" href="/dist/critical.css">
-    {{ craft.vite.script("src/js/app.js", false) }}
+    {{ vite("src/js/app.js", "dist") }}
     <link rel="apple-touch-icon" sizes="180x180" href="/dist/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/dist/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/dist/favicon/favicon-16x16.png">
     <link rel="manifest" href="/dist/favicon/site.webmanifest">
     {% block headExtras %}{% endblock %}
     {% block jsonLd %}{% endblock %}
-    {% hook 'seomateMeta' %}
+    {% include '_partials/seo-meta' %}
 </head>
 <body class="bg-linen text-gray-800 flex flex-col min-h-screen font-sans">
     {% include "@global/nav" %}

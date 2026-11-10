@@ -1,0 +1,19 @@
+{#- Stand-in for SEOmate's sitemap (no Craft 6 release). Same URLs, changefreq
+    and priority as the old config/seomate.php sitemapConfig, as one <urlset>
+    at /sitemap.xml instead of a sitemap index with per-section sitemaps. -#}
+{%- header "Content-Type: application/xml; charset=utf-8" -%}
+{%- set sections = [
+    { section: 'recipes', changefreq: 'weekly', priority: 1 },
+    { section: 'categories', changefreq: 'monthly', priority: 0.5 },
+    { section: 'home', changefreq: 'daily', priority: 1 },
+    { section: 'categoryListing', changefreq: 'daily', priority: 1 },
+] -%}
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for config in sections %}
+{%- for entry in craft.entries.section(config.section).uri(':notempty:').all() %}
+<url><loc>{{ entry.url }}</loc><lastmod>{{ entry.dateUpdated|date('c') }}</lastmod><changefreq>{{ config.changefreq }}</changefreq><priority>{{ config.priority }}</priority></url>
+{%- endfor %}
+{%- endfor %}
+<url><loc>{{ siteUrl('latest') }}</loc><lastmod>{{ now|date('c') }}</lastmod><changefreq>weekly</changefreq><priority>1</priority></url>
+</urlset>

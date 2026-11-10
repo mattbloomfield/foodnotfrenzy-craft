@@ -1,0 +1,72 @@
+{#-
+    Stand-in for SEOmate's {% hook 'seomateMeta' %} output. SEOmate has no
+    Craft 6 release, so it was removed on the craft6-beta branch.
+
+    Reproduces what SEOmate rendered with the old config/seomate.php
+    ('standard' profile: title <- title, description <- description,
+    image <- image) and SEOmate's default settings: site name appended to
+    <title>, og:/twitter: tags autofilled from those, images transformed to
+    1200x675 / 1200x630 / 1200x600 JPEGs, no length restrictions.
+
+    Fields are mapped per entry type, because Craft 6 throws on unknown field
+    handles: only recipe, category and about entries have `description`, and
+    only recipe and category entries have `image`.
+-#}
+{%- set element = craft.app.urlManager.getMatchedElement() ?: null -%}
+{%- set typeHandle = element ? element.type.handle : null -%}
+{%- set siteLabel = currentSite.name -%}
+
+{%- set metaTitle = element ? element.title|striptags|trim : '' -%}
+
+{%- set metaDescription = '' -%}
+{%- if typeHandle in ['recipe', 'category', 'about'] -%}
+    {%- set metaDescription = (element.description ?? '')|replace('/[[:cntrl:]]+/u', ' ')|striptags|trim -%}
+{%- endif -%}
+
+{%- set metaImage = null -%}
+{%- if typeHandle in ['recipe', 'category'] -%}
+    {%- for asset in element.image.kind('image').all() -%}
+        {%- if not metaImage and asset.extension|lower in ['jpg', 'jpeg', 'gif', 'png'] -%}
+            {%- set metaImage = asset -%}
+        {%- endif -%}
+    {%- endfor -%}
+{%- endif -%}
+{%- set imageUrl = metaImage ? {
+    'image': metaImage.getUrl({ width: 1200, height: 675, format: 'jpg' }),
+    'og:image': metaImage.getUrl({ width: 1200, height: 630, format: 'jpg' }),
+    'twitter:image': metaImage.getUrl({ width: 1200, height: 600, format: 'jpg' }),
+} : {} -%}
+
+{#- SEOmate escaped with htmlspecialchars(…, double_encode: false), so entities
+    already in the stored text (&nbsp;, &#039;) were output as-is, not as &amp;… -#}
+{%- set titleHtml = metaTitle|e|replace('/&amp;(#?[a-zA-Z0-9]+;)/', '&$1') -%}
+{%- set descriptionHtml = metaDescription|e|replace('/&amp;(#?[a-zA-Z0-9]+;)/', '&$1') -%}
+
+{#- Craft 6 returns the homepage URL without its trailing slash; SEOmate's was siteUrl. -#}
+{%- set canonicalUrl = element and element.uri == '__home__' ? siteUrl
+    : (element and element.url ? element.url : url(craft.app.request.pathInfo)) %}
+<link rel="home" href="{{ siteUrl }}">
+<link rel="canonical" href="{{ canonicalUrl }}">
+<meta property="og:url" content="{{ canonicalUrl }}">
+<meta name="twitter:url" content="{{ canonicalUrl }}">
+<meta property="og:locale" content="{{ currentSite.language }}">
+<title>{{ metaTitle ? (titleHtml ~ ' | ' ~ siteLabel|e)|raw : siteLabel }}</title>
+{% if metaDescription %}<meta name="description" content="{{ descriptionHtml|raw }}">
+{% endif %}
+{% if metaImage %}<meta name="image" content="{{ imageUrl['image'] }}">
+{% endif %}
+{% if metaTitle %}<meta property="og:title" content="{{ titleHtml|raw }}">
+{% endif %}
+{% if metaDescription %}<meta property="og:description" content="{{ descriptionHtml|raw }}">
+{% endif %}
+{% if metaImage %}<meta property="og:image" content="{{ imageUrl['og:image'] }}">
+{% endif %}
+{% if metaTitle %}<meta name="twitter:title" content="{{ titleHtml|raw }}">
+{% endif %}
+{% if metaDescription %}<meta name="twitter:description" content="{{ descriptionHtml|raw }}">
+{% endif %}
+{% if metaImage %}<meta name="twitter:image" content="{{ imageUrl['twitter:image'] }}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+{% endif %}

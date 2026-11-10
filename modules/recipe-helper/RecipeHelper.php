@@ -176,6 +176,21 @@ class RecipeHelper extends BaseModule
                 $event->roots['recipe-helper'] = __DIR__ . '/templates';
             }
         );
+
+        // Component namespaces used by the site templates: `@block/recipe-meta`,
+        // `@card/recipe`, `@global/nav`, `@listing/grid`, etc. These were
+        // registered by madebyraygun/craft-component-library (no Craft 6
+        // release). Folder components resolve to their index.twig.
+        Event::on(
+            View::class,
+            View::EVENT_REGISTER_SITE_TEMPLATE_ROOTS,
+            function(RegisterTemplateRootsEvent $event) {
+                $components = Craft::getAlias('@templates') . '/_components';
+                foreach (['block', 'card', 'global', 'listing'] as $namespace) {
+                    $event->roots['@' . $namespace] = $components . '/' . $namespace;
+                }
+            }
+        );
     }
 
     private function normalizeIngredientBlock(Entry $block): void
