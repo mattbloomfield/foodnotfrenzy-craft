@@ -15,7 +15,7 @@
   "recipeYield": "{{ entry.servings }}",
   "recipeCategory": "{% for category in entry.categories.all() %}{{ category.title }}{% if not loop.last %}, {% endif %}{% endfor %}",
   "recipeIngredient": [
-    {% for block in entry.ingredientsAndInstructions %}
+    {% for block in entry.ingredientsAndInstructions.all() %}
     {% if block.type == "ingredientsBlock" %}
     {% for row in block.ingredientsList %}
     {% set quantity = (row.quantity) ? row.quantity : 0 %}
@@ -28,7 +28,7 @@
     {% endfor %}
   ],
   "recipeInstructions": [
-    {% for block in entry.ingredientsAndInstructions %}
+    {% for block in entry.ingredientsAndInstructions.all() %}
     {% if block.type == "instructionsBlock" %}
     {% for row in block.instructions %}
           {

@@ -156,7 +156,7 @@
         </div>
     {% endif %}
 
-    {% for entry in recipe.ingredientsAndInstructions %}
+    {% for entry in recipe.ingredientsAndInstructions.all() %}
         {% if entry.type == 'ingredientsBlock' %}
         <section class="recipe-section">
             <h2>Ingredients</h2>

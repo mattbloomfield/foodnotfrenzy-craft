@@ -5,7 +5,7 @@ namespace MattBloomfield\RecipeHelper\controllers;
 use Craft;
 use craft\elements\Entry;
 use craft\web\Controller;
-use yii\web\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use yii\web\Response;
 
 /**
@@ -62,6 +62,8 @@ class CategoryRedirectController extends Controller
             }
         }
 
+        // Craft 6 turns Yii's NotFoundHttpException into a 500 here; Laravel
+        // renders Symfony's as a 404.
         throw new NotFoundHttpException('Category not found');
     }
 }

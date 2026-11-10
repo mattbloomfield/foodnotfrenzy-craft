@@ -12,7 +12,10 @@
                     position: 'center-center'
                 } %}
 				{% if image is not null %}
-					<img src="{{ image.getUrl(card) }}" width="{{ image.getWidth(card) }}" height="{{ image.getHeight(card) }}" alt="{{ title }}" loading="lazy" class="object-cover w-full h-full group-hover:scale-[1.03] transition-transform duration-500 ease-out">
+					{# Craft 6 beta: getWidth/getHeight(transform) throw (500) when the image driver
+					   can't transform the file type; fall back to the transform's own size. #}
+					{% set transformable = image.supportsImageEditor %}
+					<img src="{{ image.getUrl(card) }}" width="{{ transformable ? image.getWidth(card) : card.width }}" height="{{ transformable ? image.getHeight(card) : card.height }}" alt="{{ title }}" loading="lazy" class="object-cover w-full h-full group-hover:scale-[1.03] transition-transform duration-500 ease-out">
 				{% else %}
 					<img src="/dist/placeholder.jpg" alt="Placeholder Image" width="352" height="264" loading="lazy" class="object-cover w-full h-full group-hover:scale-[1.03] transition-transform duration-500 ease-out">
 				{% endif %}

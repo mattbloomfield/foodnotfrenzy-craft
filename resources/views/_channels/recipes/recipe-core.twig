@@ -42,7 +42,10 @@
                 position: 'center-center'
             } %}
 			<div class="rounded-lg overflow-hidden mb-8">
-				<img src="{{ image.getUrl(recipeBlock) }}" alt="{{ entry.title }} - {{ entry.description|striptags|slice(0, 125) }}" width="{{ image.getWidth(recipeBlock) }}" height="{{ image.getHeight(recipeBlock) }}" fetchpriority="high" class="object-cover w-full h-full">
+				{# Craft 6 beta: getWidth/getHeight(transform) throw (500) when the image driver
+				   can't transform the file type; fall back to the transform's own size. #}
+				{% set transformable = image.supportsImageEditor %}
+				<img src="{{ image.getUrl(recipeBlock) }}" alt="{{ entry.title }} - {{ entry.description|striptags|slice(0, 125) }}" width="{{ transformable ? image.getWidth(recipeBlock) : recipeBlock.width }}" height="{{ transformable ? image.getHeight(recipeBlock) : recipeBlock.height }}" fetchpriority="high" class="object-cover w-full h-full">
 			</div>
 		{% endif %}
 	</header>

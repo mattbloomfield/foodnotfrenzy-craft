@@ -14,10 +14,11 @@
 
 		{% set q = craft.app.request.getQueryParam('q') %}
 		{% if q %}
+			{# Craft 6 sorts a plain orderBy('score') ascending (least relevant first). #}
 			{% set recipes = craft.entries()
                 .section('recipes')
                 .search(q)
-                .orderBy('score')
+                .orderBy('score DESC')
                 .all() %}
 
 			{% if recipes|length %}
