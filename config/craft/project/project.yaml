@@ -78,7 +78,6 @@ elementSources:
 email:
   fromEmail: heyitsjenni@gmail.com
   fromName: 'Food Not Frenzy'
-  transportType: craft\mail\transportadapters\Sendmail
 meta:
   __names__:
     0ef9f8ae-d2ec-443c-a3db-c411267a52fb: Servings # Servings

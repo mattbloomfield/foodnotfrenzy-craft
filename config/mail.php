@@ -14,7 +14,10 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    // Craft 5 sent mail with its Sendmail transport adapter (project config
+    // `email.transportType`); sendmail stays the default. Set MAIL_MAILER (and
+    // the MAIL_* settings below) to use another mailer, e.g. smtp.
+    'default' => env('MAIL_MAILER', 'sendmail'),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +70,8 @@ return [
 
         'sendmail' => [
             'transport' => 'sendmail',
-            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
+            // Same command Craft 5's Sendmail adapter used.
+            'path' => env('MAIL_SENDMAIL_PATH', ini_get('sendmail_path') ?: '/usr/sbin/sendmail -bs'),
         ],
 
         'log' => [
