@@ -3,15 +3,15 @@
  * General Configuration
  *
  * All of your system's general configuration settings go in here. You can see a
- * list of the available settings in vendor/craftcms/cms/src/config/GeneralConfig.php.
+ * list of the available settings in vendor/craftcms/cms/src/Config/GeneralConfig.php.
  *
- * @see \craft\config\GeneralConfig
+ * @see \CraftCms\Cms\Config\GeneralConfig
  */
 
-use craft\config\GeneralConfig;
-use craft\helpers\App;
+use CraftCms\Cms\Config\GeneralConfig;
+use CraftCms\Cms\Support\Env;
 
-$isProduction = App::env('CRAFT_ENVIRONMENT') === 'production';
+$isProduction = Env::get('APP_ENV') === 'production';
 
 return GeneralConfig::create()
     // Set the default week start day for date pickers (0 = Sunday, 1 = Monday, etc.)
