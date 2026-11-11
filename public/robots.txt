@@ -1,3 +1,8 @@
+User-agent: *
+
+# Social share card images (og:image URLs carry a ?v= query string)
+Allow: /share-card/
+
 # Prevent duplicate content
 Disallow: /print/
 Disallow: /search/
