@@ -1,8 +1,6 @@
 {% extends "_layout/base.twig" %}
 
-{% block title %}Search Results |
-	{{ siteName }}
-{% endblock %}
+{% set seo = { title: 'Search Results', page: 'search', noindex: true } %}
 
 {% block content %}
 	<div class="max-w-6xl mx-auto">

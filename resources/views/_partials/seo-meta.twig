@@ -1,72 +1,77 @@
 {#-
-    Stand-in for SEOmate's {% hook 'seomateMeta' %} output. SEOmate has no
-    Craft 6 release, so it was removed on the craft6-beta branch.
+    The page's <title>, description, canonical URL, Open Graph and X (Twitter)
+    card tags. This is the only place they're output.
 
-    Reproduces what SEOmate rendered with the old config/seomate.php
-    ('standard' profile: title <- title, description <- description,
-    image <- image) and SEOmate's default settings: site name appended to
-    <title>, og:/twitter: tags autofilled from those, images transformed to
-    1200x675 / 1200x630 / 1200x600 JPEGs, no length restrictions.
+    Templates can set, before/after `extends` (all optional):
+        {% set seo = {
+            title: 'Latest Recipes',   -- page title, without the site name
+            description: '…',
+            page: 'latest',            -- share card for pages with no entry: latest | search | default
+            noindex: true,
+        } %}
+    Otherwise everything comes from the matched entry.
 
-    Fields are mapped per entry type, because Craft 6 throws on unknown field
-    handles: only recipe, category and about entries have `description`, and
-    only recipe and category entries have `image`.
+    og:image / twitter:image always point at a generated share card
+    (modules/recipe-helper/sharecards), so every page has a branded preview,
+    including the many recipes without a photo.
+
+    Craft 6 throws on unknown field handles, so fields are read per entry type:
+    only recipe, category and about entries have `description`.
 -#}
+{%- set seo = seo ?? {} -%}
 {%- set element = matchedElement() ?: null -%}
 {%- set typeHandle = element ? element.type.handle : null -%}
 {%- set siteLabel = currentSite.name -%}
+{%- set isHome = element and element.uri == '__home__' -%}
+{%- set defaultDescription = 'Real home-cooked recipes without the ad-filled frenzy: just the ingredients, the steps, and the nutrition.' -%}
 
-{%- set metaTitle = element ? element.title|striptags|trim : '' -%}
+{%- set pageTitle = (seo.title ?? (element and not isHome ? element.title : ''))|striptags|trim -%}
 
-{%- set metaDescription = '' -%}
-{%- if typeHandle in ['recipe', 'category', 'about'] -%}
-    {%- set metaDescription = (element.description ?? '')|replace('/[[:cntrl:]]+/u', ' ')|striptags|trim -%}
+{%- set description = seo.description ?? '' -%}
+{%- if not description and typeHandle in ['recipe', 'category', 'about'] -%}
+    {%- set description = (element.description ?? '')|replace('/[[:cntrl:]]+/u', ' ')|striptags|trim -%}
+    {%- if not description and typeHandle == 'recipe' -%}
+        {%- set description = element.title ~ ' recipe with ingredients and step-by-step instructions from ' ~ siteLabel ~ '.' -%}
+    {%- endif -%}
+{%- endif -%}
+{%- set description = description ?: defaultDescription -%}
+{#- Search snippets show ~160 characters; cut at a word boundary. -#}
+{%- if description|length > 200 -%}
+    {%- set description = description|slice(0, 197)|split(' ')|slice(0, -1)|join(' ') ~ '…' -%}
 {%- endif -%}
 
-{%- set metaImage = null -%}
-{%- if typeHandle in ['recipe', 'category'] -%}
-    {%- for asset in element.image.kind('image').all() -%}
-        {%- if not metaImage and asset.extension|lower in ['jpg', 'jpeg', 'gif', 'png'] -%}
-            {%- set metaImage = asset -%}
-        {%- endif -%}
-    {%- endfor -%}
-{%- endif -%}
-{%- set imageUrl = metaImage ? {
-    'image': (metaImage|transformUrl({ width: 1200, height: 675, format: 'jpg' })),
-    'og:image': (metaImage|transformUrl({ width: 1200, height: 630, format: 'jpg' })),
-    'twitter:image': (metaImage|transformUrl({ width: 1200, height: 600, format: 'jpg' })),
-} : {} -%}
+{#- Stored text sometimes already contains entities (&nbsp;, &#039;); don't double-encode them. -#}
+{%- set titleHtml = pageTitle|e|replace('/&amp;(#?[a-zA-Z0-9]+;)/', '&$1') -%}
+{%- set siteHtml = siteLabel|e -%}
+{%- set descriptionHtml = description|e|replace('/&amp;(#?[a-zA-Z0-9]+;)/', '&$1') -%}
+{%- set documentTitle = pageTitle ? titleHtml ~ ' | ' ~ siteHtml : siteHtml ~ ' — Real recipes, without the ad-filled frenzy' -%}
+{%- set shareTitle = pageTitle ? titleHtml : siteHtml -%}
 
-{#- SEOmate escaped with htmlspecialchars(…, double_encode: false), so entities
-    already in the stored text (&nbsp;, &#039;) were output as-is, not as &amp;… -#}
-{%- set titleHtml = metaTitle|e|replace('/&amp;(#?[a-zA-Z0-9]+;)/', '&$1') -%}
-{%- set descriptionHtml = metaDescription|e|replace('/&amp;(#?[a-zA-Z0-9]+;)/', '&$1') -%}
-
-{#- Craft 6 returns the homepage URL without its trailing slash; SEOmate's was siteUrl. -#}
-{%- set canonicalUrl = element and element.uri == '__home__' ? siteUrl
-    : (element and element.url ? element.url : url(Request.craftPath())) %}
+{#- Craft 6 returns the homepage URL without its trailing slash. -#}
+{%- set canonicalUrl = isHome ? siteUrl : (element and element.url ? element.url : url(Request.craftPath())) -%}
+{%- set cardUrl = shareCardUrl(element, seo.page ?? 'default') -%}
+{%- set cardAlt = shareCardAlt(element, seo.page ?? 'default') %}
+<title>{{ documentTitle|raw }}</title>
+<meta name="description" content="{{ descriptionHtml|raw }}">
+{% if seo.noindex ?? false %}<meta name="robots" content="noindex, follow">
+{% endif %}
 <link rel="home" href="{{ siteUrl }}">
 <link rel="canonical" href="{{ canonicalUrl }}">
+<meta property="og:site_name" content="{{ siteHtml }}">
+<meta property="og:type" content="{{ typeHandle == 'recipe' ? 'article' : 'website' }}">
+<meta property="og:locale" content="{{ currentSite.language|replace('-', '_') }}">
 <meta property="og:url" content="{{ canonicalUrl }}">
-<meta name="twitter:url" content="{{ canonicalUrl }}">
-<meta property="og:locale" content="{{ currentSite.language }}">
-<title>{{ metaTitle ? (titleHtml ~ ' | ' ~ siteLabel|e)|raw : siteLabel }}</title>
-{% if metaDescription %}<meta name="description" content="{{ descriptionHtml|raw }}">
-{% endif %}
-{% if metaImage %}<meta name="image" content="{{ imageUrl['image'] }}">
-{% endif %}
-{% if metaTitle %}<meta property="og:title" content="{{ titleHtml|raw }}">
-{% endif %}
-{% if metaDescription %}<meta property="og:description" content="{{ descriptionHtml|raw }}">
-{% endif %}
-{% if metaImage %}<meta property="og:image" content="{{ imageUrl['og:image'] }}">
-{% endif %}
-{% if metaTitle %}<meta name="twitter:title" content="{{ titleHtml|raw }}">
-{% endif %}
-{% if metaDescription %}<meta name="twitter:description" content="{{ descriptionHtml|raw }}">
-{% endif %}
-{% if metaImage %}<meta name="twitter:image" content="{{ imageUrl['twitter:image'] }}">
+<meta property="og:title" content="{{ shareTitle|raw }}">
+<meta property="og:description" content="{{ descriptionHtml|raw }}">
+<meta property="og:image" content="{{ cardUrl }}">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ cardAlt }}">
+{% if typeHandle == 'recipe' and element.postDate %}<meta property="article:published_time" content="{{ element.postDate|atom }}">
 {% endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ shareTitle|raw }}">
+<meta name="twitter:description" content="{{ descriptionHtml|raw }}">
+<meta name="twitter:image" content="{{ cardUrl }}">
+<meta name="twitter:image:alt" content="{{ cardAlt }}">

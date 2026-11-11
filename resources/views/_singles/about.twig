@@ -1,10 +1,9 @@
 {% extends "_layout/base.twig" %}
 
-{% block title %}About Us | Food Not Frenzy{% endblock %}
-
-{% block headExtras %}
-    <meta name="description" content="The story behind Food Not Frenzy - how we're fighting back against ad-filled recipe sites.">
-{% endblock %}
+{% set seo = {
+    title: 'About Us',
+    description: "The story behind Food Not Frenzy - how we're fighting back against ad-filled recipe sites.",
+} %}
 
 {% block content %}
     <div class="max-w-3xl mx-auto prose">

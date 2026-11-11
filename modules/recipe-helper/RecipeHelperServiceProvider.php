@@ -24,12 +24,15 @@ use MattBloomfield\RecipeHelper\console\commands\TaxonomyCommand;
 use MattBloomfield\RecipeHelper\controllers\ApiController;
 use MattBloomfield\RecipeHelper\controllers\CategoryRedirectController;
 use MattBloomfield\RecipeHelper\controllers\ImportController;
+use MattBloomfield\RecipeHelper\controllers\ShareCardController;
 use MattBloomfield\RecipeHelper\http\HandleLegacyPathParam;
 use MattBloomfield\RecipeHelper\listeners\NormalizeRecipeOnSave;
 use MattBloomfield\RecipeHelper\listeners\NutritionSidebar;
 use MattBloomfield\RecipeHelper\services\RecipeApiService;
+use MattBloomfield\RecipeHelper\sharecards\ShareCardService;
 use MattBloomfield\RecipeHelper\twig\RecipeFractionConverter;
 use MattBloomfield\RecipeHelper\twig\RoutingExtension;
+use MattBloomfield\RecipeHelper\twig\ShareCardExtension;
 use MattBloomfield\RecipeHelper\twig\ThemeExtension;
 
 /**
@@ -40,6 +43,11 @@ use MattBloomfield\RecipeHelper\twig\ThemeExtension;
  */
 class RecipeHelperServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->app->singleton(ShareCardService::class);
+    }
+
     public function boot(TemplateRoots $templateRoots, Twig $twig, HttpKernel $kernel): void
     {
         // `index.php?p=<path>` URLs, which Craft 5 supported.
@@ -59,6 +67,7 @@ class RecipeHelperServiceProvider extends ServiceProvider
         $twig->registerExtension(new RecipeFractionConverter());
         $twig->registerExtension(new ThemeExtension());
         $twig->registerExtension(new RoutingExtension(), TemplateMode::Site);
+        $twig->registerExtension(new ShareCardExtension(), TemplateMode::Site);
 
         // `craft.recipes` in Twig (templates/recipes/search.twig).
         CraftVariable::macro('recipes', fn() => new RecipeApiService());
@@ -108,6 +117,11 @@ class RecipeHelperServiceProvider extends ServiceProvider
             // re-faceted. Real category URIs still render their element.
             $router->match(['GET', 'HEAD'], 'categories/{catUri}', CategoryRedirectController::class)
                 ->where('catUri', '.+');
+
+            // Social share card images (og:image / twitter:image). No .jpg
+            // extension: nginx serves *.jpg paths as static files.
+            $router->get('share-card/{key}', ShareCardController::class)
+                ->where('key', 'entry-\d+|page-[a-z]+');
         });
 
         // Control panel page.

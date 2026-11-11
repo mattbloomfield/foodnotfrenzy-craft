@@ -1,8 +1,10 @@
 {% extends "_layout/base.twig" %}
 
-{% block title %}
-    {{ siteName }}
-{% endblock %}
+{% set seo = {
+    title: 'Latest Recipes',
+    description: 'The newest recipes on Food Not Frenzy, most recent first.',
+    page: 'latest',
+} %}
 
 {% block content %}
     <div

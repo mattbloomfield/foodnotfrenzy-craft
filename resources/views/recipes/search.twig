@@ -1,10 +1,9 @@
 {% extends "_layout/base.twig" %}
 
-{% block title %}Advanced Recipe Search | {{ siteName }}{% endblock %}
-
-{% block headExtras %}
-	<meta name="description" content="Search {{ siteName }} recipes by ingredient, category, cook time, and nutrition — protein, calories, carbs, and more.">
-{% endblock %}
+{% set seo = {
+	title: 'Advanced Recipe Search',
+	description: "Search #{siteName} recipes by ingredient, category, cook time, and nutrition — protein, calories, carbs, and more.",
+} %}
 
 {# --- min/max number pair for a nutrient --- #}
 {% macro nutrientRange(req, key, label, unit) %}

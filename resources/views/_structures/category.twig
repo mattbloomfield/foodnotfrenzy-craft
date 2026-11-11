@@ -1,13 +1,7 @@
 {% extends "_layout/base.twig" %}
 
-{% block title %}
-	{{ entry.title }}
-	Recipes |
-	{{ siteName }}
-{% endblock %}
+{% set seo = { title: entry.title ~ ' Recipes' } %}
 
-{% block headExtras %}<link rel="canonical" href="{{ entry.url }}"/>
-{% endblock %}
 
 {% block content %}
 	<div

@@ -1,6 +1,9 @@
 {% extends "_layout/base.twig" %}
 
-{% block title %}Recipe Categories | {{ siteName }}{% endblock %}
+{% set seo = {
+    title: 'Recipe Categories',
+    description: 'Browse Food Not Frenzy recipes by course, dish type, main ingredient, cooking method, occasion, and cuisine.',
+} %}
 
 {% block content %}
     <div class="max-w-6xl mx-auto">
